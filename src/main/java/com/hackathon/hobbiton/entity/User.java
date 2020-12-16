@@ -1,28 +1,64 @@
 package com.hackathon.hobbiton.entity;
 
-
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class User {
 
     private Long id;
-    private String userName;
-    private String surName;
+    private String nickname;
+    private String name;
+    private String surname;
     private String password;
     private String email;
     private String sex;
-    private LocalDate birthDate;
+    private LocalDate birthday;
 
+    public static class Builder {
+        private User user;
 
+        public Builder(){
+            user=new User();
+        }
 
-    public User(String userName, String surName, String password, String email, String sex, LocalDate birthDate) {
-        this.userName = userName;
-        this.surName = surName;
-        this.password = password;
-        this.email = email;
-        this.sex = sex;
-        this.birthDate = birthDate;
+        public Builder withNickname(String nickname){
+            user.nickname=nickname;
+            return this;
+        }
+
+        public Builder withName(String name){
+            user.name=name;
+            return this;
+        }
+
+        public Builder withSurname(String surname){
+            user.surname=surname;
+            return this;
+        }
+
+        public Builder withPassword(String password){
+            user.password=password;
+            return this;
+        }
+
+        public Builder withEmail(String email){
+            user.email=email;
+            return this;
+        }
+
+        public Builder withSex(String sex){
+            user.sex=sex;
+            return this;
+        }
+
+        public Builder withBirthday(LocalDate birthday){
+            user.birthday=birthday;
+            return this;
+        }
+
+        public User build(){
+            return user;
+        }
     }
 
     public Long getId() {
@@ -33,20 +69,28 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getSurName() {
-        return surName;
+    public String getName() {
+        return name;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPassword() {
@@ -73,12 +117,12 @@ public class User {
         this.sex = sex;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     @Override
@@ -87,29 +131,31 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) &&
-                Objects.equals(userName, user.userName) &&
-                Objects.equals(surName, user.surName) &&
+                Objects.equals(nickname, user.nickname) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(sex, user.sex) &&
-                Objects.equals(birthDate, user.birthDate);
+                Objects.equals(birthday, user.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, surName, password, email, sex, birthDate);
+        return Objects.hash(id, nickname, name, surname, password, email, sex, birthday);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", surName='" + surName + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", sex='" + sex + '\'' +
-                ", birthDate=" + birthDate +
+                ", birthday=" + birthday +
                 '}';
     }
 }

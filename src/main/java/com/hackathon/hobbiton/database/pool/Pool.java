@@ -1,4 +1,4 @@
-package com.hackathon.hobbiton.database.pool_connection;
+package com.hackathon.hobbiton.database.pool;
 
 import java.sql.Connection;
 

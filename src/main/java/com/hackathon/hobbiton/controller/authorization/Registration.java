@@ -1,7 +1,7 @@
 package com.hackathon.hobbiton.controller.authorization;
 
-import com.google.gson.Gson;
 import com.hackathon.hobbiton.entity.User;
+import com.hackathon.hobbiton.entity.UserCreator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,24 +15,12 @@ public class Registration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
-        try (BufferedReader reader = request.getReader()) {
+        try {
 
-            StringBuilder sb = new StringBuilder();
+            BufferedReader reader = request.getReader();
+            User user = UserCreator.createUser(reader);
 
-            try {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append('\n');
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Gson gson = new Gson();
-
-            User user = gson.fromJson(sb.toString(), User.class);
-
-            System.out.println(user.toString());
+            System.out.println(user);
 
         } catch (IOException e) {
             e.printStackTrace();

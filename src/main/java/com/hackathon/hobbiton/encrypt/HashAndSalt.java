@@ -9,14 +9,8 @@ import java.security.spec.InvalidKeySpecException;
 
 public class HashAndSalt {
 
-    private final String password;
-
-    public HashAndSalt(String password) {
-        this.password = password;
-    }
-
     // PBKDF2WithHmacSHA1 шифрование
-    public String hashPassword(String pas) {
+    public static String hashPassword(String pas) {
         int iterations = 1000;
         char[] chars = pas.toCharArray();
         byte[] salt = getSalt();
@@ -34,7 +28,7 @@ public class HashAndSalt {
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
-    public boolean checkPassword(String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public static boolean checkPassword(String password, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
         byte[] salt = fromHex(parts[1]);
@@ -51,7 +45,7 @@ public class HashAndSalt {
         return diff == 0;
     }
 
-    private byte[] getSalt() {
+    private static byte[] getSalt() {
         SecureRandom sr = null;
         try {
             sr = SecureRandom.getInstance("SHA1PRNG");
@@ -65,7 +59,7 @@ public class HashAndSalt {
         return salt;
     }
 
-    private String toHex(byte[] array) {
+    private static String toHex(byte[] array) {
         BigInteger bi = new BigInteger(1, array);
         String hex = bi.toString(16);
         int paddingLength = (array.length * 2) - hex.length();

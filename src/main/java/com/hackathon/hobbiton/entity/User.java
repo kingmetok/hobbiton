@@ -1,5 +1,9 @@
 package com.hackathon.hobbiton.entity;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -13,6 +17,26 @@ public class User {
     private String email;
     private String sex;
     private LocalDate birthday;
+
+    public User() {
+    }
+
+    public User(BufferedReader reader) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
+
+        gson.fromJson(sb.toString(), User.class);
+    }
 
     public static class Builder {
         private User user;

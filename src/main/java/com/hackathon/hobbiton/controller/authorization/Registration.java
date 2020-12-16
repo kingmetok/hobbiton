@@ -1,6 +1,7 @@
 package com.hackathon.hobbiton.controller.authorization;
 
 import com.hackathon.hobbiton.entity.User;
+import com.hackathon.hobbiton.entity.UserCreator;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ public class Registration extends HttpServlet {
         try {
 
             BufferedReader reader = request.getReader();
-            User user = User.createUser(reader);
+            User user = UserCreator.createUser(reader);
 
             System.out.println(user);
 

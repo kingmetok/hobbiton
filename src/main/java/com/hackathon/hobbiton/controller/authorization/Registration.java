@@ -1,5 +1,6 @@
 package com.hackathon.hobbiton.controller.authorization;
 
+import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.entity.UserCreator;
 
@@ -21,6 +22,8 @@ public class Registration extends HttpServlet {
             User user = UserCreator.createUser(reader);
 
             System.out.println(user);
+
+            DAO.getInstance().registration(user);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.hackathon.hobbiton.entity;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class User {
@@ -12,7 +13,7 @@ public class User {
     private String password;
     private String email;
     private String sex;
-    private LocalDate birthday;
+    private Date birthday;
 
 
 
@@ -53,7 +54,7 @@ public class User {
             return this;
         }
 
-        public Builder withBirthday(LocalDate birthday){
+        public Builder withBirthday(Date birthday){
             user.birthday=birthday;
             return this;
         }
@@ -119,11 +120,11 @@ public class User {
         this.sex = sex;
     }
 
-    public LocalDate getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

@@ -1,6 +1,7 @@
 package com.hackathon.hobbiton.entity;
 
 import com.google.gson.Gson;
+import com.hackathon.hobbiton.encrypt.HashAndSalt;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class User {
     public User() {
     }
 
-    public User(BufferedReader reader) {
+    public static User createUser(BufferedReader reader) {
         StringBuilder sb = new StringBuilder();
 
         try {
@@ -35,7 +36,9 @@ public class User {
 
         Gson gson = new Gson();
 
-        gson.fromJson(sb.toString(), User.class);
+        User user = gson.fromJson(sb.toString(), User.class);
+        user.password = HashAndSalt.hashPassword(user.password);
+        return user;
     }
 
     public static class Builder {

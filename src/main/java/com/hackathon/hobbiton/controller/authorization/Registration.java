@@ -17,7 +17,9 @@ public class Registration extends HttpServlet {
         try {
 
             BufferedReader reader = request.getReader();
-            User user = new User(reader);
+            User user = User.createUser(reader);
+
+            System.out.println(user);
 
         } catch (IOException e) {
             e.printStackTrace();

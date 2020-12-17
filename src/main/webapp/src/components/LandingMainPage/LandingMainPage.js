@@ -5,6 +5,7 @@ import landingSettings from '../../utils/landingSettings';
 import { Button, Box } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+
 import image1 from '../../img/1.jpg';
 import image2 from '../../img/2.jpg';
 import image3 from '../../img/3.jpg';
@@ -80,7 +81,7 @@ function LandingMainPage(props) {
   }
 
   function LogIn() {
-    changeRoute('/auth');
+    changeRoute('/login');
   }
 
   return (
@@ -106,6 +107,7 @@ function LandingMainPage(props) {
           </Button>
         </Box>
       </Box>
+
       <Box className={classes.landingContentWrapper}>
         <ContentBox
           image={image1}
@@ -135,7 +137,7 @@ function LandingMainPage(props) {
       <div className={classes.signupWrapper}>
         <p className="signupText">Try it out! Its completely free</p>
         <Button
-          onClick={() => changeRoute('/auth')}
+          onClick={() => changeRoute('/register')}
           color="primary"
           variant="contained"
         >

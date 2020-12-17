@@ -2,12 +2,23 @@ import React, { useState } from 'react';
 import './Header.css';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { withRouter } from 'react-router-dom';
 
-export default function Header() {
+function Header(props) {
   let [isLoggedIn, setLogIn] = useState(false);
 
-  function toggleLogIn() {
-    setLogIn(!isLoggedIn);
+  function LogIn() {
+    setLogIn(true);
+    changeRoute('/auth');
+  }
+
+  function changeRoute(path) {
+    props.history.push(path);
+  }
+
+  function logOut() {
+    setLogIn(false);
+    changeRoute('/landing');
   }
 
   return (
@@ -19,19 +30,24 @@ export default function Header() {
           </h2>
           {isLoggedIn && (
             <nav className="navigation">
-              <Button>Dashboard</Button>
-              <Button>Scoreboard</Button>
-              <Button>Profile</Button>
-              <Button>Achievements</Button>
+              <Button onClick={() => changeRoute('/dashboard')}>
+                Dashboard
+              </Button>
+              <Button onClick={() => changeRoute('/scoreboard')}>
+                Scoreboard
+              </Button>
+              <Button onClick={() => changeRoute('/profile')}>Profile</Button>
+              <Button onClick={() => changeRoute('/achievements')}>
+                Achievements
+              </Button>
             </nav>
           )}
         </div>
 
         {!isLoggedIn && (
           <div className="authWrapper">
-            <Button onClick={toggleLogIn}>Sign In</Button>
-            <Button color="primary" variant="outlined">
-              Sign Up
+            <Button onClick={LogIn} color="primary" variant="outlined">
+              Sign In
             </Button>
           </div>
         )}
@@ -40,7 +56,7 @@ export default function Header() {
           <div className="navigationWrapper">
             <div className="headerImageWrapper">
               <img className="headerImage" alt="" />
-              <Button onClick={toggleLogIn}>
+              <Button onClick={logOut}>
                 <ExitToAppIcon children=""></ExitToAppIcon>logout
               </Button>
             </div>
@@ -50,3 +66,5 @@ export default function Header() {
     </header>
   );
 }
+
+export default withRouter(Header);

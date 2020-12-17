@@ -3,15 +3,20 @@ import ContentBox from '../ContentBox/ContentBox';
 import './LandingMainPage.css';
 import landingSettings from '../../utils/landingSettings';
 import Button from '@material-ui/core/Button';
+import { withRouter } from 'react-router-dom';
 
 import image1 from '../../img/1.jpg';
 import image2 from '../../img/2.jpg';
 import image3 from '../../img/3.jpg';
 import image4 from '../../img/4.jpg';
 
-export default function LandingMainPage() {
+function LandingMainPage(props) {
+  function changeRoute(path) {
+    props.history.push(path);
+  }
+
   return (
-    <div className="mainWrapper">
+    <div className="landingWrapper">
       <ContentBox
         image={image1}
         text={landingSettings.text1}
@@ -38,10 +43,16 @@ export default function LandingMainPage() {
       />
       <div className="signupWrapper">
         <p className="signupText">Try it out! Its completely free</p>
-        <Button color="secondary" variant="contained">
+        <Button
+          onClick={() => changeRoute('/auth')}
+          color="secondary"
+          variant="contained"
+        >
           Sign Up
         </Button>
       </div>
     </div>
   );
 }
+
+export default withRouter(LandingMainPage);

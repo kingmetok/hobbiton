@@ -1,4 +1,3 @@
-
 .signupWrapper {
   margin: 0 auto;
   background-color: rgb(173, 173, 173);
@@ -12,4 +11,9 @@
 
 .signupText {
   margin-bottom: 25px;
+}
+
+.landingWrapper {
+  margin: 0 auto;
+  width: 80%;
 }

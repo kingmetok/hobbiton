@@ -13,12 +13,12 @@ form.addEventListener("submit", (e) => {
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        // if (xhr.readyState === 4 && xhr.status === 200) {
-            // const json = JSON.parse(xhr.responseText);
-            // console.log(json.nickname + ", " + json.password);
-        // }
-    };
+    // xhr.onreadystatechange = function () {
+    //     // if (xhr.readyState === 4 && xhr.status === 200) {
+    //         // const json = JSON.parse(xhr.responseText);
+    //         // console.log(json.nickname + ", " + json.password);
+    //     // }
+    // };
 
     xhr.send(s);
 

@@ -1,1 +1,1 @@
-mvn clean heroku:deploy-war
+web: mvn clean heroku:deploy-war

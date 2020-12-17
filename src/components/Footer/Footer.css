@@ -1,0 +1,9 @@
+.footer {
+  width: 100%;
+  background-color: rgb(34, 34, 34);
+}
+
+.footerLogo {
+  color: white;
+  padding: 10px 50px;
+}

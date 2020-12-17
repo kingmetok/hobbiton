@@ -13,7 +13,7 @@ export default function App() {
         <Route exact path="/">
           <LandingMainPage />
         </Route>
-        <Route exact path="/dashboard">
+        <Route exact path="/main">
           <MainPage />
         </Route>
         <Route exact path="/login">

@@ -1,1 +1,1 @@
-web: mvn clean heroku:deploy-war
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.hackathon.hobbiton

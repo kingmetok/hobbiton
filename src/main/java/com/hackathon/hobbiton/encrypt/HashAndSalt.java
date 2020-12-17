@@ -8,6 +8,8 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
 public class HashAndSalt {
+    private HashAndSalt() {
+    }
 
     // PBKDF2WithHmacSHA1 шифрование
     public static String hashPassword(String pas) {

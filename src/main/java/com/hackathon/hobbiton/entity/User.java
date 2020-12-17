@@ -1,21 +1,14 @@
 package com.hackathon.hobbiton.entity;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 public class User {
 
     private Long id;
-    private String nickname;
-    private String name;
-    private String surname;
+    private String login;
     private String password;
     private String email;
     private String sex;
-    private Date birthday;
-
-
 
     public static class Builder {
         private User user;
@@ -25,17 +18,7 @@ public class User {
         }
 
         public Builder withNickname(String nickname){
-            user.nickname=nickname;
-            return this;
-        }
-
-        public Builder withName(String name){
-            user.name=name;
-            return this;
-        }
-
-        public Builder withSurname(String surname){
-            user.surname=surname;
+            user.login =nickname;
             return this;
         }
 
@@ -54,11 +37,6 @@ public class User {
             return this;
         }
 
-        public Builder withBirthday(Date birthday){
-            user.birthday=birthday;
-            return this;
-        }
-
         public User build(){
             return user;
         }
@@ -72,28 +50,12 @@ public class User {
         this.id = id;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getLogin() {
+        return login;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -120,45 +82,31 @@ public class User {
         this.sex = sex;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) &&
-                Objects.equals(nickname, user.nickname) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(surname, user.surname) &&
+                Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(sex, user.sex) &&
-                Objects.equals(birthday, user.birthday);
+                Objects.equals(sex, user.sex);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname, name, surname, password, email, sex, birthday);
+        return Objects.hash(id, login, password, email, sex);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", nickname='" + nickname + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", sex='" + sex + '\'' +
-                ", birthday=" + birthday +
+                ", sex='" + sex +
                 '}';
     }
 }

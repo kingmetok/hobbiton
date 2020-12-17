@@ -4,6 +4,8 @@ import './App.css';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import ProfilePage from './components/ProfilePage/ProfilePage';
+import LoginPage from './components/LoginPage/LoginPage';
+import RegisterPage from './components/RegisterPage/RegisterPage';
 import { Route } from 'react-router-dom';
 
 export default function App() {
@@ -11,8 +13,14 @@ export default function App() {
     <div className="wrapper">
       <Header />
       <main className="main">
-        <Route exact path="/landing">
+        <Route exact path="/">
           <LandingMainPage />
+				</Route>
+				<Route exact path="/login">
+          <LoginPage />
+				</Route>
+				<Route exact path="/register">
+          <RegisterPage />
         </Route>
         <Route path="/profile">
           <ProfilePage />

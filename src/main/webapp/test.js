@@ -9,7 +9,7 @@ form.addEventListener("submit", (e) => {
 
 
     const xhr = new XMLHttpRequest();
-    const url = "/hobbiton_war_exploded/registration";
+    const url = "/registration";
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");

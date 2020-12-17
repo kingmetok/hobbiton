@@ -1,54 +1,103 @@
 package com.hackathon.hobbiton.database.table;
 
-import com.hackathon.hobbiton.constant.Constant;
 import com.hackathon.hobbiton.database.DAO;
+import com.hackathon.hobbiton.encrypt.HashAndSalt;
 import com.hackathon.hobbiton.entity.User;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
-import java.time.ZoneId;
 
 public class UserDAO {
 
     public void add(User user) {
-        final String UserInfoSQL = "insert into user_info(name, surname, birthday, sex) values (?, ?, ?, ?)";
-        final String UserSQL = "insert into user(email, login, password, user_info_id) values (?, ?, ?, ?)";
 
-        PreparedStatement statement;
+        final String SQL = "insert into user(login, password, email, sex) values (?, ?, ?, ?)";
 
-        int userInfoID;
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
 
-        try (Connection connection = DAO.getConnection()) {
-            statement = connection.prepareStatement(UserInfoSQL, Statement.RETURN_GENERATED_KEYS);
-
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getEmail());
-            statement.setDate(3, user.getBirthday() == null ? null :
-                    Date.valueOf(user.getBirthday().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-            statement.setBoolean(4, user.getSex().equals(Constant.MAN));
+            statement.setString(1, user.getLogin());
+            statement.setString(2, HashAndSalt.hashPassword(user.getPassword()));
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getSex());
 
             statement.executeUpdate();
 
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
                 resultSet.next();
-                userInfoID = resultSet.getInt(1);
+                user.setId(resultSet.getLong(1));
             }
-
-            statement.close();
-
-            statement = connection.prepareStatement(UserSQL);
-
-            statement.setString(1, user.getEmail());
-            statement.setString(2, user.getNickname());
-            statement.setString(3, user.getPassword());
-            statement.setInt(4, userInfoID);
-
-            statement.executeUpdate();
-            statement.close();
 
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public String exist(User user) {
+        String result = "no";
+
+        if (emailExist("login", user.getLogin())) {
+            result = "login";
+        } else if (emailExist("email", user.getEmail())) {
+            result = "email";
+        }
+
+        return result;
+    }
+
+    private boolean emailExist(String searchingObject, String string) {
+        final String SQL = String.format("select * from user where %s = ?", searchingObject);
+
+        boolean result = false;
+
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
+
+            statement.setString(1, string);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                result = resultSet.next();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public boolean existTwo(User user) {
+
+        final String SQL = "select password from user where login = ?";
+
+        boolean result = false;
+
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
+
+            statement.setString(1, user.getLogin());
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                if (resultSet.next()) {
+                    String password = resultSet.getString(1);
+
+                    try {
+                        if (HashAndSalt.checkPassword(user.getPassword(), password)) {
+                            result = true;
+                        }
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

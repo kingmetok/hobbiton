@@ -24,7 +24,25 @@ public class DAO {
         return pool.getConnection();
     }
 
-    public void registration(User user) {
-        userDAO.add(user);
+    public String registration(User user) {
+
+        String result = userDAO.exist(user);
+
+        if (result.equals("no")) {
+            userDAO.add(user);
+        }
+
+        return result;
+    }
+
+    public String login(User user) {
+
+        String result = "error";
+
+        if (userDAO.existTwo(user)) {
+            result = "success";
+        }
+
+        return result;
     }
 }

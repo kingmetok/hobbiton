@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
+import { connect } from 'react-redux';
+import {
+	authLoginAction,
+	authRegisterAction
+} from '../../redux/actions/auth';
 import {
   CardContent,
   Card,
@@ -25,7 +30,7 @@ const useStyles = makeStyles({
   },
   root: {
     background: '#57bc90',
-    width: '100%',
+    width: '100vw',
     height: '100vh',
     paddingTop: '8%',
   },
@@ -59,15 +64,26 @@ const useStyles = makeStyles({
   },
 });
 
-const AuthForm = ({ link, message, title, btnText }) => {
+const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin}) => {
   const classes = useStyles();
-  const location = useLocation();
-  const currentPath = location.pathname.split('/')[1];
-  const [value, setValue] = React.useState('female');
+	const [formData, setFormData] = useState({
+		email: '',
+		login: '',
+		password: '',
+		gender: 'female'
+	});
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (action === 'Register') {
+			return authRegister(formData)
+		}
+		return authLogin({
+			login: formData.login,
+			password: formData.password
+		});
+	}
+
   return (
     <Box className={classes.root}>
       <Logo />
@@ -78,51 +94,50 @@ const AuthForm = ({ link, message, title, btnText }) => {
             component="h1"
             className={classes.title}
           >
-            {title}
+            {action}
           </Typography>
-          <form>
-            {currentPath === 'register' ? (
-              <TextField
-                id="name"
-                label="Name"
-                variant="outlined"
-                name="name"
-                className={classes.field}
-              />
+          <form onSubmit={handleSubmit}>
+						{action === 'Register' ? (
+						<TextField
+							id="email"
+							label="Email"
+							variant="outlined"
+							name="email"
+							className={classes.field}
+							defaultValue={formData.login}
+							onChange={e => setFormData({...formData, email: e.target.value.trim()})}
+						/>
             ) : null}
-            {currentPath === 'register' ? (
-              <TextField
-                id="login"
-                label="Login"
-                variant="outlined"
-                name="login"
-                className={classes.field}
-              />
-            ) : null}
-            <TextField
-              id="email"
-              label="Email"
-              variant="outlined"
-              name="email"
-              className={classes.field}
-            />
+						<TextField
+							id="login"
+							label="Login"
+							variant="outlined"
+							name="login"
+							className={classes.field}
+							defaultValue={formData.login}
+							onChange={e => setFormData({...formData, login: e.target.value.trim()})}
+						/>
             <TextField
               id="password"
               label="Password"
               variant="outlined"
               placeholder="******"
               name="password"
-              className={classes.field}
+							className={classes.field}
+							defaultValue={formData.login}
+							onChange={e => setFormData({...formData, password: e.target.value.trim()})}
             />
-            {currentPath === 'register' ? (
-              <FormControl component="fieldset" className={classes.radio}>
+            {action === 'Register' ? (
+							<FormControl
+								component="fieldset"
+								className={classes.radio}>
                 <FormLabel component="legend">Your Gender</FormLabel>
                 <RadioGroup
                   aria-label="gender"
                   row
                   name="gender"
-                  value={value}
-                  onChange={handleChange}
+                  value={formData.gender}
+                  onChange={e => setFormData({...formData, gender: e.target.value.trim()})}
                 >
                   <FormControlLabel
                     value="female"
@@ -152,7 +167,7 @@ const AuthForm = ({ link, message, title, btnText }) => {
             </Button>
           </form>
           <Link className={classes.link} to={link}>
-            {message}
+            {linkMessage}
           </Link>
         </CardContent>
       </Card>
@@ -160,4 +175,21 @@ const AuthForm = ({ link, message, title, btnText }) => {
   );
 };
 
-export default AuthForm;
+const mapStateToProps = state => {
+	return {
+		// authReducer: state.authReducer.isLoggedIn,
+		message: state.messageReducer.message
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return {
+		authLogin: (userData) => {
+			dispatch(authLoginAction(userData))
+		},
+		authRegister: (userData) => {
+			dispatch(authRegisterAction(userData))
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthForm);

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
-import app from './app';
+import authReducer from './auth';
+import messageReducer from './message';
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({authReducer, messageReducer});
 
 export default rootReducer;

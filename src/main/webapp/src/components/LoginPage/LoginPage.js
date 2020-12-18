@@ -4,7 +4,12 @@ import AuthForm from '../AuthForm/AuthForm';
 
 const LoginPage = () => {
 	return (
-		<AuthForm link='/register' message="Don't have an account?" title='Login' btnText='Sign In' />
+		<AuthForm
+			link='/register'
+			linkMessage="Don't have an account?"
+			btnText='Sign In'
+			action='Login'
+		/>
 	)
 }
 

@@ -34,6 +34,6 @@ public class MySQLPoolConnection implements Pool {
             e.printStackTrace();
         }
 
-        return null;
+        return connection;
     }
 }

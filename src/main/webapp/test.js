@@ -9,7 +9,7 @@ form.addEventListener("submit", (e) => {
 
 
     const xhr = new XMLHttpRequest();
-    const url = "./registration";
+    const url = "./api/auth/registration";
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -35,7 +35,7 @@ login.addEventListener("submit", (e) => {
 
 
     const xhr = new XMLHttpRequest();
-    const url = "./login";
+    const url = "./api/auth/login";
 
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");

@@ -12,7 +12,7 @@ public class UserDAO {
 
     public void add(User user) {
 
-        final String SQL = "insert into user(login, password, email, sex) values (?, ?, ?, ?)";
+        final String SQL = "insert into user(login, password, email, gender) values (?, ?, ?, ?)";
 
         try (Connection connection = DAO.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -20,7 +20,7 @@ public class UserDAO {
             statement.setString(1, user.getLogin());
             statement.setString(2, HashAndSalt.hashPassword(user.getPassword()));
             statement.setString(3, user.getEmail());
-            statement.setString(4, user.getSex());
+            statement.setString(4, user.getGender());
 
             statement.executeUpdate();
 

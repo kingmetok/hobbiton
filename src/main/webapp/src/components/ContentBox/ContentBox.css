@@ -1,12 +1,12 @@
 .contentImage {
   width: 50%;
-  opacity: 50%;
+  opacity: 0.5;
   height: 100%;
   transition: 0.5s;
 }
 
 .contentBoxWrapper:hover .contentImage {
-  opacity: 90%;
+  opacity: 0.9;
   transition: 0.5s;
 }
 

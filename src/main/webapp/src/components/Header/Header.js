@@ -16,7 +16,7 @@ function Header(props) {
   }
 
   function logOut() {
-    changeRoute('/landing');
+    changeRoute('/');
   }
 
   return (
@@ -31,14 +31,14 @@ function Header(props) {
               <Button onClick={() => changeRoute('/account/dashboard')}>
                 Dashboard
               </Button>
-              <Button onClick={() => changeRoute('/account/scoreboard')}>
-                Scoreboard
-              </Button>
               <Button onClick={() => changeRoute('/account/profile')}>
                 Profile
               </Button>
               <Button onClick={() => changeRoute('/account/achievements')}>
                 Achievements
+              </Button>
+              <Button onClick={() => changeRoute('/account/scoreboard')}>
+                Scoreboard
               </Button>
             </nav>
           )}

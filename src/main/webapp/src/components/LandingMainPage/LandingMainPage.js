@@ -3,8 +3,8 @@ import ContentBox from '../ContentBox/ContentBox';
 import './LandingMainPage.css';
 import landingSettings from '../../utils/landingSettings';
 import { Button, Box } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 
 import image1 from '../../img/1.jpg';
 import image2 from '../../img/2.jpg';

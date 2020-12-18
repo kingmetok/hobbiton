@@ -5,6 +5,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import './MainPage.css';
 import { Route } from 'react-router-dom';
+import AddTask from '../AddTask/AddTask';
 
 export default function MainPage() {
   return (
@@ -16,6 +17,9 @@ export default function MainPage() {
         </Route>
         <Route exact path="/account/profile">
           <ProfilePage />
+        </Route>
+        <Route exact path="/account/addnew">
+          <AddTask />
         </Route>
       </main>
       <Footer />

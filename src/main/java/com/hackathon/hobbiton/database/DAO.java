@@ -30,6 +30,7 @@ public class DAO {
 
         if (result.equals("no")) {
             userDAO.add(user);
+            result = "success";
         }
 
         return result;

@@ -26,13 +26,14 @@ const useStyles = makeStyles({
     width: 400,
     marginTop: 100,
     margin: 'auto',
-    // background: '#33c9dc'
+    background: '#33c9dc'
   },
   root: {
     background: '#57bc90',
     width: '100vw',
     height: '100vh',
-    paddingTop: '8%',
+		paddingTop: '8%',
+		overflow: 'hidden'
   },
   title: {
     fontSize: 26,

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/registration", "/login"})
+@WebServlet(urlPatterns = {"/api/auth/registration", "/api/auth/login"})
 public class Authorization extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {

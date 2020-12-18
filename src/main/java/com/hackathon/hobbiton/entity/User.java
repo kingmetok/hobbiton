@@ -8,7 +8,7 @@ public class User {
     private String login;
     private String password;
     private String email;
-    private String sex;
+    private String gender;
 
     public static class Builder {
         private User user;
@@ -32,8 +32,8 @@ public class User {
             return this;
         }
 
-        public Builder withSex(String sex){
-            user.sex=sex;
+        public Builder withGender(String gender){
+            user.gender=gender;
             return this;
         }
 
@@ -74,12 +74,12 @@ public class User {
         this.email = email;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     @Override
@@ -91,12 +91,12 @@ public class User {
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(sex, user.sex);
+                Objects.equals(gender, user.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, email, sex);
+        return Objects.hash(id, login, password, email, gender);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class User {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", sex='" + sex +
+                ", gender='" + gender +
                 '}';
     }
 }

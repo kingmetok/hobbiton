@@ -22,20 +22,17 @@ public class MySQLPoolConnection implements Pool {
     @Override
     public Connection getConnection() {
         Context context;
+        Connection connection = null;
 
-//        DataSource dataSource;
-//        Connection connection = dataSource.getConnection();
-//        Connection connection = null;
+        try {
 
-//        try {
-//
-//            context = new InitialContext();
-//            DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/pool");
-//            connection = dataSource.getConnection();
-//
-//        } catch (NamingException | SQLException e) {
-//            e.printStackTrace();
-//        }
+            context = new InitialContext();
+            DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/pool");
+            connection = dataSource.getConnection();
+
+        } catch (NamingException | SQLException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }

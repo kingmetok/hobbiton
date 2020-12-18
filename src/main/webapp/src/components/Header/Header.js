@@ -5,10 +5,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withRouter } from 'react-router-dom';
 
 function Header(props) {
-  let [isLoggedIn, setLogIn] = useState(false);
+  let [isLoggedIn, setLogIn] = useState(true);
 
   function LogIn() {
-    setLogIn(true);
     changeRoute('/auth');
   }
 
@@ -17,7 +16,6 @@ function Header(props) {
   }
 
   function logOut() {
-    setLogIn(false);
     changeRoute('/landing');
   }
 
@@ -30,14 +28,16 @@ function Header(props) {
           </h2>
           {isLoggedIn && (
             <nav className="navigation">
-              <Button onClick={() => changeRoute('/dashboard')}>
+              <Button onClick={() => changeRoute('/account/dashboard')}>
                 Dashboard
               </Button>
-              <Button onClick={() => changeRoute('/scoreboard')}>
+              <Button onClick={() => changeRoute('/account/scoreboard')}>
                 Scoreboard
               </Button>
-              <Button onClick={() => changeRoute('/profile')}>Profile</Button>
-              <Button onClick={() => changeRoute('/achievements')}>
+              <Button onClick={() => changeRoute('/account/profile')}>
+                Profile
+              </Button>
+              <Button onClick={() => changeRoute('/account/achievements')}>
                 Achievements
               </Button>
             </nav>

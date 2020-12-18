@@ -64,16 +64,17 @@ const useStyles = makeStyles({
   },
 });
 
-const AuthForm = ({ link, message, btnText, action, authRegister, authLogin}) => {
+const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin}) => {
   const classes = useStyles();
 	const [formData, setFormData] = useState({
 		email: '',
 		login: '',
 		password: '',
-		sex: 'female'
+		gender: 'female'
 	});
 
-	const handleSubmit = () => {
+	const handleSubmit = (e) => {
+		e.preventDefault();
 		if (action === 'Register') {
 			return authRegister(formData)
 		}
@@ -134,9 +135,9 @@ const AuthForm = ({ link, message, btnText, action, authRegister, authLogin}) =>
                 <RadioGroup
                   aria-label="gender"
                   row
-                  name="sex"
-                  value={formData.sex}
-                  onChange={e => setFormData({...formData, sex: e.target.value.trim()})}
+                  name="gender"
+                  value={formData.gender}
+                  onChange={e => setFormData({...formData, gender: e.target.value.trim()})}
                 >
                   <FormControlLabel
                     value="female"
@@ -166,7 +167,7 @@ const AuthForm = ({ link, message, btnText, action, authRegister, authLogin}) =>
             </Button>
           </form>
           <Link className={classes.link} to={link}>
-            {message}
+            {linkMessage}
           </Link>
         </CardContent>
       </Card>

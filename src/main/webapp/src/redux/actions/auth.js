@@ -8,10 +8,14 @@ import {
 	LOGOUT
 } from "../actionsTypes";
 
-export const authLoginAction = ({ login, password }) => {
-  return dispatch => {
-    authService.login(login, password)
-      .then(res => {
+export const authLoginAction = (data) => {
+	return dispatch => {
+    authService.login(data)
+			.then(res => {
+				const jwt = res.data[0].jwt;
+				if (jwt) {
+          localStorage.setItem("jwt", JSON.stringify(jwt));
+        }
 				dispatch(authLoginSuccess());
 				dispatch(setMessage(res.message));
       })
@@ -22,9 +26,9 @@ export const authLoginAction = ({ login, password }) => {
   };
 };
 
-export const authRegisterAction = ({ login, password, email, sex }) => {
+export const authRegisterAction = (data) => {
   return dispatch => {
-		authService.register(login, password, email, sex)
+		authService.register(data)
       .then(res => {
 				dispatch(authRegisterSuccess());
 				dispatch(setMessage(res.message));

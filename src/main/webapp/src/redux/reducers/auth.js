@@ -6,14 +6,8 @@ import {
 	LOGOUT
 } from "../actionsTypes";
 
-// const user = JSON.parse(localStorage.getItem("user"));
-// const initialState = user
-//   ? { isLoggedIn: true, user }
-//   : { isLoggedIn: false, user: null };
-
-const initialState = {
-	isLoggedIn: false,
-};
+const jwt = JSON.parse(localStorage.getItem("jwt"));
+const initialState = jwt ? { isLoggedIn: true } : { isLoggedIn: false };
 
 const authReducer = (state = initialState, action) => {
 	const { type } = action;

@@ -1,20 +1,16 @@
 import axios from "axios";
-import { LOGIN_URL, REGISTER_URL, LOGOUT } from '../helpers/urls';
+import { LOGIN_URL, REGISTER_URL } from '../helpers/urls';
+const header = {'Content-Type': 'application/json'};
 
 const authService = {
-	login: (login, password) => {
-		return axios.post(LOGIN_URL, { login, password });
+	login: (data) => {
+		return axios.post(LOGIN_URL, data, {header: header});
 	},
-	register: (login, email, password, sex) => {
-    return axios.post(REGISTER_URL, {
-      login,
-      email,
-			password,
-			sex
-    });
+	register: (data) => {
+		return axios.post(REGISTER_URL,data,{header: header});
 	},
 	logout: () => {
-		return axios.get(LOGOUT);
+		localStorage.removeItem("jwt");
   }
 }
 

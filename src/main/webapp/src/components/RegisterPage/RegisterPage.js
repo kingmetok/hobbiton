@@ -4,7 +4,7 @@ const RegisterPage = () => {
 	return (
 		<AuthForm
 			link='/login'
-			message="I already have an account"
+			linkMessage="I already have an account"
 			btnText='Sign Up'
 			action='Register'
 		/>

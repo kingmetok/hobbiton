@@ -6,7 +6,7 @@ const LoginPage = () => {
 	return (
 		<AuthForm
 			link='/register'
-			message="Don't have an account?"
+			linkMessage="Don't have an account?"
 			btnText='Sign In'
 			action='Login'
 		/>

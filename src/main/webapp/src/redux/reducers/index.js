@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
-import authReducer from './auth';
-import messageReducer from './message';
+import authReducer from './authReducer';
+import messageReducer from './messageReducer';
+import userReducer from './userReducer';
+import goalsReducer from './goalsReducer';
 
-const rootReducer = combineReducers({authReducer, messageReducer});
+const rootReducer = combineReducers({authReducer, messageReducer, goalsReducer, userReducer});
 
 export default rootReducer;

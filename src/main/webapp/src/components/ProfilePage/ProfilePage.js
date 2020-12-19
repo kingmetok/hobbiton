@@ -112,10 +112,10 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 						</Grid>
 					</Paper>
 				</Grid>
-			{message ?
+			{/* {message ?
 				<InfoMessage info={message} /> :
 			null
-		}
+		} */}
 			</Grid>
 	)
 }

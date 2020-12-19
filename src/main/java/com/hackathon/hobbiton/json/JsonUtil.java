@@ -3,6 +3,7 @@ package com.hackathon.hobbiton.json;
 import com.google.gson.Gson;
 import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.entity.User;
+import com.hackathon.hobbiton.json.entity.JWTResponse;
 import com.hackathon.hobbiton.json.entity.Response;
 
 import java.io.BufferedReader;
@@ -40,5 +41,11 @@ public class JsonUtil {
     public static Goal createGoal(BufferedReader reader){
         Gson gson = new Gson();
         return gson.fromJson(jsonMapper(reader), Goal.class);
+    }
+
+    public static String jwtResponseGsonCreator(String message) {
+        Gson gson = new Gson();
+        JWTResponse resp = new JWTResponse(message);
+        return gson.toJson(resp);
     }
 }

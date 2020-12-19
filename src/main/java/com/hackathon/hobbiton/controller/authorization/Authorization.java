@@ -17,21 +17,30 @@ public class Authorization extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
         try {
+            PrintWriter writer = response.getWriter();
+
             BufferedReader reader = request.getReader();
             User user = JsonUtil.createUser(reader);
 
             String result;
+            String json;
 
             if (request.getRequestURI().endsWith("/login")) {
                 result = DAO.getInstance().login(user);
                 request.getSession().setAttribute("UserId",user.getId());
+
+                if (result.equals("success")) {
+                    json = JsonUtil.jwtResponseGsonCreator(JWTCreator.create(user));
+                } else {
+                    json = JsonUtil.messageResponseGsonCreator(result);
+                }
+
             } else {
                 result = DAO.getInstance().registration(user);
+                json = JsonUtil.messageResponseGsonCreator(result);
             }
 
-            String json = JsonUtil.messageResponseGsonCreator(result);
-
-            response.getWriter().write(json);
+            writer.write(json);
 
         } catch (IOException e) {
             e.printStackTrace();

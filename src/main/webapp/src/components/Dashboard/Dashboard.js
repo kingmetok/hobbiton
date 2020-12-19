@@ -6,6 +6,7 @@ import {
   ListItem,
   Divider,
   Typography,
+  TextField,
 } from '@material-ui/core';
 import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
@@ -14,37 +15,59 @@ import useStyles from './DashboardStyles';
 import { withRouter } from 'react-router-dom';
 
 let mock = [
-  createTask(
-    'quit smokin!',
-    'sassssssssd asddddddddd asdddddddddd asddddd',
-  ),
-  createTask(
-    'start jogin!',
-    'sassssssssd asddddddddd asdddddddddd asddddd',
-  ),
-  createTask(
-    'water drink!',
-    'sassssssssd asddddddddd asdddddddddd asddddd',
-  ),
+  createTask('quit smokin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
+  createTask('start jogin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
+  createTask('water drink!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
+  createTask('sadasdasdasd!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
 ];
 
-function getListItem(event) {
-  if (event.target.nodeName !== 'BUTTON' && event.target.nodeName !== 'SPAN') {
-    // переходим на страницу таски по айди
-    return;
-  }
-  return;
-}
+mock[0].progress = 89;
+mock[1].progress = 70;
+mock[2].progress = 5;
+mock[3].progress = 90;
 
-function checkTask(id) {
-  console.log(id);
-  // отправляем запрос на обновление прогресса таски
-  return;
-}
+mock[0].id = 1;
+mock[1].id = 2;
+mock[2].id = 3;
+mock[3].id = 4;
+
+mock[3].completed = true;
 
 function Dashboard(props) {
   const classes = useStyles();
 
+  const [filterValue, setFilter] = React.useState('');
+
+  function handleInput(value) {
+    setFilter(value);
+  }
+
+  function filterPipe(list) {
+    list.sort((el, ev) =>
+      el.completed === ev.completed ? 0 : el.completed ? 1 : -1
+    );
+
+    return list.filter((el) => el.title.includes(filterValue));
+  }
+
+  function getListItem(event) {
+    if (
+      event.target.nodeName !== 'BUTTON' &&
+      event.target.nodeName !== 'SPAN'
+    ) {
+      // переходим на страницу таски по айди
+      console.log(event.target);
+      return;
+    }
+    return;
+  }
+
+  function checkTask(id) {
+    console.log(id);
+    // отправляем запрос на обновление прогресса таски
+    return;
+  }
+  
   function changeRoute(path) {
     props.history.push(path);
   }
@@ -52,25 +75,46 @@ function Dashboard(props) {
   return (
     <Box className={classes.dashboardWrapper}>
       <Box className={classes.taskListWrapper}>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.addButton}
-          onClick={() => {
-            changeRoute('/account/addnew');
-          }}
-        >
-          Add Task
-        </Button>
+        <Box className={classes.searchWrapper}>
+          <TextField
+            onInput={(ev) => handleInput(ev.target.value)}
+            label="Search"
+            size="small"
+          />
+
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.addButton}
+            onClick={() => {
+              changeRoute('/account/addnew');
+            }}
+          >
+            Add Task
+          </Button>
+        </Box>
+
         <List className={classes.taskList}>
-          {mock.map((el) => (
+          {filterPipe(mock).map((el) => (
             <>
               <ListItem
                 onClick={(event) => getListItem(event)}
                 divider
-                className={classes.listElement}
+                className={
+                  el.completed
+                    ? classes.listElementDisabled
+                    : classes.listElement
+                }
               >
-                <Typography className={classes.taskText}>{el.title}</Typography>
+                <Typography
+                  className={
+                    el.completed
+                      ? `${classes.taskText} ${classes.completed}`
+                      : classes.taskText
+                  }
+                >
+                  {el.title}
+                </Typography>
                 <Box className={classes.progressBar}>
                   <ProgressBar
                     color="primary"
@@ -79,6 +123,7 @@ function Dashboard(props) {
                   />
                 </Box>
                 <Button
+                  disabled={el.completed}
                   onClick={(event) => {
                     checkTask(event.target.id);
                   }}

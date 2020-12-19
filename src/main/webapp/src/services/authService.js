@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN_URL, REGISTER_URL } from '../helpers/urls';
+import { LOGIN_URL, REGISTER_URL } from '../utils/urls';
 const header = {'Content-Type': 'application/json'};
 
 const authService = {

@@ -7,12 +7,31 @@ import TaskPage from '../TaskPage/TaskPage';
 import './MainPage.css';
 import { Route } from 'react-router-dom';
 import AddTask from '../AddTask/AddTask';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  image: {
+    width: '100%',
+    height: 'auto',
+  },
+}));
 
 export default function MainPage() {
+  const classes = useStyles();
   return (
     <>
       <Header />
-      <main className="main">
+      <div className={classes.root}>
         <Route exact path="/account/dashboard">
           <Dashboard />
         </Route>
@@ -25,7 +44,7 @@ export default function MainPage() {
         <Route exact path="/account/goals/:id">
           <TaskPage />
         </Route>
-      </main>
+      </div>
       <Footer />
     </>
   );

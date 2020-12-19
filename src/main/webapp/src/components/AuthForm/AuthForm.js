@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { connect } from 'react-redux';
 import {
@@ -21,24 +21,27 @@ import {
   FormLabel,
 } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => (
+	{
   authCard: {
     width: 400,
     marginTop: 100,
     margin: 'auto',
-    background: '#33c9dc'
+		background: theme.palette.primary,
+		overflow: 'hidden'
   },
   root: {
     background: '#57bc90',
-    width: '100vw',
+    width: '100%',
     height: '100vh',
-		paddingTop: '8%',
-		overflow: 'hidden'
-  },
+	},
+	wrapper: {
+		paddingTop: '8%'
+	},
   title: {
     fontSize: 26,
     textAlign: 'center',
-    marginBottom: 50,
+		marginBottom: 50,
   },
   formAuth: {
     width: '100%',
@@ -52,20 +55,23 @@ const useStyles = makeStyles({
   button: {
     width: '100%',
     marginBottom: '20px',
-    fontWeight: 700,
+		fontWeight: 700,
+		backgroundColor: theme.palette.primary.dark,
+		color: '#ffffff'
   },
   link: {
     marginBottom: '20px',
     display: 'block',
     width: '100%',
-    textAlign: 'center',
+		textAlign: 'center',
+		color: theme.palette.text.dark
   },
   radio: {
     padding: '20px 0',
   },
-});
+}));
 
-const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin}) => {
+const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin, isLogged}) => {
   const classes = useStyles();
 	const [formData, setFormData] = useState({
 		email: '',
@@ -73,20 +79,33 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin}
 		password: '',
 		gender: 'female'
 	});
+	const history = useHistory();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (action === 'Register') {
-			return authRegister(formData)
-		}
-		return authLogin({
+		action === 'Register' ? handleRegister() : handleLogin();
+	}
+
+	const handleRegister = () => {
+		authRegister(formData);
+		history.push('/login');
+		return;
+	}
+
+	const handleLogin = () => {
+		authLogin({
 			login: formData.login,
 			password: formData.password
 		});
+		if (isLogged) {
+			history.push('/account/dashboard');
+		}
+		return;
 	}
 
-  return (
-    <Box className={classes.root}>
+	return (
+	<Box className={classes.root}>
+    <Box className={classes.wrapper}>
       <Logo />
       <Card className={classes.authCard}>
         <CardContent>
@@ -172,13 +191,14 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin}
           </Link>
         </CardContent>
       </Card>
-    </Box>
+			</Box>
+		</Box>
   );
 };
 
 const mapStateToProps = state => {
 	return {
-		// authReducer: state.authReducer.isLoggedIn,
+		isLogged: state.authReducer.isLoggedIn,
 		message: state.messageReducer.message
 	}
 }

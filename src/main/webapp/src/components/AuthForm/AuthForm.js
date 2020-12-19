@@ -82,7 +82,7 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
 	});
 	const history = useHistory();
 
-	useEffect((isLogged) => {
+	useEffect(() => {
 		if (isLogged) {
 		history.push('/account/dashboard');
 		} else {

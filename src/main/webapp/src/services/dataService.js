@@ -17,7 +17,7 @@ const userService = {
     return axios.get(GOALS_URL + `/:${id}`, { headers: authHeader() });
 	},
 	editGoal: (data, id) => {
-    return axios.patch(GOALS_URL + `/:${id}`,data, { headers: authHeader() });
+    return axios.patch(GOALS_URL + `/:${id}`, data, { headers: authHeader() });
 	},
 	postGoal: (data) => {
     return axios.post(GOALS_URL, data, { headers: authHeader() });
@@ -26,7 +26,7 @@ const userService = {
     return axios.get(USERS_URL + `/me`, { headers: authHeader() });
 	},
 	getUserInfoById: (id) => {
-    return axios.get(USERS_URL + `${id}`, { headers: authHeader() });
+    return axios.get(USERS_URL + `/:${id}`, { headers: authHeader() });
 	},
 	editUser: (data) => {
     return axios.patch(USERS_URL + `/me`, data, { headers: authHeader() });

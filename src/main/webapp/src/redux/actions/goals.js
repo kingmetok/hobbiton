@@ -28,9 +28,9 @@ export const getUserGoalsAction = () => {
   };
 };
 
-export const getGoalByIdAction = () => {
+export const getGoalByIdAction = (id) => {
 	return dispatch => {
-    dataService.getGoalById()
+    dataService.getGoalById(id)
 			.then(res => {
 				dispatch(getGoalByIdSuccess(res.data));
 				dispatch(setMessage(res.message));

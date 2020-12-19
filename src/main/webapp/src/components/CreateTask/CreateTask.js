@@ -26,6 +26,8 @@ const useStyles = makeStyles({
     marginBottom: '20px',
   },
 
+  description: {},
+
   button: {
     alignSelf: 'flex-end',
   },
@@ -34,6 +36,11 @@ const useStyles = makeStyles({
     fontSize: '30px',
   },
 });
+
+const helperText = {
+  position: 'absolute',
+  bottom: '-33%',
+};
 
 export default function CreateTaskStyles(props) {
   const classes = useStyles();
@@ -105,6 +112,7 @@ export default function CreateTaskStyles(props) {
       </Typography>
       <Box className={classes.inputWrapper}>
         <TextField
+          FormHelperTextProps={{ style: helperText }}
           error={validation.title}
           helperText={validation.title ? 'Title is required' : ''}
           onFocus={(ev) => {
@@ -122,6 +130,9 @@ export default function CreateTaskStyles(props) {
           onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
         />
         <TextField
+          FormHelperTextProps={{ style: { ...helperText, bottom: '-8%' } }}
+          multiline
+          rows="10"
           error={validation.description}
           helperText={validation.description ? 'Description is required' : ''}
           onFocus={(ev) => {
@@ -130,7 +141,7 @@ export default function CreateTaskStyles(props) {
           onBlur={(ev) => {
             setInvalid(ev.target.name, ev.target.value);
           }}
-          className={classes.input}
+          className={`${classes.input} ${classes.description}`}
           id="description"
           label="Description"
           variant="outlined"
@@ -139,6 +150,7 @@ export default function CreateTaskStyles(props) {
           onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
         />
         <TextField
+          FormHelperTextProps={{ style: helperText }}
           error={validation.data_started}
           helperText={
             validation.data_started ? 'Date must be bigger than today' : ''

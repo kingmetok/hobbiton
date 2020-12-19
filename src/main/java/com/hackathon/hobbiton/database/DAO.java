@@ -7,6 +7,7 @@ import com.hackathon.hobbiton.database.table.GoalDAO;
 import com.hackathon.hobbiton.database.table.UserDAO;
 import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.entity.User;
+import com.hackathon.hobbiton.json.JsonUtil;
 
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -56,5 +57,31 @@ public class DAO {
     public String findGoalsByUserId(Long id) {
         List<Goal> goalsByUserId = goalDAO.findGoalsByUserId(id);
         return new Gson().toJson(goalsByUserId);
+
     }
+
+    public String incrementProgress(Long id){
+        String result = "error";
+        if(goalDAO.incrementProgress(id)) result="success";
+        return result;
+    }
+
+    public String createGoal(Goal goal,Long id){
+        String result = "error";
+        if (goalDAO.createGoal(goal,id)) result = "Goal was successfully created";
+        return result;
+    }
+
+    public String findUserById (Long id){
+        User user = userDAO.findUserById(id);
+        return new Gson().toJson(user);
+    }
+
+    public String deleteGoalsByUserId(Long id){
+        String result = "error";
+        if(goalDAO.deleteAllGoalsByUserId(id)) result = "Goal was successfully deleted";
+        return result;
+    }
+
+
 }

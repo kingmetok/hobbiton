@@ -8,14 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mapper {
+public class GoalMapper {
 
     public Goal extractFromResultSet(ResultSet rs) throws SQLException{
 
         Goal goal = new Goal();
         goal.setId(rs.getLong("id"));
         goal.setTitle(rs.getString("title"));
-        goal.setProgress(rs.getString("progress"));
+        goal.setProgress(rs.getInt("progress"));
         goal.setTerm(rs.getInt("term"));
         goal.setDateCreated(rs.getDate("data_created").toLocalDate());
         goal.setDescription(rs.getString("description"));

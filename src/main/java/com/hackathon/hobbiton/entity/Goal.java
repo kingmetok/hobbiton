@@ -8,7 +8,7 @@ import java.util.List;
 public @Data class Goal {
     private Long id;
     private String title;
-    private String progress;
+    private Integer progress;
     private Integer term;
     private LocalDate dateCreated;
     private String description;

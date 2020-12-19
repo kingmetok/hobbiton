@@ -24,6 +24,7 @@ public class Authorization extends HttpServlet {
 
             if (request.getRequestURI().endsWith("/login")) {
                 result = DAO.getInstance().login(user);
+                request.getSession().setAttribute("UserId",user.getId());
             } else {
                 result = DAO.getInstance().registration(user);
             }

@@ -1,6 +1,7 @@
 package com.hackathon.hobbiton.json;
 
 import com.google.gson.Gson;
+import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.entity.Response;
 
@@ -34,5 +35,10 @@ public class JsonUtil {
         Gson gson = new Gson();
         Response resp = new Response(message);
         return gson.toJson(resp);
+    }
+
+    public static Goal createGoal(BufferedReader reader){
+        Gson gson = new Gson();
+        return gson.fromJson(jsonMapper(reader), Goal.class);
     }
 }

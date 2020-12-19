@@ -3,17 +3,18 @@ package com.hackathon.hobbiton.database.table;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.HashAndSalt;
 import com.hackathon.hobbiton.entity.User;
+import com.hackathon.hobbiton.mapper.UserMapper;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 
 public class UserDAO {
+    final String FIND_USER_BY_ID = "select * from user where id=?";
+
 
     public void add(User user) {
-
         final String SQL = "insert into user(login, password, email, gender) values (?, ?, ?, ?)";
-
         try (Connection connection = DAO.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -100,4 +101,21 @@ public class UserDAO {
 
         return result;
     }
+
+    public User findUserById(Long id) {
+        User user = new User();
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                 user = UserMapper.extractFromResultSet(resultSet);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return user;
+
+    }
+
 }

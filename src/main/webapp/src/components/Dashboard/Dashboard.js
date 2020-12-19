@@ -17,17 +17,14 @@ let mock = [
   createTask(
     'quit smokin!',
     'sassssssssd asddddddddd asdddddddddd asddddd',
-    30
   ),
   createTask(
     'start jogin!',
     'sassssssssd asddddddddd asdddddddddd asddddd',
-    10
   ),
   createTask(
     'water drink!',
     'sassssssssd asddddddddd asdddddddddd asddddd',
-    23
   ),
 ];
 

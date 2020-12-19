@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../Logo/Logo';
@@ -72,7 +72,8 @@ const useStyles = makeStyles(theme => (
 }));
 
 const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin, isLogged}) => {
-  const classes = useStyles();
+	const classes = useStyles();
+	// const [isLogin] = useState(isLogged);
 	const [formData, setFormData] = useState({
 		email: '',
 		login: '',
@@ -80,6 +81,14 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
 		gender: 'female'
 	});
 	const history = useHistory();
+
+	useEffect((isLogged) => {
+		if (isLogged) {
+		history.push('/account/dashboard');
+		} else {
+			history.push('/login');
+		}
+	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -89,7 +98,6 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
 	const handleRegister = () => {
 		authRegister(formData);
 		history.push('/login');
-		return;
 	}
 
 	const handleLogin = () => {
@@ -97,10 +105,7 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
 			login: formData.login,
 			password: formData.password
 		});
-		if (isLogged) {
-			history.push('/account/dashboard');
-		}
-		return;
+		history.push('/account/dashboard');
 	}
 
 	return (

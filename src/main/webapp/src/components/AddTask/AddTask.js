@@ -28,11 +28,10 @@ export default function AddTask() {
   const [inputValues, setInputValues] = React.useState({
     title: '',
     description: '',
-    term: '',
   });
 
-  function sendInputValues(title, description, term) {
-    setInputValues({ title: title, description: description, term: term });
+  function sendInputValues(title, description) {
+    setInputValues({ title: title, description: description });
   }
 
   return (
@@ -42,7 +41,7 @@ export default function AddTask() {
         <List className={classes.list}>
           {mock.map((el) => (
             <ListItem
-              onClick={() => sendInputValues(el.title, el.description, el.term)}
+              onClick={() => sendInputValues(el.title, el.description)}
               className={classes.listItem}
               divider
             >
@@ -50,7 +49,7 @@ export default function AddTask() {
               <Typography className={classes.description}>
                 {el.description}
               </Typography>
-              <Typography className={classes.term}>{el.term} days</Typography>
+              <Typography className={classes.term}>90 days</Typography>
             </ListItem>
           ))}
         </List>

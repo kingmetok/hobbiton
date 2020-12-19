@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Box, TextField, Typography } from '@material-ui/core';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import getFormattedDate from '../../utils/formatDate';
 import compareDates from '../../utils/compareDates';
@@ -38,28 +38,63 @@ const useStyles = makeStyles({
 export default function CreateTaskStyles(props) {
   const classes = useStyles();
 
-  const { title, description, term } = props.values;
-
   const [inputValues, setInputValues] = useState({
-    title: title || '',
-    description: description || '',
-    term: term || 0,
+    title: '',
+    description: '',
     data_started: getFormattedDate(),
+    term: 90,
   });
+
+  const [validation, setValidation] = useState({
+    title: false,
+    description: false,
+    data_started: false,
+  });
+
+  useEffect(() => {
+    setInputValues({
+      ...inputValues,
+      title: props.values.title,
+      description: props.values.description,
+    });
+
+    return;
+  }, [props.values.title]);
 
   function handleInput(name, input) {
     setInputValues({ ...inputValues, [name]: input });
+    setValid(name, input);
+    setInvalid(name, input);
   }
 
   function submitValues() {
     let result = inputValues;
-    if (result.title && result.term > 0) {
+    if (result.title && result.description) {
       if (compareDates(result.data_started)) {
         console.log(result);
-        return result;
       } else {
         console.log('invalid date');
       }
+    }
+  }
+
+  function setValid(name, value) {
+    if (name === 'data_started' && compareDates(value)) {
+      setValidation({ ...validation, [name]: false });
+      return;
+    } else if (value && name !== 'data_started') {
+      setValidation({ ...validation, [name]: false });
+      return;
+    }
+  }
+
+  function setInvalid(name, value) {
+    if (name === 'data_started' && !compareDates(value)) {
+      setValidation({ ...validation, [name]: true });
+      return;
+    } else if (!value && name !== 'data_started') {
+      setValidation({ ...validation, [name]: true });
+      return;
     }
   }
 
@@ -68,37 +103,52 @@ export default function CreateTaskStyles(props) {
       <Typography className={classes.header}>
         ...or Create an Own Goal
       </Typography>
-
       <Box className={classes.inputWrapper}>
         <TextField
+          error={validation.title}
+          helperText={validation.title ? 'Title is required' : ''}
+          onFocus={(ev) => {
+            setValid(ev.target.name, ev.target.value);
+          }}
+          onBlur={(ev) => {
+            setInvalid(ev.target.name, ev.target.value);
+          }}
           className={classes.input}
           id="title"
           label="Title"
           variant="outlined"
           name="title"
-          value={title}
+          value={inputValues.title}
           onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
         />
         <TextField
+          error={validation.description}
+          helperText={validation.description ? 'Description is required' : ''}
+          onFocus={(ev) => {
+            setValid(ev.target.name, ev.target.value);
+          }}
+          onBlur={(ev) => {
+            setInvalid(ev.target.name, ev.target.value);
+          }}
           className={classes.input}
           id="description"
           label="Description"
           variant="outlined"
           name="description"
-          value={description}
+          value={inputValues.description}
           onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
         />
         <TextField
-          className={classes.input}
-          id="term"
-          label="Term (in days)"
-          variant="outlined"
-          name="term"
-          value={term}
-          type="number"
-          onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
-        />
-        <TextField
+          error={validation.data_started}
+          helperText={
+            validation.data_started ? 'Date must be bigger than today' : ''
+          }
+          onFocus={(ev) => {
+            setValid(ev.target.name, ev.target.value);
+          }}
+          onBlur={(ev) => {
+            setInvalid(ev.target.name, ev.target.value);
+          }}
           className={classes.input}
           id="term"
           label="Starting date"
@@ -112,6 +162,7 @@ export default function CreateTaskStyles(props) {
           onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
         />
       </Box>
+      <Typography>Term: 90 days</Typography>
       <Button
         className={classes.button}
         onClick={() => submitValues()}

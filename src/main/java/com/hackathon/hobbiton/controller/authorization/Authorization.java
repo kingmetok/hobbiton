@@ -1,6 +1,7 @@
 package com.hackathon.hobbiton.controller.authorization;
 
 import com.hackathon.hobbiton.database.DAO;
+import com.hackathon.hobbiton.encrypt.JWTCreator;
 import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.JsonUtil;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = {"/api/auth/registration", "/api/auth/login"})
 public class Authorization extends HttpServlet {

@@ -9,6 +9,8 @@ import {
 	editUsersInfoAction,
 	deleteUsersInfoAction
 } from '../../redux/actions/user';
+import InfoMessage from '../InfoMessage/InfoMessage';
+import { setMessageAction, clearMessageAction } from '../../redux/actions/message';
 
 import Paper from '@material-ui/core/Paper';
 import { Button, Grid, ButtonGroup, TextField } from '@material-ui/core';
@@ -20,11 +22,8 @@ import ProfilePageStyle from './ProfilePageStyle';
 import manIcon from '../../img/manIcon.svg';
 import femaleIcon from '../../img/womanIcon.svg';
 
-const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, message}) => {
+const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, message, setMessage}) => {
 	const classes = ProfilePageStyle();
-	const [shareLink, setShareLink] = useState(false);
-	const [copySuccess, setCopySuccess] = useState('');
-  // const textAreaRef = useRef(null);
 	const [user, setUser] = useState({
 		gender: 'female',
 		login: 'Vita',
@@ -44,10 +43,10 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 		}
 	}, []);
 
-	// const handleShareLink = () => {
-	// 	const { protocol, hash, host } = window.location;
-	// 	return `${protocol}//${hash}${host}/users/?id=${user.id}`;
-	// }
+	const shareLink = () => {
+		const { protocol, hash, host } = window.location;
+		return `${protocol}//${hash}${host}/users/?id=${user.id}`;
+	}
 
 	// const copyToClipboard = (e) =>{
   //   // textAreaRef.current.select();
@@ -67,7 +66,6 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 					<div className={classes.infoWrapper}>
 						<h1>
 							{user.login}
-								<ShareIcon className={classes.share} /> 
 						</h1>
 						<h3>{user.email}</h3>
 						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
@@ -77,7 +75,15 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 						</Button>
 							<Button>	Delete
 							<DeleteIcon/>
-						</Button>
+							</Button>
+							<Button onClick={() => {
+								navigator.clipboard.writeText(shareLink());
+								setMessage('Copied link');
+							}}>
+								Copy link
+								<ShareIcon className={classes.share}
+							/> 
+							</Button>
 						</ButtonGroup>
 					</div>
 					</Paper>
@@ -106,6 +112,10 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 						</Grid>
 					</Paper>
 				</Grid>
+			{message ?
+				<InfoMessage info={message} /> :
+			null
+		}
 			</Grid>
 	)
 }
@@ -126,6 +136,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		deleteUsersInfo: () => {
 			dispatch(deleteUsersInfoAction());
+		},
+		setMessage: message => {
+			dispatch(setMessageAction(message));
 		}
 	}
 }

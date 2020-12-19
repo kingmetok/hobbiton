@@ -23,7 +23,7 @@ export const getUserGoalsAction = () => {
       })
       .catch(err => {
 				dispatch(getUserGoalFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -33,11 +33,11 @@ export const getGoalByIdAction = (id) => {
     dataService.getGoalById(id)
 			.then(res => {
 				dispatch(getGoalByIdSuccess(res.data));
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(getGoalByIdFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -47,11 +47,11 @@ export const editGoalByIdAction = (data, id) => {
     dataService.editGoal(data, id)
 			.then(res => {
 				dispatch(editGoalByIdSuccess(res.data));
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(editGoalByIdFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -61,11 +61,11 @@ export const getDefaultGoalsAction = () => {
     dataService.getDefaultGoals()
 			.then(res => {
 				dispatch(getDefaultGoalsSuccess(res.data));
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(getUserDefaultFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -79,7 +79,7 @@ export const getSeasonGoalsAction = () => {
       })
       .catch(err => {
 				dispatch(getUserSeasonFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -89,11 +89,11 @@ export const addGoalAction = (data) => {
     dataService.postGoal(data)
 			.then(res => {
 				dispatch(addGoalSuccess(res.data));
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(addGoalFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };

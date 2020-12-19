@@ -26,10 +26,11 @@ const useStyles = makeStyles({
     marginBottom: '20px',
   },
 
-  description: {},
-
-  button: {
-    alignSelf: 'flex-end',
+  buttonWrapper: {
+    width: '40%',
+    margin: '0 auto',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 
   header: {
@@ -60,13 +61,23 @@ export default function CreateTaskStyles(props) {
 
   useEffect(() => {
     setInputValues({
-      ...inputValues,
+      data_started: getFormattedDate(),
+      term: 90,
       title: props.values.title,
       description: props.values.description,
     });
 
     return;
-  }, [props.values.title]);
+  }, [props.values]);
+
+  function resetForm() {
+    setInputValues({
+      title: '',
+      description: '',
+      data_started: getFormattedDate(),
+      term: 90,
+    });
+  }
 
   function handleInput(name, input) {
     setInputValues({ ...inputValues, [name]: input });
@@ -174,15 +185,22 @@ export default function CreateTaskStyles(props) {
           onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
         />
       </Box>
+
       <Typography>Term: 90 days</Typography>
-      <Button
-        className={classes.button}
-        onClick={() => submitValues()}
-        variant="contained"
-        color="primary"
-      >
-        Submit
-      </Button>
+
+      <Box className={classes.buttonWrapper}>
+        <Button onClick={() => resetForm()} variant="outlined" color="primary">
+          Reset
+        </Button>
+        <Button
+          className={classes.button}
+          onClick={() => submitValues()}
+          variant="contained"
+          color="primary"
+        >
+          Submit
+        </Button>
+      </Box>
     </Box>
   );
 }

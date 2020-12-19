@@ -7,18 +7,15 @@ import useStyles from './AddTaskStyles';
 let mock = [
   createTask(
     'Quit smoking',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-    90
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
   ),
   createTask(
     'Start jogging',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
-    40
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat'
   ),
   createTask(
     'Stay hydrated',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    30
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
   ),
 ];
 
@@ -30,8 +27,11 @@ export default function AddTask() {
     description: '',
   });
 
+  const [disabled, setDisabled] = React.useState(false);
+
   function sendInputValues(title, description) {
     setInputValues({ title: title, description: description });
+    setDisabled(true);
   }
 
   return (
@@ -55,7 +55,7 @@ export default function AddTask() {
         </List>
       </Box>
 
-      <CreateTask values={inputValues} />
+      <CreateTask values={inputValues} isDisabled={disabled} />
     </Box>
   );
 }

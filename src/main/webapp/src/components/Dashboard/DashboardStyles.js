@@ -25,6 +25,11 @@ const useStyles = makeStyles({
       cursor: 'pointer',
     },
   },
+  listElementDisabled: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    background: 'lightgray',
+  },
   divider: {
     height: '3px',
   },
@@ -47,6 +52,13 @@ const useStyles = makeStyles({
   },
   progressBar: {
     width: '70%',
+  },
+  searchWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  completed: {
+    color: 'white',
   },
 });
 

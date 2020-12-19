@@ -3,9 +3,8 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Dashboard from '../Dashboard/Dashboard';
 import ProfilePage from '../ProfilePage/ProfilePage';
-import LoginPage from '../LoginPage/LoginPage';
 import './MainPage.css';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import AddTask from '../AddTask/AddTask';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
@@ -25,11 +24,9 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const MainPage = ({isLogged}) => {
+const MainPage = () => {
 	const classes = useStyles();
-	console.log(isLogged);
 	return (
-		isLogged ?
 		<Fragment>
 			<Header />
 			<div className={classes.root}>
@@ -43,15 +40,9 @@ const MainPage = ({isLogged}) => {
 					<AddTask />
 				</Route>
 			</div>
-			<Footer /> 
+			{/* <Footer />  */}
 		</Fragment>
-	: null
 	)
 }
-const mapStateToProps = state => {
-	return {
-		isLogged: state.authReducer.isLoggedIn,
-	}
-}
 
-export default connect(mapStateToProps)(MainPage)
+export default MainPage;

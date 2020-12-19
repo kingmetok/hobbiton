@@ -16,6 +16,8 @@ import Paper from '@material-ui/core/Paper';
 import { Button, Grid, ButtonGroup, TextField } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import TurnedInIcon from '@material-ui/icons/TurnedIn';
+import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import ShareIcon from '@material-ui/icons/Share';
 import PersonIcon from '@material-ui/icons/Person';
 import ProfilePageStyle from './ProfilePageStyle';
@@ -35,9 +37,11 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 	});
 	const userIcon = user.gender === 'female' ? femaleIcon : manIcon;
 	const history = useHistory();
+	console.log(history);
 
 	useEffect(() => {
 		try {
+			
 			getUsersInfo();
 		} catch (e) {
 		}
@@ -48,41 +52,45 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 		return `${protocol}//${hash}${host}/users/?id=${user.id}`;
 	}
 
-	// const copyToClipboard = (e) =>{
-  //   // textAreaRef.current.select();
-  //   document.execCommand('copy');
-  //   e.target.focus();
-  //   setCopySuccess('Copied!');
-  // };
+	const handleCopyLink = () => {
+		navigator.clipboard.writeText(shareLink());
+		setMessage('Copied link');
+	}
+
+	const handleDeleteUser = () => {
+		deleteUsersInfo(user.id);
+		localStorage.removeItem('jwt');
+		history.push('/');
+	}
 
 	return (
 			<Grid container spacing={0}>
 				<Grid item xs={12}>
-				<Paper className={`${classes.paper} + ${classes.backgroundBlock}`}>
+				<Paper className={`${classes.paper} ${classes.backgroundBlock}`}>
 						<div className={classes.wall}></div>
 						<div className={classes.userIcon}>
 							<img src={userIcon} />
 						</div>
 					<div className={classes.infoWrapper}>
-						<h1>
-							{user.login}
-						</h1>
+						<h1>{user.login}</h1>
 						<h3>{user.email}</h3>
 						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-							<Button>
+							<Button
+								className={classes.btn}>
 							Edit
 							<EditIcon/>
 						</Button>
-							<Button>	Delete
+							<Button
+								onClick={handleDeleteUser}
+								className={classes.btn}>
+								Delete
 							<DeleteIcon/>
 							</Button>
-							<Button onClick={() => {
-								navigator.clipboard.writeText(shareLink());
-								setMessage('Copied link');
-							}}>
+							<Button 
+								className={classes.btn}
+								onClick={handleCopyLink}>
 								Copy link
-								<ShareIcon className={classes.share}
-							/> 
+								<ShareIcon/> 
 							</Button>
 						</ButtonGroup>
 					</div>
@@ -94,28 +102,25 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My followers</h4>
-								<p>{user.followers }</p>
+								<p className={classes.count}>{user.followers }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My subscription</h4>
-								<p>{user.subscription }</p>
+								<p className={classes.count}>{user.subscription }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 							<h4>My points</h4>
-								<p>{user.points }</p>
+								<p className={classes.count}>{user.points }</p>
 								</Paper>
 							</Grid>
 						</Grid>
 					</Paper>
 				</Grid>
-			{/* {message ?
-				<InfoMessage info={message} /> :
-			null
-		} */}
+				<InfoMessage info={message} />
 			</Grid>
 	)
 }

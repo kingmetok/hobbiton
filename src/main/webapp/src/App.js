@@ -6,9 +6,16 @@ import RegisterPage from './components/RegisterPage/RegisterPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import { Route, Redirect } from 'react-router-dom';
 import MainPage from './components/MainPage/MainPage';
+import { connect } from 'react-redux';
 
-export default function App() {
-  return (
+const App = ({ isLogged }) => {
+	console.log(isLogged);
+	return (
+		isLogged?
+		<Route path="/account">
+			<MainPage />
+		</Route>
+			 :
     <Fragment>
       <Route exact path="/">
         <LandingMainPage />
@@ -22,7 +29,14 @@ export default function App() {
       <Route exact path="/register">
         <RegisterPage />
 			</Route>
-			<Redirect to='/'/>
-    </Fragment>
+			</Fragment>
   );
 }
+
+const mapStateToProps = state => {
+	return {
+		isLogged: state.authReducer.isLoggedIn,
+	}
+}
+
+export default connect(mapStateToProps)(App)

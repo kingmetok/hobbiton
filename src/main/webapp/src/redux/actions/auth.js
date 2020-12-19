@@ -12,10 +12,10 @@ export const authLoginAction = (data) => {
 	return dispatch => {
     authService.login(data)
 			.then(res => {
-				const jwt = res.data[0].jwt;
+				const jwt = res.data.jwt;
 				if (jwt) {
-          localStorage.setItem("jwt", JSON.stringify(jwt));
-        }
+					localStorage.setItem("jwt", JSON.stringify(jwt));
+				}
 				dispatch(authLoginSuccess());
 				dispatch(setMessageAction(res.message));
       })

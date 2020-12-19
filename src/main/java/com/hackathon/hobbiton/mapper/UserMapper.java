@@ -10,7 +10,6 @@ public class UserMapper {
         User user = new User();
         user.setId(rs.getLong("id"));
         user.setLogin(rs.getString("login"));
-        user.setPassword(rs.getString("password"));
         user.setEmail(rs.getString("email"));
         user.setGender(rs.getString("gender"));
         return user;

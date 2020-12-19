@@ -1,13 +1,12 @@
 package com.hackathon.hobbiton.controller.goals;
 
+import com.google.gson.Gson;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.entity.Goal;
-import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.JsonUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -23,10 +22,10 @@ public class GoalServlet extends PatchServlet {
         String idString= pathInfo.replaceAll("/", "");
         if (!idString.equalsIgnoreCase("")){
         Long id = Long.valueOf(idString);
-        String result = DAO.getInstance().findGoalsByUserId(id);
-        //String json = JsonUtil.messageResponseGsonCreator(result);
+            Goal result = DAO.getInstance().findGoalById(id);
+            String json = new Gson().toJson(result);
         try {
-            response.getWriter().write(result);
+            response.getWriter().write(json);
         } catch (
                 IOException e) {
             e.printStackTrace();
@@ -42,12 +41,15 @@ public class GoalServlet extends PatchServlet {
         String idString= pathInfo.replaceAll("/", "");
         Long id = Long.valueOf(idString);
         String result = DAO.getInstance().incrementProgress(id);
-        String json = JsonUtil.messageResponseGsonCreator(result);
-        try {
-            resp.getWriter().write(json);
-        } catch (
-                IOException e) {
-            e.printStackTrace();
+        if (result.equalsIgnoreCase("success")) {
+            Goal goalById = DAO.getInstance().findGoalById(id);
+            String json = new Gson().toJson(goalById);
+            try {
+                resp.getWriter().write(json);
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -58,7 +60,24 @@ public class GoalServlet extends PatchServlet {
         BufferedReader reader = req.getReader();
         Goal goal = JsonUtil.createGoal(reader);
         String result = DAO.getInstance().createGoal(goal,userId);
-        String json = JsonUtil.messageResponseGsonCreator(result);
+        if (result.equalsIgnoreCase("success")) {
+            String json = new Gson().toJson(goal);
+            try {
+                resp.getWriter().write(json);
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
+        String pathInfo = req.getPathInfo();
+        String idString= pathInfo.replaceAll("/", "");
+        Long id = Long.valueOf(idString);
+        String result = DAO.getInstance().deleteGoalByID(id);
+        String json = new Gson().toJson(result);
         try {
             resp.getWriter().write(json);
         } catch (

@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  List,
-  ListItem,
-  Divider,
-  Typography,
-  TextField,
-} from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import createTask from '../../utils/createTask';
 import useStyles from './TaskPageStyles';
 import calcPercentage from '../../utils/calcPercentage';

@@ -29,6 +29,7 @@ public class Authorization extends HttpServlet {
 
             if (request.getRequestURI().endsWith("/login")) {
                 result = DAO.getInstance().login(user);
+                request.getSession().setAttribute("UserId",user.getId());
 
                 if (result.equals("success")) {
                     json = JsonUtil.jwtResponseGsonCreator(JWTCreator.create(user));

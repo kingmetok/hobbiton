@@ -20,19 +20,25 @@ public class GoalServlet extends PatchServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String pathInfo = request.getPathInfo();
-        String idString = pathInfo.replaceAll("/", "");
 
         int id;
-        if (!idString.equalsIgnoreCase("")) {
-
-            id = Integer.parseInt(idString);
-
-        } else {
+        if (pathInfo == null) {
             String token = request.getHeader("Authorization");
             System.out.println(token);
             User user = JWTCreator.decodeUser(token);
             id = user.getId();
+        } else {
+            String idString = pathInfo.replaceAll("/", "");
+
+            if (!idString.equalsIgnoreCase("")) {
+
+                id = Integer.parseInt(idString);
+
+            } else {
+                return;
+            }
         }
+
 
         Goal result = DAO.getInstance().findGoalById(id);
         String json = new Gson().toJson(result);

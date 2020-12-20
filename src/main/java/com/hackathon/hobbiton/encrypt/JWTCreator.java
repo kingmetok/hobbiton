@@ -25,6 +25,9 @@ public class JWTCreator {
     }
 
     public static User decodeUser(String jwt) {
+
+        jwt = jwt.replaceAll("Bearer ", "");
+
         DecodedJWT decode = JWT.decode(jwt);
 
         return new User.Builder()

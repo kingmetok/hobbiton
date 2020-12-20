@@ -71,7 +71,7 @@ public class UserDAO {
 
     public boolean existTwo(User user) {
 
-        final String SQL = "select id, password, email, sex from user where login = ?";
+        final String SQL = "select id, password, email, gender from user where login = ?";
 
         boolean result = false;
 

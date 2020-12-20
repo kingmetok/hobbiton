@@ -50,13 +50,15 @@ function Dashboard(props) {
     return list.filter((el) => el.title.includes(filterValue));
   }
 
-  function getListItem(event) {
+  function getListItem(event, id, isCompleted) {
     if (
       event.target.nodeName !== 'BUTTON' &&
       event.target.nodeName !== 'SPAN'
     ) {
-      // переходим на страницу таски по айди
-      console.log(event.target);
+      if (!isCompleted) {
+        changeRoute(`/dashboard/goals/${id}`);
+        return;
+      }
       return;
     }
     return;
@@ -67,7 +69,7 @@ function Dashboard(props) {
     // отправляем запрос на обновление прогресса таски
     return;
   }
-  
+
   function changeRoute(path) {
     props.history.push(path);
   }
@@ -87,7 +89,7 @@ function Dashboard(props) {
             color="secondary"
             className={classes.addButton}
             onClick={() => {
-              changeRoute('/account/addnew');
+              changeRoute('/dashboard/addnew');
             }}
           >
             Add Task
@@ -98,7 +100,7 @@ function Dashboard(props) {
           {filterPipe(mock).map((el) => (
             <>
               <ListItem
-                onClick={(event) => getListItem(event)}
+                onClick={(event) => getListItem(event, el.id, el.completed)}
                 divider
                 className={
                   el.completed

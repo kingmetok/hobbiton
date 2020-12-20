@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import ScoreBoard from '../ScoreBoard/ScoreBoard';
 import Dashboard from '../Dashboard/Dashboard';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import TaskPage from '../TaskPage/TaskPage';
@@ -8,8 +9,8 @@ import './MainPage.css';
 import { Route } from 'react-router-dom';
 import AddTask from '../AddTask/AddTask';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,16 +33,19 @@ export default function MainPage() {
     <>
       <Header />
       <div className={classes.root}>
-        <Route exact path="/account/dashboard">
+        <Route exact path="/dashboard">
           <Dashboard />
         </Route>
-        <Route exact path="/account/profile">
+        <Route exact path="/dashboard/profile">
           <ProfilePage />
         </Route>
-        <Route exact path="/account/addnew">
+        <Route exact path="/dashboard/scoreboard">
+          <ScoreBoard />
+        </Route>
+        <Route exact path="/dashboard/addnew">
           <AddTask />
         </Route>
-        <Route exact path="/account/goals/:id">
+        <Route exact path="/dashboard/goals/:id">
           <TaskPage />
         </Route>
       </div>

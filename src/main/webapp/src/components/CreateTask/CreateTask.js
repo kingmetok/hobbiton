@@ -6,49 +6,12 @@ import compareDates from '../../utils/compareDates';
 import { connect } from 'react-redux';
 import { addGoalAction } from '../../redux/actions/goals';
 import { useHistory } from 'react-router-dom';
-
-const useStyles = makeStyles({
-  wrapper: {
-    width: '40%',
-    background: 'white',
-    display: 'flex',
-    flexFlow: 'column',
-    minHeight: '10vh',
-    alignItems: 'center',
-  },
-
-  inputWrapper: {
-    display: 'flex',
-    flexFlow: 'wrap column',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-
-  input: {
-    marginBottom: '20px',
-  },
-
-  buttonWrapper: {
-    width: '40%',
-    margin: '0 auto',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-
-  header: {
-    fontSize: '30px',
-  },
-});
-
-const helperText = {
-  position: 'absolute',
-  bottom: '-33%',
-};
+import { helperText, useStyles } from './CreateTaskStyles';
 
 const CreateTask = (props) => {
-	const classes = useStyles();
-	const { addGoal } = props;
-	const history = useHistory();
+  const classes = useStyles();
+  const { addGoal } = props;
+  const history = useHistory();
 
   const [inputValues, setInputValues] = useState({
     title: '',
@@ -107,11 +70,11 @@ const CreateTask = (props) => {
     setInvalid(name, input);
   }
 
-	function submitValues() {
+  function submitValues() {
     let result = inputValues;
     if (result.title && result.description) {
-			if (compareDates(result.data_started)) {
-				addGoal(result);
+      if (compareDates(result.data_started)) {
+        addGoal(result);
         console.log(result);
         console.log('submitted');
       }
@@ -136,12 +99,12 @@ const CreateTask = (props) => {
       setValidation({ ...validation, [name]: true });
       return;
     }
-	}
-	
-	const handleCancel = () => {
-		resetForm();
-		return history.push('/account/dashboard');
-	}
+  }
+
+  const handleCancel = () => {
+    resetForm();
+    return history.push('/account/dashboard');
+  };
 
   return (
     <Box className={classes.wrapper}>
@@ -218,11 +181,8 @@ const CreateTask = (props) => {
       <Typography>Term: 90 days</Typography>
 
       <Box className={classes.buttonWrapper}>
-				<Button
-					onClick={() => resetForm()}
-					variant="outlined"
-					color="primary">
-					Reset
+        <Button onClick={() => resetForm()} variant="outlined" color="primary">
+          Reset
         </Button>
         <Button
           className={classes.button}
@@ -230,25 +190,22 @@ const CreateTask = (props) => {
           variant="contained"
           color="primary"
         >
-					Submit
+          Submit
         </Button>
-				<Button
-					onClick={handleCancel}
-					variant="outlined"
-					color="primary">
+        <Button onClick={handleCancel} variant="outlined" color="primary">
           Cancel
         </Button>
       </Box>
     </Box>
   );
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
-	return {
-		addGoal: (data) => {
-			dispatch(addGoalAction(data))
-		}
-	}
-}
+  return {
+    addGoal: (data) => {
+      dispatch(addGoalAction(data));
+    },
+  };
+};
 
 export default connect(null, mapDispatchToProps)(CreateTask);

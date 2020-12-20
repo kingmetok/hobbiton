@@ -12,7 +12,7 @@ function createTask(title, description, data_started) {
     term: 90,
     data_created: date,
     data_started: data_started,
-    data_last_checked: new Date('2020-12-16T10:09:45.126Z'),
+    data_last_checked: '',
     completed: false,
     proofs: [],
   };

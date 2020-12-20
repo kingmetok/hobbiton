@@ -10,10 +10,12 @@ import {
 	GET_SEASON_GOALS_SUCCESS,
 	GET_SEASON_GOALS_FAILURE,
 	EDIT_GOAL_FAILURE,
-	EDIT_GOAL_SUCCESS
+	EDIT_GOAL_SUCCESS,
+	UPDATE_GOAL_FAILURE,
+	UPDATE_GOAL_SUCCESS
 } from '../actionsTypes';
 import dataService from '../../services/dataService';
-import { setMessage } from './message';
+import { setMessageAction } from './message';
 
 export const getUserGoalsAction = () => {
 	return dispatch => {
@@ -42,7 +44,7 @@ export const getGoalByIdAction = (id) => {
   };
 };
 
-export const editGoalByIdAction = (data, id) => {
+export const editGoalByIdAction = (data,id) => {
 	return dispatch => {
     dataService.editGoal(data, id)
 			.then(res => {
@@ -51,6 +53,20 @@ export const editGoalByIdAction = (data, id) => {
       })
       .catch(err => {
 				dispatch(editGoalByIdFailure());
+				dispatch(setMessageAction(err.message));
+      });
+  };
+};
+
+export const updateGoalProgressByIdAction = (id) => {
+	return dispatch => {
+    dataService.editGoal(id)
+			.then(res => {
+				dispatch(updateGoalByIdSuccess(res.data));
+				dispatch(setMessageAction(res.message));
+      })
+      .catch(err => {
+				dispatch(updateGoalByIdFailure());
 				dispatch(setMessageAction(err.message));
       });
   };
@@ -75,7 +91,7 @@ export const getSeasonGoalsAction = () => {
     dataService.getSeasonGoals()
 			.then(res => {
 				dispatch(getSeasonGoalsSuccess(res.data));
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(getUserSeasonFailure());
@@ -121,15 +137,26 @@ const getGoalByIdFailure = () => ({
   type: GET_GOAL_BY_ID_FAILURE,
 });
 
-const editGoalByIdSuccess = () => ({
-	type: EDIT_GOAL_FAILURE,
+const editGoalByIdSuccess = (data) => ({
+	type: EDIT_GOAL_SUCCESS,
 	payload: {
 		data
 	}
 });
 
 const editGoalByIdFailure = () => ({
-  type: EDIT_GOAL_SUCCESS,
+  type: EDIT_GOAL_FAILURE,
+});
+
+const updateGoalByIdSuccess = (data) => ({
+	type: UPDATE_GOAL_SUCCESS,
+	payload: {
+		data
+	}
+});
+
+const updateGoalByIdFailure = () => ({
+  type: UPDATE_GOAL_FAILURE,
 });
 
 const getDefaultGoalsSuccess = (data) => ({
@@ -154,7 +181,7 @@ const getUserSeasonFailure = () => ({
 	type: GET_SEASON_GOALS_FAILURE,
 });
 
-const addGoalSuccess = () => ({
+const addGoalSuccess = (data) => ({
 	type: POST_GOALS_SUCCESS,
 	payload: {
 		data

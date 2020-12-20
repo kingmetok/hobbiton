@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import getFormattedDate from '../../utils/formatDate';
 import compareDates from '../../utils/compareDates';
+import { connect } from 'react-redux';
+import { addGoalAction } from '../../redux/actions/goals';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -43,8 +46,10 @@ const helperText = {
   bottom: '-33%',
 };
 
-export default function CreateTaskStyles(props) {
-  const classes = useStyles();
+const CreateTask = (props) => {
+	const classes = useStyles();
+	const { addGoal } = props;
+	const history = useHistory();
 
   const [inputValues, setInputValues] = useState({
     title: '',
@@ -85,10 +90,11 @@ export default function CreateTaskStyles(props) {
     setInvalid(name, input);
   }
 
-  function submitValues() {
+	function submitValues() {
     let result = inputValues;
     if (result.title && result.description) {
-      if (compareDates(result.data_started)) {
+			if (compareDates(result.data_started)) {
+				addGoal(result);
         console.log(result);
       } else {
         console.log('invalid date');
@@ -114,7 +120,12 @@ export default function CreateTaskStyles(props) {
       setValidation({ ...validation, [name]: true });
       return;
     }
-  }
+	}
+	
+	const handleCancel = () => {
+		resetForm();
+		return history.push('/account/dashboard');
+	}
 
   return (
     <Box className={classes.wrapper}>
@@ -189,8 +200,11 @@ export default function CreateTaskStyles(props) {
       <Typography>Term: 90 days</Typography>
 
       <Box className={classes.buttonWrapper}>
-        <Button onClick={() => resetForm()} variant="outlined" color="primary">
-          Reset
+				<Button
+					onClick={() => resetForm()}
+					variant="outlined"
+					color="primary">
+					Reset
         </Button>
         <Button
           className={classes.button}
@@ -198,9 +212,25 @@ export default function CreateTaskStyles(props) {
           variant="contained"
           color="primary"
         >
-          Submit
+					Submit
+        </Button>
+				<Button
+					onClick={handleCancel}
+					variant="outlined"
+					color="primary">
+          Cancel
         </Button>
       </Box>
     </Box>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addGoal: (data) => {
+			dispatch(addGoalAction(data))
+		}
+	}
+}
+
+export default connect(null, mapDispatchToProps)(CreateTask);

@@ -35,7 +35,8 @@ const ProfilePageStyle = makeStyles((theme) => ({
 		flexGrow: 1,
 		marginTop: '1em',
 		justifyContent: 'space-between',
-		alignItems: 'center'
+		alignItems: 'center',
+		flexWrap: 'wrap'
 	}, 
 	backgroundBlock: {
 		display: 'flex',

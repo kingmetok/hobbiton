@@ -40,8 +40,9 @@ export const authRegisterAction = (data) => {
   };
 };
 
-export const logout = () => (dispatch) => {
-  authService.logout();
+export const logoutAction = () => (dispatch) => {
+	authService.logout()
+	console.log('hi');
   dispatch(authLogout());
 };
 

@@ -3,29 +3,27 @@ import React, {
 	useEffect
 } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import {
 	getUsersInfoAction,
 	editUsersInfoAction,
 	deleteUsersInfoAction
 } from '../../redux/actions/user';
-import InfoMessage from '../InfoMessage/InfoMessage';
 import { setMessageAction, clearMessageAction } from '../../redux/actions/message';
-
+import InfoMessage from '../InfoMessage/InfoMessage';
 import Paper from '@material-ui/core/Paper';
-import { Button, Grid, ButtonGroup, TextField } from '@material-ui/core';
+import { Button, Grid, ButtonGroup } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import TurnedInIcon from '@material-ui/icons/TurnedIn';
-import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import ShareIcon from '@material-ui/icons/Share';
-import PersonIcon from '@material-ui/icons/Person';
 import ProfilePageStyle from './ProfilePageStyle';
 import manIcon from '../../img/manIcon.svg';
 import femaleIcon from '../../img/womanIcon.svg';
 
 const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, message, setMessage}) => {
 	const classes = ProfilePageStyle();
+	const params = useParams();
+	console.log(params);
 	const [user, setUser] = useState({
 		gender: 'female',
 		login: 'Vita',
@@ -37,19 +35,14 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 	});
 	const userIcon = user.gender === 'female' ? femaleIcon : manIcon;
 	const history = useHistory();
-	console.log(history);
 
 	useEffect(() => {
-		try {
-			
-			getUsersInfo();
-		} catch (e) {
-		}
-	}, []);
+		getUsersInfo();
+	});
 
 	const shareLink = () => {
 		const { protocol, hash, host } = window.location;
-		return `${protocol}//${hash}${host}/users/?id=${user.id}`;
+		return `${protocol}//${hash}${host}/account/profile/${user.id}`;
 	}
 
 	const handleCopyLink = () => {
@@ -64,7 +57,7 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 	}
 
 	return (
-			<Grid container spacing={0}>
+			<Grid container spacing={3}>
 				<Grid item xs={12}>
 				<Paper className={`${classes.paper} ${classes.backgroundBlock}`}>
 						<div className={classes.wall}></div>
@@ -98,7 +91,7 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 				</Grid>
 				<Grid item xs={12}>
 					<Paper className={classes.paper}>
-						<Grid item xs container direction="row" spacing={1}>
+						<Grid item xs container direction="row" spacing={3}>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My followers</h4>

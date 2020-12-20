@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, withRouter} from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   Button,
@@ -9,22 +9,32 @@ import {
   Divider,
   Typography,
   TextField,
+  Grid,
+  Paper,
 } from '@material-ui/core';
+import createSeasonTask from '../../utils/createSeasonTask';
 import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
 import useStyles from './DashboardStyles';
-
 import {
-	getUserGoalsAction,
-	editGoalByIdAction,
+  getUserGoalsAction,
+  editGoalByIdAction,
 } from '../../redux/actions/goals';
 
 let mock = [
-  createTask('quit smokin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
-  createTask('start jogin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
-  createTask('water drink!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
-  createTask('sadasdasdasd!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
+  createTask('Quit smoking', `Don't smoke every day during 90 days.`),
+  createTask('Start jogging', `Jogging every day smoke during 90 days.`),
+  createTask('Drink water', `Drink water every day smoke during 90 days.`),
+  createTask('Read book', `Read book every day smoke during 90 days.`),
+];
+
+let mockSeasons = [
+  createSeasonTask(
+    'Winter task',
+    'Run 10 km on a cold winter morning',
+    'Winter'
+  ),
 ];
 
 mock[0].progress = 89;
@@ -40,18 +50,17 @@ mock[3].id = 4;
 mock[3].completed = true;
 
 function Dashboard(props) {
-	const classes = useStyles();
-	const history = useHistory();
-	const { getUserGoals, editGoalById } = props;
+  const classes = useStyles();
+  const history = useHistory();
+  const { getUserGoals, editGoalById } = props;
 
-	const [filterValue, setFilter] = React.useState('');
-	
-	useEffect(() => {
-		try {
-			getUserGoals();
-		} catch (e) {
-		}
-	});
+  const [mockProps, setmockProps] = React.useState(mock.concat(mockSeasons));
+
+  const [filterValue, setFilter] = React.useState('');
+
+  useEffect(() => {
+    getUserGoals();
+  });
 
   function handleInput(value) {
     setFilter(value);
@@ -70,17 +79,16 @@ function Dashboard(props) {
       event.target.nodeName !== 'BUTTON' &&
       event.target.nodeName !== 'SPAN'
     ) {
-			// переходим на страницу таски по айди
-			history.push(`/account/goals/${id}`);
+      // переходим на страницу таски по айди
+      history.push(`/account/goals/${id}`);
       console.log(event.target);
       return;
     }
     return;
   }
 
-	function checkTask(id) {
-		editGoalById(id);
-    console.log(id);
+  function checkTask(id) {
+    editGoalById(id);
     // отправляем запрос на обновление прогресса таски
     return;
   }
@@ -90,91 +98,111 @@ function Dashboard(props) {
   }
 
   return (
-    <Box className={classes.dashboardWrapper}>
-      <Box className={classes.taskListWrapper}>
-        <Box className={classes.searchWrapper}>
-          <TextField
-            onInput={(ev) => handleInput(ev.target.value)}
-            label="Search"
-            size="small"
-          />
-
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.addButton}
-            onClick={() => {
-              changeRoute('/dashboard/addnew');
-            }}
-          >
-            Add Task
-          </Button>
-        </Box>
-
-        <List className={classes.taskList}>
-          {filterPipe(mock).map((el) => (
-						<>
-							<ListItem
-								key={el.id}
-                onClick={(event) => getListItem(event, el.id)}
-                divider
-                className={
-                  el.completed
-                    ? classes.listElementDisabled
-                    : classes.listElement
-                }
+    <div>
+      <h2 className={classes.title}>Your goals</h2>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper className={classes.dashboardHeader}>
+            <TextField
+              onInput={(ev) => handleInput(ev.target.value)}
+              label="Search"
+              size="small"
+            />
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.addButton}
+              onClick={() => {
+                changeRoute('/account/addnew');
+              }}
+            >
+              Add Task
+            </Button>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid item xs={12}>
+            <Paper>
+              <Grid
+                item
+                xs
+                container
+                direction="column"
+                spacing={2}
+                className={classes.listWrapper}
               >
-                <Typography
-                  className={
-                    el.completed
-                      ? `${classes.taskText} ${classes.completed}`
-                      : classes.taskText
-                  }
-                >
-                  {el.title}
-                </Typography>
-                <Box className={classes.progressBar}>
-                  <ProgressBar
-                    color="primary"
-                    variant="determinate"
-                    value={calcPercentage(el.progress, el.term)}
-                  />
-                </Box>
-                <Button
-                  disabled={el.completed}
-                  onClick={(event) => {
-                    checkTask(event.target.id);
-                  }}
-                  color="primary"
-                  variant="contained"
-                >
-                  Done
-                </Button>
-              </ListItem>
-              <Divider className={classes.divider} />
-            </>
-          ))}
-        </List>
-      </Box>
-    </Box>
+                {filterPipe(mockProps).map((el) => (
+                  <Grid
+                    item
+                    xs={12}
+                    key={el.id}
+                    onClick={(event) => getListItem(event, el.id)}
+                  >
+                    <Paper
+                      className={
+                        el.completed
+                          ? `${classes.listElementDisabled} ${
+                              classes.listElement
+                            } ${classes[el.season]}`
+                          : `${classes.listElement} ${classes[el.season]}`
+                      }
+                    >
+                      <Typography
+                        className={
+                          el.completed
+                            ? `${classes.taskText} ${classes.completed}`
+                            : classes.taskText
+                        }
+                      >
+                        {el.title}
+                      </Typography>
+                      <Box className={classes.progressBar}>
+                        <ProgressBar
+                          color="primary"
+                          variant="determinate"
+                          value={calcPercentage(el.progress, el.term)}
+                        />
+                      </Box>
+                      <Button
+                        disabled={el.completed}
+                        onClick={(event) => {
+                          checkTask(event.target.id);
+                        }}
+                        color="primary"
+                        variant="contained"
+                      >
+                        Done
+                      </Button>
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
 
-const mapStateToProps = state => {
-	return {
-		isLogged: state.authReducer.isLoggedIn,
-		message: state.messageReducer.message
-	}
-}
+const mapStateToProps = (state) => {
+  return {
+    isLogged: state.authReducer.isLoggedIn,
+    message: state.messageReducer.message,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
-	return {
-		getUserGoals: () => {
-			dispatch(getUserGoalsAction())
-		},
-		editGoalById: (id) => {
-			dispatch(editGoalByIdAction(id))
-		}
-	}
-}
+  return {
+    getUserGoals: () => {
+      dispatch(getUserGoalsAction());
+    },
+    editGoalById: (id) => {
+      dispatch(editGoalByIdAction(id));
+    },
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard));;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Dashboard));

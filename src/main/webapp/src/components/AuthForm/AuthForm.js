@@ -71,7 +71,10 @@ const useStyles =  makeStyles((theme) => ({
   },
   radio: {
     padding: '20px 0',
-  },
+	},
+	logoWrapper: {
+		maxWidth: '300px'
+	}
 }));
 
 const AuthForm = (props) => {
@@ -145,7 +148,9 @@ const AuthForm = (props) => {
 	return (
 	<Box className={classes.root}>
     <Box className={classes.wrapper}>
-      <Logo />
+				<div className={classes.logoWrapper}>
+				<Logo />
+			</div>
       <Card className={classes.authCard}>
         <CardContent>
           <Typography

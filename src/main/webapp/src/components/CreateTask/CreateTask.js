@@ -1,47 +1,9 @@
 import React from 'react';
 import { Button, Box, TextField, Typography } from '@material-ui/core';
 import { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import getFormattedDate from '../../utils/formatDate';
 import compareDates from '../../utils/compareDates';
-
-const useStyles = makeStyles({
-  wrapper: {
-    width: '40%',
-    background: 'white',
-    display: 'flex',
-    flexFlow: 'column',
-    minHeight: '10vh',
-    alignItems: 'center',
-  },
-
-  inputWrapper: {
-    display: 'flex',
-    flexFlow: 'wrap column',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-
-  input: {
-    marginBottom: '20px',
-  },
-
-  buttonWrapper: {
-    width: '40%',
-    margin: '0 auto',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-
-  header: {
-    fontSize: '30px',
-  },
-});
-
-const helperText = {
-  position: 'absolute',
-  bottom: '-33%',
-};
+import { useStyles, helperText } from './CreateTaskStyles';
 
 export default function CreateTaskStyles(props) {
   const classes = useStyles();
@@ -59,6 +21,8 @@ export default function CreateTaskStyles(props) {
     data_started: false,
   });
 
+  const [disabled, setDisabled] = useState(false);
+
   useEffect(() => {
     setInputValues({
       data_started: getFormattedDate(),
@@ -70,6 +34,16 @@ export default function CreateTaskStyles(props) {
     return;
   }, [props.values]);
 
+  useEffect(() => {
+    setDisabled(props.isDisabled.disabled);
+    setValidation({
+      title: false,
+      description: false,
+      data_started: false,
+    });
+    return;
+  }, [props.isDisabled]);
+
   function resetForm() {
     setInputValues({
       title: '',
@@ -77,6 +51,12 @@ export default function CreateTaskStyles(props) {
       data_started: getFormattedDate(),
       term: 90,
     });
+    setValidation({
+      title: false,
+      description: false,
+      data_started: false,
+    });
+    setDisabled(false);
   }
 
   function handleInput(name, input) {
@@ -89,9 +69,9 @@ export default function CreateTaskStyles(props) {
     let result = inputValues;
     if (result.title && result.description) {
       if (compareDates(result.data_started)) {
+        // Отправляем запрос на добавление таски ------------------------------------
         console.log(result);
-      } else {
-        console.log('invalid date');
+        console.log('submitted');
       }
     }
   }
@@ -123,6 +103,7 @@ export default function CreateTaskStyles(props) {
       </Typography>
       <Box className={classes.inputWrapper}>
         <TextField
+          disabled={disabled}
           FormHelperTextProps={{ style: helperText }}
           error={validation.title}
           helperText={validation.title ? 'Title is required' : ''}
@@ -141,6 +122,7 @@ export default function CreateTaskStyles(props) {
           onInput={(ev) => handleInput(ev.target.name, ev.target.value)}
         />
         <TextField
+          disabled={disabled}
           FormHelperTextProps={{ style: { ...helperText, bottom: '-8%' } }}
           multiline
           rows="10"
@@ -175,7 +157,7 @@ export default function CreateTaskStyles(props) {
           className={classes.input}
           id="term"
           label="Starting date"
-          defaultValue={getFormattedDate()}
+          value={inputValues.data_started}
           type="date"
           variant="outlined"
           name="data_started"

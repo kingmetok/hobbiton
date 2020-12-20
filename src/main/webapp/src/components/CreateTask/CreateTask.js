@@ -49,7 +49,7 @@ const CreateTask = (props) => {
     setValidation({
       title: false,
       description: false,
-      data_started: false,
+      dateStarted: false,
     });
     return;
   }, [props.isDisabled]);
@@ -64,7 +64,7 @@ const CreateTask = (props) => {
     setValidation({
       title: false,
       description: false,
-      data_started: false,
+      dateStarted: false,
     });
     setDisabled(false);
   }
@@ -78,9 +78,10 @@ const CreateTask = (props) => {
   function submitValues() {
     let result = inputValues;
     if (result.title && result.description) {
-      if (compareDates(result.data_started)) {
-        let date = new Date(inputValues.data_started);
-        result.data_started = date;
+      if (compareDates(result.dateStarted)) {
+				let date = new Date(inputValues.dateStarted);
+				console.log(date);
+        result.dateStarted = date;
         addGoal(result);
         console.log(result);
         console.log('submitted');
@@ -174,7 +175,7 @@ const CreateTask = (props) => {
           className={classes.input}
           id="term"
           label="Starting date"
-          value={inputValues.data_started}
+          value={inputValues.dateStarted}
           type="date"
           variant="outlined"
           name="dateStarted"

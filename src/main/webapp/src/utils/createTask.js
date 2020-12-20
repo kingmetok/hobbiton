@@ -11,7 +11,7 @@ function createTask(title, description, dateStarted) {
     progress: 0,
     term: 90,
     data_created: date,
-    data_started: data_started,
+    dateStarted: dateStarted,
     data_last_checked: '',
     completed: false,
     proofs: [],

@@ -71,37 +71,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResponsiveDrawer(props) {
-  const { window, logout, isLogged } = props;
-  const classes = useStyles();
-  const theme = useTheme();
-  const history = useHistory();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+	const { window, logout, isLogged } = props;
+	const classes = useStyles();
+	const theme = useTheme();
+	const history = useHistory();
+	const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+	const handleDrawerToggle = () => {
+		setMobileOpen(!mobileOpen);
+	};
 
-  const handleLogout = () => {
-    logout();
-    history.push('/login');
-  };
+	const handleLogout = () => {
+		logout();
+		history.push('/login');
+	};
 
-  const drawer = (
-    <div>
-      <div className={classes.toolbar} />
-      <Divider />
-      <List>
-        <NavLink text="DashBoard" url="/account/dashboard" />
-        <NavLink text="Profile" url="/account/profile" />
-        <NavLink text="Achievements" url="/account/achievements" />
-        <NavLink text="Scoreboard" url="/account/scoreboard" />
-      </List>
-      <Divider />
-    </div>
-  );
+	// const drawer = (
+	// 	<div>
+	// 		<div className={classes.toolbar} />
+	// 		<Divider />
+	// 		<List>
+	// 			<NavLink text="DashBoard" url="/account/dashboard" />
+	// 			<NavLink text="Profile" url="/account/profile" />
+	// 			<NavLink text="Achievements" url="/account/achievements" />
+	// 			<NavLink text="Scoreboard" url="/account/scoreboard" />
+	// 		</List>
+	// 		<Divider />
+	// 	</div>
+	// );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+	const container = window !== undefined ? () => window().document.body : undefined;
 
 	const drawer = (
 		<div>
@@ -117,7 +116,6 @@ function ResponsiveDrawer(props) {
 		</div>
 	);
 
-	const container = window !== undefined ? () => window().document.body : undefined;
 
 	return (
 		<div className={classes.root}>
@@ -205,9 +203,12 @@ function ResponsiveDrawer(props) {
 							<Route exact path="/account/goals/:id">
 								<TaskPage />
 							</Route>
-							<Route path="*">
+							<Route exact path="/account/scoreboard">
+								<ScoreBoard />
+							</Route> 
+							{/* <Route path="*">
 								<Redirect to="/account/dashboard" />
-							</Route>
+							</Route> */}
 						</Switch>
 					}
 				</Fragment>

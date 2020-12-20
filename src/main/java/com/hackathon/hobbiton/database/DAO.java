@@ -57,32 +57,32 @@ public class DAO {
 
     }
 
-    public String incrementProgress(int id){
+    public String incrementProgress(int id) {
         String result = "error";
-        if(goalDAO.incrementProgress(id)) result="success";
+        if (goalDAO.incrementProgress(id)) result = "success";
         return result;
     }
 
-    public String createGoal(Goal goal, int id){
+    public String createGoal(Goal goal, int id) {
         String result = "error";
-        if (goalDAO.createGoal(goal,id)) result = "success";
+        if (goalDAO.createGoal(goal, id)) result = "success";
         return result;
     }
 
-    public String findUserById (int id){
+    public String findUserById(int id) {
         User user = userDAO.findUserById(id);
         return new Gson().toJson(user);
     }
 
-    public String deleteGoalsByUserId(int id){
+    public String deleteGoalsByUserId(int id) {
         String result = "error";
-        if(goalDAO.deleteAllGoalsByUserId(id)) result = "Goal was successfully deleted";
+        if (goalDAO.deleteAllGoalsByUserId(id)) result = "Goal was successfully deleted";
         return result;
     }
 
-    public String deleteGoalByID(int id){
+    public String deleteGoalByID(int id) {
         String result = "error";
-        if(goalDAO.deleteGoalById(id)) result = "Goal was successfully deleted";
+        if (goalDAO.deleteGoalById(id)) result = "Goal was successfully deleted";
         return result;
     }
 

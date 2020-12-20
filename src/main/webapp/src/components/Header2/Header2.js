@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: '5em'
 	},
 	logoWrapper: {
-		width: '100px'
+		maxWidth:'150px' 
 	}
 }));
 
@@ -117,7 +117,9 @@ function ResponsiveDrawer(props) {
 					>
 						<MenuIcon />
 					</IconButton>
-						{/* <Logo/> */}
+					<div className={classes.logoWrapper}>
+						<Logo/>
+					</div>
 					<Typography variant="h6" noWrap>
 						Hello, 
 					</Typography>
@@ -163,31 +165,36 @@ function ResponsiveDrawer(props) {
 			</nav>
 			<main className={classes.content}>
 				<div className={classes.toolbar} />
-				<Switch>
-					{!isLogged ? 
-						<Route path="*">
-							<Redirect to="/" />
-						</Route>
+				<Fragment>
+					{!isLogged ?
+						<Switch>
+							<Route path="*">
+								<Redirect to="/" />
+							</Route>
+						</Switch>
 						:
-						<Fragment>
-							<Route path="/account/dashboard">
+						<Switch>
+							<Route exact path="/account/dashboard">
 								<Dashboard />
 							</Route> 
-							<Route path="/account/profile">
+							<Route exact path="/account/profile/:id">
 								<ProfilePage />
-							</Route> 
-							<Route path="/account/addnew">
+							</Route>
+							<Route exact path="/account/profile">
+								<ProfilePage />
+							</Route>
+							<Route exact path="/account/addnew">
 								<AddTask />
 							</Route>
 							<Route exact path="/account/goals/:id">
 								<TaskPage />
 							</Route>
-							{/* <Route path="*">
+							<Route path="*">
 								<Redirect to="/account/dashboard" />
-							</Route> */}
-						</Fragment>
+							</Route>
+						</Switch>
 					}
-				</Switch>
+				</Fragment>
 			</main>
 		</div>
 

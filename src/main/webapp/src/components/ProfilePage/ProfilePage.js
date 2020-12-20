@@ -7,23 +7,33 @@ import { useHistory, useParams } from 'react-router-dom';
 import {
 	getUsersInfoAction,
 	editUsersInfoAction,
-	deleteUsersInfoAction
+	deleteUsersInfoAction,
+	getUserByIdAction
 } from '../../redux/actions/user';
 import { setMessageAction, clearMessageAction } from '../../redux/actions/message';
 import InfoMessage from '../InfoMessage/InfoMessage';
-import Paper from '@material-ui/core/Paper';
-import { Button, Grid, ButtonGroup } from '@material-ui/core';
+import { Button, Grid, ButtonGroup, Paper } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ShareIcon from '@material-ui/icons/Share';
 import ProfilePageStyle from './ProfilePageStyle';
 import manIcon from '../../img/manIcon.svg';
 import femaleIcon from '../../img/womanIcon.svg';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
-const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, message, setMessage}) => {
+const ProfilePage = ({
+	getUsersInfo,
+	editUsersInfo,
+	deleteUsersInfo,
+	userData,
+	message,
+	setMessage,
+	getUserById,
+	isLogged
+}) => {
 	const classes = ProfilePageStyle();
-	const params = useParams();
-	console.log(params);
+	const {id} = useParams();
+	const history = useHistory();
 	const [user, setUser] = useState({
 		gender: 'female',
 		login: 'Vita',
@@ -33,16 +43,19 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 		points: 0,
 		id: 1234
 	});
-	const userIcon = user.gender === 'female' ? femaleIcon : manIcon;
-	const history = useHistory();
 
+	const userIcon = user.gender === 'female' ? femaleIcon : manIcon;
 	useEffect(() => {
-		getUsersInfo();
+		if (id) {
+			getUserById(id);
+		} else {
+			getUsersInfo();
+		}
 	});
 
 	const shareLink = () => {
 		const { protocol, hash, host } = window.location;
-		return `${protocol}//${hash}${host}/account/profile/${user.id}`;
+		return `${protocol}//${hash}${host}/account/profile/${id}`;
 	}
 
 	const handleCopyLink = () => {
@@ -67,12 +80,13 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 					<div className={classes.infoWrapper}>
 						<h1>{user.login}</h1>
 						<h3>{user.email}</h3>
+						{!id ?
 						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
 							<Button
 								className={classes.btn}>
-							Edit
-							<EditIcon/>
-						</Button>
+								Edit
+								<EditIcon/>
+							</Button>
 							<Button
 								onClick={handleDeleteUser}
 								className={classes.btn}>
@@ -85,7 +99,12 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 								Copy link
 								<ShareIcon/> 
 							</Button>
-						</ButtonGroup>
+							</ButtonGroup> : (isLogged && id ) ?
+								<Button variant="contained" color="primary">
+									Subscribe
+									<BookmarkBorderIcon/>
+								</Button> : null
+						}
 					</div>
 					</Paper>
 				</Grid>
@@ -121,7 +140,8 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 const mapStateToProps = state => {
 	return {
 		userData: state.userReducer.userData,
-		message: state.messageReducer.message
+		message: state.messageReducer.message,
+		isLogged: state.authReducer.isLoggedIn
 	}
 }
 const mapDispatchToProps = (dispatch) => {
@@ -137,6 +157,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		setMessage: message => {
 			dispatch(setMessageAction(message));
+		},
+		getUserById: message => {
+			dispatch(getUserByIdAction(message));
 		}
 	}
 }

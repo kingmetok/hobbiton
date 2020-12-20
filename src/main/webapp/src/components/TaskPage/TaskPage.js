@@ -68,7 +68,7 @@ function TaskPage({editGoalById, getGoalById, goalData, message}) {
             {`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
           </Typography>
           <Typography className={classes.descriptionText}>
-            {`Started at: ${goalDataMock.data_started.getDate()}/${goalDataMock.data_started.getMonth()}/${goalDataMock.data_started.getFullYear()}`}
+            {`Started at: ${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
           </Typography>
           <Typography className={classes.descriptionText}>
             {`Remaining time: ${goalDataMock.term - goalDataMock.progress} days`}

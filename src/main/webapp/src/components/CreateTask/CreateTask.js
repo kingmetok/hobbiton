@@ -1,45 +1,11 @@
-import React from 'react';
-import { Button, Box, TextField, Typography } from '@material-ui/core';
-import { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React,{ useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import getFormattedDate from '../../utils/formatDate';
 import compareDates from '../../utils/compareDates';
-import { connect } from 'react-redux';
 import { addGoalAction } from '../../redux/actions/goals';
-import { useHistory } from 'react-router-dom';
-
-const useStyles = makeStyles({
-  wrapper: {
-    width: '40%',
-    background: 'white',
-    display: 'flex',
-    flexFlow: 'column',
-    minHeight: '10vh',
-    alignItems: 'center',
-  },
-
-  inputWrapper: {
-    display: 'flex',
-    flexFlow: 'wrap column',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-
-  input: {
-    marginBottom: '20px',
-  },
-
-  buttonWrapper: {
-    width: '40%',
-    margin: '0 auto',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-
-  header: {
-    fontSize: '30px',
-  },
-});
+import { Button, Box, TextField, Typography, ButtonGroup } from '@material-ui/core';
+import useStyles from './CreateTaskStyle';
 
 const helperText = {
   position: 'absolute',
@@ -50,23 +16,24 @@ const CreateTask = (props) => {
 	const classes = useStyles();
 	const { addGoal } = props;
 	const history = useHistory();
+	console.log(addGoal);
 
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
-    data_started: getFormattedDate(),
+    dateStarted: getFormattedDate(),
     term: 90,
   });
 
   const [validation, setValidation] = useState({
     title: false,
     description: false,
-    data_started: false,
+    dateStarted: false,
   });
 
   useEffect(() => {
     setInputValues({
-      data_started: getFormattedDate(),
+      dateStarted: getFormattedDate(),
       term: 90,
       title: props.values.title,
       description: props.values.description,
@@ -79,7 +46,7 @@ const CreateTask = (props) => {
     setInputValues({
       title: '',
       description: '',
-      data_started: getFormattedDate(),
+      dateStarted: getFormattedDate(),
       term: 90,
     });
   }
@@ -91,9 +58,10 @@ const CreateTask = (props) => {
   }
 
 	function submitValues() {
-    let result = inputValues;
+		let result = inputValues;
+		console.log('hi');
     if (result.title && result.description) {
-			if (compareDates(result.data_started)) {
+			if (compareDates(result.dateStarted)) {
 				addGoal(result);
         console.log(result);
       } else {
@@ -103,20 +71,20 @@ const CreateTask = (props) => {
   }
 
   function setValid(name, value) {
-    if (name === 'data_started' && compareDates(value)) {
+    if (name === 'dateStarted' && compareDates(value)) {
       setValidation({ ...validation, [name]: false });
       return;
-    } else if (value && name !== 'data_started') {
+    } else if (value && name !== 'dateStarted') {
       setValidation({ ...validation, [name]: false });
       return;
     }
   }
 
   function setInvalid(name, value) {
-    if (name === 'data_started' && !compareDates(value)) {
+    if (name === 'dateStarted' && !compareDates(value)) {
       setValidation({ ...validation, [name]: true });
       return;
-    } else if (!value && name !== 'data_started') {
+    } else if (!value && name !== 'dateStarted') {
       setValidation({ ...validation, [name]: true });
       return;
     }
@@ -128,10 +96,10 @@ const CreateTask = (props) => {
 	}
 
   return (
-    <Box className={classes.wrapper}>
-      <Typography className={classes.header}>
+    <Box>
+      <h3 className={classes.header}>
         ...or Create an Own Goal
-      </Typography>
+      </h3>
       <Box className={classes.inputWrapper}>
         <TextField
           FormHelperTextProps={{ style: helperText }}
@@ -173,9 +141,9 @@ const CreateTask = (props) => {
         />
         <TextField
           FormHelperTextProps={{ style: helperText }}
-          error={validation.data_started}
+          error={validation.dateStarted}
           helperText={
-            validation.data_started ? 'Date must be bigger than today' : ''
+            validation.dateStarted ? 'Date must be bigger than today' : ''
           }
           onFocus={(ev) => {
             setValid(ev.target.name, ev.target.value);
@@ -189,7 +157,7 @@ const CreateTask = (props) => {
           defaultValue={getFormattedDate()}
           type="date"
           variant="outlined"
-          name="data_started"
+          name="dateStarted"
           InputLabelProps={{
             shrink: true,
           }}
@@ -199,28 +167,23 @@ const CreateTask = (props) => {
 
       <Typography>Term: 90 days</Typography>
 
-      <Box className={classes.buttonWrapper}>
+      <ButtonGroup variant="outlined" color="primary">
 				<Button
 					onClick={() => resetForm()}
-					variant="outlined"
-					color="primary">
+					>
 					Reset
         </Button>
         <Button
           className={classes.button}
           onClick={() => submitValues()}
-          variant="contained"
-          color="primary"
         >
 					Submit
         </Button>
 				<Button
-					onClick={handleCancel}
-					variant="outlined"
-					color="primary">
+					onClick={handleCancel}>
           Cancel
         </Button>
-      </Box>
+      </ButtonGroup>
     </Box>
   );
 }

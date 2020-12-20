@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet("/api/account/goals/*")
+@WebServlet("/api/goals/*")
 public class GoalServlet extends PatchServlet {
 
 

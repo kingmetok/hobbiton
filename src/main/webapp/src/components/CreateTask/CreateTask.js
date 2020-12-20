@@ -1,17 +1,22 @@
-import React from 'react';
-import { Button, Box, TextField, Typography } from '@material-ui/core';
-import { useState, useEffect } from 'react';
+import React,{ useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import getFormattedDate from '../../utils/formatDate';
 import compareDates from '../../utils/compareDates';
-import { connect } from 'react-redux';
 import { addGoalAction } from '../../redux/actions/goals';
-import { useHistory } from 'react-router-dom';
-import { helperText, useStyles } from './CreateTaskStyles';
+import { Button, Box, TextField, Typography, ButtonGroup } from '@material-ui/core';
+import useStyles from './CreateTaskStyle';
+
+const helperText = {
+  position: 'absolute',
+  bottom: '-33%',
+};
 
 const CreateTask = (props) => {
-  const classes = useStyles();
-  const { addGoal } = props;
-  const history = useHistory();
+	const classes = useStyles();
+	const { addGoal } = props;
+	const history = useHistory();
+	console.log(addGoal);
 
   const [inputValues, setInputValues] = useState({
     title: '',
@@ -74,7 +79,8 @@ const CreateTask = (props) => {
     let result = inputValues;
     if (result.title && result.description) {
       if (compareDates(result.dateStarted)) {
-        let date = new Date(inputValues.dateStarted);
+				let date = new Date(inputValues.dateStarted);
+				console.log(date);
         result.dateStarted = date;
         addGoal(result);
         console.log(result);
@@ -109,10 +115,10 @@ const CreateTask = (props) => {
   };
 
   return (
-    <Box className={classes.wrapper}>
-      <Typography className={classes.header}>
+    <Box>
+      <h3 className={classes.header}>
         ...or Create an Own Goal
-      </Typography>
+      </h3>
       <Box className={classes.inputWrapper}>
         <TextField
           disabled={disabled}
@@ -182,22 +188,23 @@ const CreateTask = (props) => {
 
       <Typography>Term: 90 days</Typography>
 
-      <Box className={classes.buttonWrapper}>
-        <Button onClick={() => resetForm()} variant="outlined" color="primary">
-          Reset
+      <ButtonGroup variant="outlined" color="primary">
+				<Button
+					onClick={() => resetForm()}
+					>
+					Reset
         </Button>
         <Button
           className={classes.button}
           onClick={() => submitValues()}
-          variant="contained"
-          color="primary"
         >
           Submit
         </Button>
-        <Button onClick={handleCancel} variant="outlined" color="primary">
+				<Button
+					onClick={handleCancel}>
           Cancel
         </Button>
-      </Box>
+      </ButtonGroup>
     </Box>
   );
 };

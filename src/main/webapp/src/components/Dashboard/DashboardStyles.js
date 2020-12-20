@@ -13,42 +13,35 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   listElement: {
-    background: 'white',
-    borderRadius: '2px',
+    background: theme.palette.grey[100],
+		borderRadius: '2px',
+		width: '100%',
+		padding: theme.spacing(2),
     display: 'flex',
     justifyContent: 'space-between',
-    transition: '0.3s',
-
-    '&:hover': {
+		transition: '0.3s',
+		alignItems: 'center',
+    '&:hover:not(listElementDisabled) ': {
       background: 'lightblue',
       transition: '0.3s',
       cursor: 'pointer',
     },
-  },
+	},
   listElementDisabled: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    background: 'lightgray',
-  },
-  divider: {
-    height: '3px',
-  },
-  taskListWrapper: {
-    width: '95%',
-    display: 'flex',
-    flexDirection: 'column',
-    margin: '0 auto',
+		background: theme.palette.grey[100],
+		color: theme.palette.text.disabled,
+		pointerEvents: 'none',
   },
   addButton: {
-    alignSelf: 'flex-end',
-    background: 'lightblue',
+		background: theme.palette.primary.dark,
+		color: theme.palette.getContrastText(theme.palette.primary.dark)
   },
-  taskText: {
-    width: '20%',
-    textAlign: 'left',
-    borderRight: 'solid 1px black',
-    fontFamily: 'Roboto',
-    fontSize: '20px',
+	taskText: {
+		width: '20%',
+		textAlign: 'left',
+		borderRight: 'solid 1px black',
+		fontFamily: theme.typography.fontFamily,
+		fontSize: '20px',
   },
   progressBar: {
     width: '70%',
@@ -94,6 +87,23 @@ const useStyles = makeStyles((theme) => ({
     background:
       'radial-gradient(circle, rgba(251,173,36,1) 0%, rgba(176,109,22,1) 100%)',
   },
+	paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary
+	},
+	listWrapper: {
+		margin: 0
+	},
+	dashboardHeader: {
+		padding: theme.spacing(2),
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'space-between'
+		},
+		title: {
+			textAlign: 'center'
+		}
 }));
 
 export default useStyles;

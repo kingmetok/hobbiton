@@ -2,7 +2,6 @@ import axios from 'axios';
 import authHeader from './authHeader';
 import { GOALS_URL, USERS_URL } from '../utils/urls';
 
-
 const userService = {
   getUsersGoals: () => {
     return axios.get(GOALS_URL, { headers: authHeader() });

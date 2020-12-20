@@ -33,6 +33,7 @@ public class Authorization extends HttpServlet {
                 if (result.equalsIgnoreCase("success")) {
                     json = JsonUtil.jwtResponseGsonCreator(JWTCreator.encryptUser(user));
                 } else {
+                    response.setStatus(400);
                     json = JsonUtil.messageResponseGsonCreator(result);
                 }
 
@@ -40,6 +41,7 @@ public class Authorization extends HttpServlet {
                 result = DAO.getInstance().registration(user);
 
                 if (result.equalsIgnoreCase("success")) {
+                    response.setStatus(400);
                     json = new Gson().toJson(user);
                 }
             }

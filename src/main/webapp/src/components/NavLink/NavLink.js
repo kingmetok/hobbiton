@@ -19,11 +19,11 @@ const useStyles = makeStyles(theme => ({
 	}
 ));
 
-const NavLink = ({ text, url }) => {
+const NavLink = ({ text, url}) => {
 	const history = useHistory();
 	const classes = useStyles();
+	console.log(url);
 	const [activeClass, setActiveClass] = useState(text === 'Dashboard' ? classes.activeLink : '')
-
 	useEffect(() => {
 		const unListen = history.listen((location) => {
 			setActiveClass(url === location.pathname ? classes.activeLink : '');

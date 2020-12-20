@@ -1,9 +1,8 @@
 const authHeader = () => {
-  const user = JSON.parse(localStorage.getItem('jwt'));
-
-  if (user) {
+	const jwt = JSON.parse(localStorage.getItem('jwt'));
+  if (jwt) {
 		return {
-			Authorization: 'Bearer ' + user.accessToken,
+			Authorization: 'Bearer ' + jwt,
 			'Content-Type': 'application/json'
 		};
   } else {

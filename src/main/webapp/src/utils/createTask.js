@@ -1,8 +1,8 @@
-function createTask(title, description, data_started) {
+function createTask(title, description, dateStarted) {
   let date = new Date();
 
-  if (!data_started) {
-    data_started = date;
+  if (!dateStarted) {
+    dateStarted = date;
   }
 
   let result = {

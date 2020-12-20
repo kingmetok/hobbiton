@@ -29,45 +29,45 @@ import {
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  infoPanel: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginLeft: 'auto',
-    minWidth: '5em',
-  },
-  logoWrapper: {
-    width: '100px',
-  },
+	root: {
+		display: 'flex',
+	},
+	drawer: {
+		[theme.breakpoints.up('sm')]: {
+			width: drawerWidth,
+			flexShrink: 0,
+		},
+	},
+	appBar: {
+		[theme.breakpoints.up('sm')]: {
+			width: `calc(100% - ${drawerWidth}px)`,
+			marginLeft: drawerWidth,
+		},
+	},
+	menuButton: {
+		marginRight: theme.spacing(2),
+		[theme.breakpoints.up('sm')]: {
+			display: 'none',
+		},
+	},
+	// necessary for content to be below app bar
+	toolbar: theme.mixins.toolbar,
+	drawerPaper: {
+		width: drawerWidth,
+	},
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(3),
+	},
+	infoPanel: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginLeft: 'auto',
+		minWidth: '5em'
+	},
+	logoWrapper: {
+		maxWidth:'150px' 
+	}
 }));
 
 function ResponsiveDrawer(props) {
@@ -103,97 +103,118 @@ function ResponsiveDrawer(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          {/* <Logo/> */}
-          <Typography variant="h6" noWrap>
-            Hello,
-          </Typography>
-          <div className={classes.infoPanel}>
-            <Avatar>N</Avatar>
-            <Button onClick={handleLogout}>
-              <ExitToAppIcon />
-              logout
-            </Button>
-          </div>
-        </Toolbar>
-      </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            container={container}
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden xsDown implementation="css">
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Switch>
-          {!isLogged ? (
-            <Route path="*">
-              <Redirect to="/" />
-            </Route>
-          ) : (
-            <Fragment>
-              <Route path="/account/dashboard">
-                <Dashboard />
-              </Route>
-              <Route path="/account/profile">
-                <ProfilePage />
-              </Route>
-              <Route path="/account/addnew">
-                <AddTask />
-              </Route>
-              <Route exact path="/account/goals/:id">
-                <TaskPage />
-              </Route>
-              <Route exact path="/account/scoreboard">
-                <ScoreBoard />
-              </Route>
-              {/* <Route path="*">
+	const drawer = (
+		<div>
+			<div className={classes.toolbar} />
+			<Divider />
+			<List>
+				<NavLink text='DashBoard' url='/account/dashboard' />
+				<NavLink text='Profile' url='/account/profile' />
+				<NavLink text='Achievements' url='/account/achievements' />
+				<NavLink text='Scoreboard' url='/account/scoreboard' />
+			</List>
+			<Divider />
+		</div>
+	);
+
+	const container = window !== undefined ? () => window().document.body : undefined;
+
+	return (
+		<div className={classes.root}>
+			<CssBaseline />
+			<AppBar position="fixed" className={classes.appBar}>
+				<Toolbar>
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						edge="start"
+						onClick={handleDrawerToggle}
+						className={classes.menuButton}
+					>
+						<MenuIcon />
+					</IconButton>
+					<div className={classes.logoWrapper}>
+						<Logo/>
+					</div>
+					<Typography variant="h6" noWrap>
+						Hello, 
+					</Typography>
+					<div className={classes.infoPanel}>
+						<Avatar>N</Avatar>
+						<Button onClick={handleLogout}>
+							<ExitToAppIcon />
+							logout
+						</Button>
+					</div>
+				</Toolbar>
+			</AppBar>
+			<nav className={classes.drawer} aria-label="mailbox folders">
+				{/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+				<Hidden smUp implementation="css">
+					<Drawer
+						container={container}
+						variant="temporary"
+						anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+						open={mobileOpen}
+						onClose={handleDrawerToggle}
+						classes={{
+							paper: classes.drawerPaper,
+						}}
+						ModalProps={{
+							keepMounted: true, // Better open performance on mobile.
+						}}
+					>
+						{drawer}
+					</Drawer>
+				</Hidden>
+				<Hidden xsDown implementation="css">
+					<Drawer
+						classes={{
+							paper: classes.drawerPaper,
+						}}
+						variant="permanent"
+						open
+					>
+						{drawer}
+					</Drawer>
+				</Hidden>
+			</nav>
+			<main className={classes.content}>
+				<div className={classes.toolbar} />
+				<Fragment>
+					{!isLogged ?
+						<Switch>
+							<Route path="*">
+								<Redirect to="/" />
+							</Route>
+						</Switch>
+						:
+						<Switch>
+							<Route exact path="/account/dashboard">
+								<Dashboard />
+							</Route> 
+							<Route exact path="/account/profile/:id">
+								<ProfilePage />
+							</Route>
+							<Route exact path="/account/profile">
+								<ProfilePage />
+							</Route>
+							<Route exact path="/account/addnew">
+								<AddTask />
+							</Route>
+							<Route exact path="/account/goals/:id">
+								<TaskPage />
+							</Route>
+							<Route path="*">
 								<Redirect to="/account/dashboard" />
-							</Route> */}
-            </Fragment>
-          )}
-        </Switch>
-      </main>
-    </div>
-  );
+							</Route>
+						</Switch>
+					}
+				</Fragment>
+			</main>
+		</div>
+
+	);
 }
 
 const mapDispatchToProps = (dispatch) => {

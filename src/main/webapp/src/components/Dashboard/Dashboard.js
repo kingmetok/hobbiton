@@ -8,23 +8,24 @@ import {
   ListItem,
   Divider,
   Typography,
-  TextField,
+	TextField,
+	Grid,
+	Paper
 } from '@material-ui/core';
 import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
 import useStyles from './DashboardStyles';
-
 import {
   getUserGoalsAction,
   editGoalByIdAction,
 } from '../../redux/actions/goals';
 
 let mock = [
-  createTask('quit smokin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
-  createTask('start jogin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
-  createTask('water drink!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
-  createTask('sadasdasdasd!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
+  createTask('Quit smoking', `Don't smoke every day during 90 days.`),
+  createTask('Start jogging', `Jogging every day smoke during 90 days.`),
+  createTask('Drink water', `Drink water every day smoke during 90 days.`),
+  createTask('Read book', `Read book every day smoke during 90 days.`),
 ];
 
 mock[0].progress = 89;
@@ -40,17 +41,15 @@ mock[3].id = 4;
 mock[3].completed = true;
 
 function Dashboard(props) {
-  const classes = useStyles();
-  const history = useHistory();
-  const { getUserGoals, editGoalById } = props;
+	const classes = useStyles();
+	const history = useHistory();
+	const { getUserGoals, editGoalById } = props;
 
-  const [filterValue, setFilter] = React.useState('');
-
-  useEffect(() => {
-    try {
-      getUserGoals();
-    } catch (e) {}
-  });
+	const [filterValue, setFilter] = React.useState('');
+	
+	useEffect(() => {
+		getUserGoals();
+	});
 
   function handleInput(value) {
     setFilter(value);
@@ -77,9 +76,8 @@ function Dashboard(props) {
     return;
   }
 
-  function checkTask(id) {
-    editGoalById(id);
-    console.log(id);
+	function checkTask(id) {
+		editGoalById(id);
     // отправляем запрос на обновление прогресса таски
     return;
   }
@@ -88,41 +86,47 @@ function Dashboard(props) {
     props.history.push(path);
   }
 
-  return (
-    <Box className={classes.dashboardWrapper}>
-      <Box className={classes.taskListWrapper}>
-        <Box className={classes.searchWrapper}>
-          <TextField
-            onInput={(ev) => handleInput(ev.target.value)}
-            label="Search"
-            size="small"
-          />
-
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.addButton}
-            onClick={() => {
-              changeRoute('/account/addnew');
-            }}
-          >
-            Add Task
-          </Button>
-        </Box>
-
-        <List className={classes.taskList}>
-          {filterPipe(mock).map((el) => (
-            <>
-              <ListItem
-                key={el.id}
-                onClick={(event) => getListItem(event, el.id)}
-                divider
-                className={
+	return (
+		<div>
+			<h2 className={classes.title}>Your goals</h2>
+			<Grid container spacing={3}>
+				<Grid item xs={12}>
+						<Paper className={classes.dashboardHeader}>
+						<TextField
+								onInput={(ev) => handleInput(ev.target.value)}
+								label="Search"
+								size="small"
+							/>
+							<Button
+								variant="contained"
+								color="secondary"
+								className={classes.addButton}
+								onClick={() => {
+									changeRoute('/account/addnew');
+								}}
+							>
+								Add Task
+							</Button>
+					</Paper>
+				</Grid>
+				<Grid item xs={12}>
+					<Grid item xs={12}>
+						<Paper>
+							<Grid item xs container direction="column" spacing={2} className={classes.listWrapper}>
+							{filterPipe(mock).map((el) => (
+						<Grid item xs={12}
+								key={el.id}
+									onClick={(event) =>
+										getListItem(event, el.id)
+									}
+							>
+									<Paper
+										className={
                   el.completed
-                    ? classes.listElementDisabled
-                    : classes.listElement
+                    ? `${classes.listElementDisabled} ${classes.listElement}`
+                    : `${classes.listElement}`
                 }
-              >
+									>
                 <Typography
                   className={
                     el.completed
@@ -147,16 +151,18 @@ function Dashboard(props) {
                   color="primary"
                   variant="contained"
                 >
-                  Done
+										Done
                 </Button>
-              </ListItem>
-              <Divider className={classes.divider} />
-            </>
-          ))}
-        </List>
-      </Box>
-    </Box>
-  );
+							</Paper>
+            </Grid>
+					))}
+							</Grid>
+						</Paper>
+					</Grid>
+				</Grid>
+			</Grid>
+			</div>
+	)
 }
 
 const mapStateToProps = (state) => {

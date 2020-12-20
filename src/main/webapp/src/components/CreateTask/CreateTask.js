@@ -16,21 +16,21 @@ const CreateTask = (props) => {
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
-    data_started: getFormattedDate(),
+    dateStarted: getFormattedDate(),
     term: 90,
   });
 
   const [validation, setValidation] = useState({
     title: false,
     description: false,
-    data_started: false,
+    dateStarted: false,
   });
 
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     setInputValues({
-      data_started: getFormattedDate(),
+      dateStarted: getFormattedDate(),
       term: 90,
       title: props.values.title,
       description: props.values.description,
@@ -44,7 +44,7 @@ const CreateTask = (props) => {
     setValidation({
       title: false,
       description: false,
-      data_started: false,
+      dateStarted: false,
     });
     return;
   }, [props.isDisabled]);
@@ -53,13 +53,13 @@ const CreateTask = (props) => {
     setInputValues({
       title: '',
       description: '',
-      data_started: getFormattedDate(),
+      dateStarted: getFormattedDate(),
       term: 90,
     });
     setValidation({
       title: false,
       description: false,
-      data_started: false,
+      dateStarted: false,
     });
     setDisabled(false);
   }
@@ -73,9 +73,9 @@ const CreateTask = (props) => {
   function submitValues() {
     let result = inputValues;
     if (result.title && result.description) {
-      if (compareDates(result.data_started)) {
-        let date = new Date(inputValues.data_started);
-        result.data_started = date;
+      if (compareDates(result.dateStarted)) {
+        let date = new Date(inputValues.dateStarted);
+        result.dateStarted = date;
         addGoal(result);
         console.log(result);
         console.log('submitted');
@@ -84,20 +84,20 @@ const CreateTask = (props) => {
   }
 
   function setValid(name, value) {
-    if (name === 'data_started' && compareDates(value)) {
+    if (name === 'dateStarted' && compareDates(value)) {
       setValidation({ ...validation, [name]: false });
       return;
-    } else if (value && name !== 'data_started') {
+    } else if (value && name !== 'dateStarted') {
       setValidation({ ...validation, [name]: false });
       return;
     }
   }
 
   function setInvalid(name, value) {
-    if (name === 'data_started' && !compareDates(value)) {
+    if (name === 'dateStarted' && !compareDates(value)) {
       setValidation({ ...validation, [name]: true });
       return;
-    } else if (!value && name !== 'data_started') {
+    } else if (!value && name !== 'dateStarted') {
       setValidation({ ...validation, [name]: true });
       return;
     }
@@ -156,9 +156,9 @@ const CreateTask = (props) => {
         />
         <TextField
           FormHelperTextProps={{ style: helperText }}
-          error={validation.data_started}
+          error={validation.dateStarted}
           helperText={
-            validation.data_started ? 'Date must be bigger than today' : ''
+            validation.dateStarted ? 'Date must be bigger than today' : ''
           }
           onFocus={(ev) => {
             setValid(ev.target.name, ev.target.value);
@@ -169,10 +169,10 @@ const CreateTask = (props) => {
           className={classes.input}
           id="term"
           label="Starting date"
-          value={inputValues.data_started}
+          value={inputValues.dateStarted}
           type="date"
           variant="outlined"
-          name="data_started"
+          name="dateStarted"
           InputLabelProps={{
             shrink: true,
           }}

@@ -10,6 +10,7 @@ import {
   Typography,
   TextField,
 } from '@material-ui/core';
+import createSeasonTask from '../../utils/createSeasonTask';
 import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
@@ -25,6 +26,14 @@ let mock = [
   createTask('start jogin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
   createTask('water drink!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
   createTask('sadasdasdasd!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
+];
+
+let mockSeasons = [
+  createSeasonTask(
+    'Winter task',
+    'Run 10 km on a cold winter morning',
+    'Winter'
+  ),
 ];
 
 mock[0].progress = 89;
@@ -45,6 +54,8 @@ function Dashboard(props) {
   const { getUserGoals, editGoalById } = props;
 
   const [filterValue, setFilter] = React.useState('');
+
+  const [mockProps, setmockProps] = React.useState(mock.concat(mockSeasons));
 
   useEffect(() => {
     try {
@@ -111,7 +122,7 @@ function Dashboard(props) {
         </Box>
 
         <List className={classes.taskList}>
-          {filterPipe(mock).map((el) => (
+          {filterPipe(mockProps).map((el) => (
             <>
               <ListItem
                 key={el.id}
@@ -119,8 +130,8 @@ function Dashboard(props) {
                 divider
                 className={
                   el.completed
-                    ? classes.listElementDisabled
-                    : classes.listElement
+                    ? `${classes.listElementDisabled} ${classes[el.season]}`
+                    : `${classes.listElement} ${classes[el.season]}`
                 }
               >
                 <Typography

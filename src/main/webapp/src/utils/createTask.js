@@ -1,8 +1,8 @@
-function createTask(title, description, data_started) {
+function createTask(title, description, dateStarted) {
   let date = new Date();
 
-  if (!data_started) {
-    data_started = date;
+  if (!dateStarted) {
+    dateStarted = date;
   }
 
   let result = {
@@ -11,8 +11,8 @@ function createTask(title, description, data_started) {
     progress: 0,
     term: 90,
     data_created: date,
-    data_started: data_started,
-    data_last_checked: '',
+    dateStarted: dateStarted,
+    data_last_checked: dateStarted,
     completed: false,
     proofs: [],
   };

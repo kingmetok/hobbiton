@@ -1,6 +1,8 @@
 package com.hackathon.hobbiton.controller.user;
 
 import com.hackathon.hobbiton.database.DAO;
+import com.hackathon.hobbiton.encrypt.JWTCreator;
+import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.JsonUtil;
 
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +16,11 @@ public class InfoUserController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        String result = "error";
+        String result ;
         if (req.getRequestURI().endsWith("/me")) {
-            int userId = (int) req.getSession().getAttribute("UserId");
-            result = DAO.getInstance().findUserById(userId);
+            String token = req.getHeader("Authorization");
+            User user = JWTCreator.decodeUser(token);
+            result = DAO.getInstance().findUserById(user.getId());
         } else {
             String pathInfo = req.getPathInfo();
             String idString = pathInfo.replaceAll("/", "");

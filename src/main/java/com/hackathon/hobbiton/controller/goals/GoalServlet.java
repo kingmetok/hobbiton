@@ -89,6 +89,7 @@ public class GoalServlet extends PatchServlet {
                 e.printStackTrace();
             }
         }
+        else resp.getWriter().write("error");
     }
 
     @Override

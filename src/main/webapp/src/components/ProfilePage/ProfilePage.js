@@ -3,28 +3,27 @@ import React, {
 	useEffect
 } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import {
 	getUsersInfoAction,
 	editUsersInfoAction,
 	deleteUsersInfoAction
 } from '../../redux/actions/user';
-
+import { setMessageAction, clearMessageAction } from '../../redux/actions/message';
+import InfoMessage from '../InfoMessage/InfoMessage';
 import Paper from '@material-ui/core/Paper';
-import { Button, Grid, ButtonGroup, TextField } from '@material-ui/core';
+import { Button, Grid, ButtonGroup } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ShareIcon from '@material-ui/icons/Share';
-import PersonIcon from '@material-ui/icons/Person';
 import ProfilePageStyle from './ProfilePageStyle';
 import manIcon from '../../img/manIcon.svg';
 import femaleIcon from '../../img/womanIcon.svg';
 
-const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, message}) => {
+const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, message, setMessage}) => {
 	const classes = ProfilePageStyle();
-	const [shareLink, setShareLink] = useState(false);
-	const [copySuccess, setCopySuccess] = useState('');
-  // const textAreaRef = useRef(null);
+	const params = useParams();
+	console.log(params);
 	const [user, setUser] = useState({
 		gender: 'female',
 		login: 'Vita',
@@ -38,74 +37,83 @@ const ProfilePage = ({getUsersInfo, editUsersInfo, deleteUsersInfo, userData, me
 	const history = useHistory();
 
 	useEffect(() => {
-		try {
-			getUsersInfo();
-		} catch (e) {
-		}
-	}, []);
+		getUsersInfo();
+	});
 
-	// const handleShareLink = () => {
-	// 	const { protocol, hash, host } = window.location;
-	// 	return `${protocol}//${hash}${host}/users/?id=${user.id}`;
-	// }
+	const shareLink = () => {
+		const { protocol, hash, host } = window.location;
+		return `${protocol}//${hash}${host}/account/profile/${user.id}`;
+	}
 
-	// const copyToClipboard = (e) =>{
-  //   // textAreaRef.current.select();
-  //   document.execCommand('copy');
-  //   e.target.focus();
-  //   setCopySuccess('Copied!');
-  // };
+	const handleCopyLink = () => {
+		navigator.clipboard.writeText(shareLink());
+		setMessage('Copied link');
+	}
+
+	const handleDeleteUser = () => {
+		deleteUsersInfo(user.id);
+		localStorage.removeItem('jwt');
+		history.push('/');
+	}
 
 	return (
-			<Grid container spacing={0}>
+			<Grid container spacing={3}>
 				<Grid item xs={12}>
-				<Paper className={`${classes.paper} + ${classes.backgroundBlock}`}>
+				<Paper className={`${classes.paper} ${classes.backgroundBlock}`}>
 						<div className={classes.wall}></div>
 						<div className={classes.userIcon}>
 							<img src={userIcon} />
 						</div>
 					<div className={classes.infoWrapper}>
-						<h1>
-							{user.login}
-								<ShareIcon className={classes.share} /> 
-						</h1>
+						<h1>{user.login}</h1>
 						<h3>{user.email}</h3>
 						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
-							<Button>
+							<Button
+								className={classes.btn}>
 							Edit
 							<EditIcon/>
 						</Button>
-							<Button>	Delete
+							<Button
+								onClick={handleDeleteUser}
+								className={classes.btn}>
+								Delete
 							<DeleteIcon/>
-						</Button>
+							</Button>
+							<Button 
+								className={classes.btn}
+								onClick={handleCopyLink}>
+								Copy link
+								<ShareIcon/> 
+							</Button>
 						</ButtonGroup>
 					</div>
 					</Paper>
 				</Grid>
 				<Grid item xs={12}>
 					<Paper className={classes.paper}>
-						<Grid item xs container direction="row" spacing={1}>
+						<Grid item xs container direction="row" spacing={3}>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My followers</h4>
-								<p>{user.followers }</p>
+								<p className={classes.count}>{user.followers }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My subscription</h4>
-								<p>{user.subscription }</p>
+								<p className={classes.count}>{user.subscription }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 							<h4>My points</h4>
-								<p>{user.points }</p>
+								<p className={classes.count}>{user.points }</p>
 								</Paper>
 							</Grid>
 						</Grid>
 					</Paper>
 				</Grid>
+				<InfoMessage info={message} />
 			</Grid>
 	)
 }
@@ -126,6 +134,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		deleteUsersInfo: () => {
 			dispatch(deleteUsersInfoAction());
+		},
+		setMessage: message => {
+			dispatch(setMessageAction(message));
 		}
 	}
 }

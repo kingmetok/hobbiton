@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   dashboardWrapper: {
     width: '90%',
     margin: '0 auto',
@@ -59,7 +59,12 @@ const useStyles = makeStyles({
   },
   completed: {
     color: 'white',
-  },
-});
+	},
+	link: {
+		width: '100%',
+		textDecoration: 'none',
+		color: theme.palette.grey[800]
+	}
+}));
 
 export default useStyles;

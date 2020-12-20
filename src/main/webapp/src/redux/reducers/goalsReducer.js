@@ -18,7 +18,6 @@ const initialState = {
 	goalByIdData: {},
 	seasonGoals: [],
 	defaultGoals: [],
-	newGoal: {}
 }
 
 const goalsReducer = (state = initialState, action) => {

@@ -3,10 +3,15 @@ import { Button, Box, TextField, Typography } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import getFormattedDate from '../../utils/formatDate';
 import compareDates from '../../utils/compareDates';
-import { useStyles, helperText } from './CreateTaskStyles';
+import { connect } from 'react-redux';
+import { addGoalAction } from '../../redux/actions/goals';
+import { useHistory } from 'react-router-dom';
+import { helperText, useStyles } from './CreateTaskStyles';
 
-export default function CreateTaskStyles(props) {
+const CreateTask = (props) => {
   const classes = useStyles();
+  const { addGoal } = props;
+  const history = useHistory();
 
   const [inputValues, setInputValues] = useState({
     title: '',
@@ -69,7 +74,7 @@ export default function CreateTaskStyles(props) {
     let result = inputValues;
     if (result.title && result.description) {
       if (compareDates(result.data_started)) {
-        // Отправляем запрос на добавление таски ------------------------------------
+        addGoal(result);
         console.log(result);
         console.log('submitted');
       }
@@ -95,6 +100,11 @@ export default function CreateTaskStyles(props) {
       return;
     }
   }
+
+  const handleCancel = () => {
+    resetForm();
+    return history.push('/account/dashboard');
+  };
 
   return (
     <Box className={classes.wrapper}>
@@ -182,7 +192,20 @@ export default function CreateTaskStyles(props) {
         >
           Submit
         </Button>
+        <Button onClick={handleCancel} variant="outlined" color="primary">
+          Cancel
+        </Button>
       </Box>
     </Box>
   );
-}
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addGoal: (data) => {
+      dispatch(addGoalAction(data));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(CreateTask);

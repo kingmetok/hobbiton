@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory, withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   Button,
   Box,
@@ -12,7 +14,11 @@ import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
 import useStyles from './DashboardStyles';
-import { withRouter } from 'react-router-dom';
+
+import {
+	getUserGoalsAction,
+	editGoalByIdAction,
+} from '../../redux/actions/goals';
 
 let mock = [
   createTask('quit smokin!', 'sassssssssd asddddddddd asdddddddddd asddddd'),
@@ -34,9 +40,18 @@ mock[3].id = 4;
 mock[3].completed = true;
 
 function Dashboard(props) {
-  const classes = useStyles();
+	const classes = useStyles();
+	const history = useHistory();
+	const { getUserGoals, editGoalById } = props;
 
-  const [filterValue, setFilter] = React.useState('');
+	const [filterValue, setFilter] = React.useState('');
+	
+	useEffect(() => {
+		try {
+			getUserGoals();
+		} catch (e) {
+		}
+	});
 
   function handleInput(value) {
     setFilter(value);
@@ -50,21 +65,21 @@ function Dashboard(props) {
     return list.filter((el) => el.title.includes(filterValue));
   }
 
-  function getListItem(event, id, isCompleted) {
+  function getListItem(event, id) {
     if (
       event.target.nodeName !== 'BUTTON' &&
       event.target.nodeName !== 'SPAN'
     ) {
-      if (!isCompleted) {
-        changeRoute(`/dashboard/goals/${id}`);
-        return;
-      }
+			// переходим на страницу таски по айди
+			history.push(`/account/goals/${id}`);
+      console.log(event.target);
       return;
     }
     return;
   }
 
-  function checkTask(id) {
+	function checkTask(id) {
+		editGoalById(id);
     console.log(id);
     // отправляем запрос на обновление прогресса таски
     return;
@@ -98,9 +113,10 @@ function Dashboard(props) {
 
         <List className={classes.taskList}>
           {filterPipe(mock).map((el) => (
-            <>
-              <ListItem
-                onClick={(event) => getListItem(event, el.id, el.completed)}
+						<>
+							<ListItem
+								key={el.id}
+                onClick={(event) => getListItem(event, el.id)}
                 divider
                 className={
                   el.completed
@@ -144,4 +160,21 @@ function Dashboard(props) {
   );
 }
 
-export default withRouter(Dashboard);
+const mapStateToProps = state => {
+	return {
+		isLogged: state.authReducer.isLoggedIn,
+		message: state.messageReducer.message
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getUserGoals: () => {
+			dispatch(getUserGoalsAction())
+		},
+		editGoalById: (id) => {
+			dispatch(editGoalByIdAction(id))
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard));;

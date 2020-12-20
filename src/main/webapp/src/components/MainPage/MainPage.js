@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../Header/Header';
+import ResponsiveDrawer from '../Header2/Header2';
 import Footer from '../Footer/Footer';
 import ScoreBoard from '../ScoreBoard/ScoreBoard';
 import Dashboard from '../Dashboard/Dashboard';
@@ -8,8 +8,6 @@ import TaskPage from '../TaskPage/TaskPage';
 import './MainPage.css';
 import { Route } from 'react-router-dom';
 import AddTask from '../AddTask/AddTask';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +29,8 @@ export default function MainPage() {
   const classes = useStyles();
   return (
     <>
-      <Header />
+			{/* <Header /> */}
+			<ResponsiveDrawer/>
       <div className={classes.root}>
         <Route exact path="/dashboard">
           <Dashboard />
@@ -53,3 +52,5 @@ export default function MainPage() {
     </>
   );
 }
+
+export default MainPage;

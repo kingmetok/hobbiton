@@ -12,41 +12,41 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/api/goals/*", "/api/goals"})
 public class GoalServlet extends PatchServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         String pathInfo = request.getPathInfo();
-
+        System.out.println(pathInfo);
         int id;
         if (pathInfo == null) {
             String token = request.getHeader("Authorization");
             System.out.println(token);
             User user = JWTCreator.decodeUser(token);
             id = user.getId();
+            List<Goal> result = DAO.getInstance().findGoalByUserId(id);
+            String json = new Gson().toJson(result);
+            try {
+                response.getWriter().write(json);
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
+            }
         } else {
             String idString = pathInfo.replaceAll("/", "");
-
-            if (!idString.equalsIgnoreCase("")) {
-
-                id = Integer.parseInt(idString);
-
-            } else {
-                return;
+            id = Integer.parseInt(idString);
+            Goal result = DAO.getInstance().findGoalById(id);
+            String json = new Gson().toJson(result);
+            try {
+                response.getWriter().write(json);
+            } catch (
+                    IOException e) {
+                e.printStackTrace();
             }
-        }
-
-
-        Goal result = DAO.getInstance().findGoalById(id);
-        String json = new Gson().toJson(result);
-        try {
-            response.getWriter().write(json);
-        } catch (
-                IOException e) {
-            e.printStackTrace();
         }
     }
 

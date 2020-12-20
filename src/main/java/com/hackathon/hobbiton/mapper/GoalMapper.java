@@ -13,7 +13,8 @@ public class GoalMapper {
     public Goal extractFromResultSet(ResultSet rs) throws SQLException {
 
         Goal goal = new Goal();
-        goal.setId(rs.getInt("id"));
+        int id = rs.getInt("id");
+        goal.setId(id);
         goal.setTitle(rs.getString("title"));
         goal.setProgress(rs.getInt("progress"));
         goal.setTerm(rs.getInt("term"));
@@ -24,10 +25,15 @@ public class GoalMapper {
         List<Proof> list = new ArrayList<>();
         do{
             list.add(extractFromResultSetProof(rs));
-        } while (rs.next());
+        } while (proofForThisGoal(id,rs));
 
         goal.setProofList(list);
         return goal;
+    }
+    public boolean proofForThisGoal(Integer id,ResultSet rs) throws SQLException {
+        rs.next();
+        int nextId = rs.getInt("id");
+        return nextId == id;
     }
 
     public Proof extractFromResultSetProof(ResultSet rs) throws SQLException {

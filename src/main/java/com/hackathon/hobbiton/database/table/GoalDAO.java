@@ -5,6 +5,8 @@ import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.mapper.GoalMapper;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GoalDAO {
@@ -14,8 +16,24 @@ public class GoalDAO {
     private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,user_id) values (?,?,?,?,?)";
     private static final String DELETE_ALL_BY_USER_ID = "delete from goal where user_id=?";
     private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
+    private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal left join proof on goal_id=goal.id where user_id = ?";
 
     private final GoalMapper goalMapper = new GoalMapper();
+
+    public List<Goal> findGoalsByUserId(int userId){
+        List<Goal> list = new ArrayList<>();
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_GOALS_BY_USER_ID)) {
+            preparedStatement.setInt(1,userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next())
+                list.add(goalMapper.extractFromResultSet(rs));
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
 
     public Goal findGoalById(int id) {
         Goal goal = new Goal();

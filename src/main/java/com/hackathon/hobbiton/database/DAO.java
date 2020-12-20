@@ -54,7 +54,9 @@ public class DAO {
 
     public Goal findGoalById(int id) {
         return goalDAO.findGoalById(id);
-
+    }
+    public List<Goal> findGoalByUserId(int userId){
+        return goalDAO.findGoalsByUserId(userId);
     }
 
     public String incrementProgress(int id) {

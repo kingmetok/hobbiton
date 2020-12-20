@@ -2,8 +2,6 @@ package com.hackathon.hobbiton.controller.user;
 
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.json.JsonUtil;
-
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +38,7 @@ public class InfoUserController extends HttpServlet {
         String result = DAO.getInstance().deleteGoalsByUserId(userId);
         String json = JsonUtil.messageResponseGsonCreator(result);
         try {
-            resp.getWriter().write(result);
+            resp.getWriter().write(json);
         } catch (
                 IOException e) {
             e.printStackTrace();

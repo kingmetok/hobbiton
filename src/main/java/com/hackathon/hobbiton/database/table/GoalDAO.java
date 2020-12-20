@@ -5,8 +5,7 @@ import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.mapper.GoalMapper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class GoalDAO {
 
@@ -14,23 +13,23 @@ public class GoalDAO {
     private static final String INCREMENT_PROGRESS = "update goal set progress=progress+1 where id=?";
     private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,user_id) values (?,?,?,?,?)";
     private static final String DELETE_ALL_BY_USER_ID = "delete from goal where user_id=?";
+    private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
 
     private final GoalMapper goalMapper = new GoalMapper();
 
-    public List<Goal> findGoalsByUserId(Long id) {
-        List<Goal> goals = new ArrayList<>();
+    public Goal findGoalById(Long id) {
+        Goal goal = new Goal();
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_GOAL_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                goals.add(goalMapper.extractFromResultSet(rs));
-            }
+            if (rs.next())
+                goal = goalMapper.extractFromResultSet(rs);
             connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return goals;
+        return goal;
     }
 
     public Boolean incrementProgress(Long id) {
@@ -39,14 +38,14 @@ public class GoalDAO {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
-        return true;
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return false;
     }
 
-    public Boolean createGoal(Goal goal, Long id){
+    public Boolean createGoal(Goal goal, Long id) {
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(CREAT_GOAL)) {
             preparedStatement.setString(1, goal.getTitle());
@@ -63,10 +62,23 @@ public class GoalDAO {
         return false;
     }
 
-    public Boolean deleteAllGoalsByUserId(Long userId){
+    public Boolean deleteAllGoalsByUserId(Long userId) {
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ALL_BY_USER_ID)) {
-            preparedStatement.setLong(1,userId);
+            preparedStatement.setLong(1, userId);
+            preparedStatement.executeUpdate();
+            connection.commit();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public Boolean deleteGoalById(Long id) {
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GOAL_BY_ID)) {
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             connection.commit();
             return true;

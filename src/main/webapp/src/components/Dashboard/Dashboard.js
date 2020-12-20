@@ -56,7 +56,7 @@ function Dashboard(props) {
       event.target.nodeName !== 'SPAN'
     ) {
       if (!isCompleted) {
-        changeRoute(`/account/goals/${id}`);
+        changeRoute(`/dashboard/goals/${id}`);
         return;
       }
       return;
@@ -89,7 +89,7 @@ function Dashboard(props) {
             color="secondary"
             className={classes.addButton}
             onClick={() => {
-              changeRoute('/account/addnew');
+              changeRoute('/dashboard/addnew');
             }}
           >
             Add Task

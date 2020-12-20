@@ -13,7 +13,7 @@ export default function App() {
       <Route exact path="/">
         <LandingMainPage />
       </Route>
-      <Route path="/account">
+      <Route path="/dashboard">
         <MainPage />
       </Route>
       <Route exact path="/login">
@@ -21,7 +21,7 @@ export default function App() {
       </Route>
       <Route exact path="/register">
         <RegisterPage />
-			</Route>
+      </Route>
     </Fragment>
   );
 }

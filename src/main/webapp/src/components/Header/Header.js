@@ -28,16 +28,16 @@ function Header(props) {
           </h2>
           {isLoggedIn && (
             <nav className="navigation">
-              <Button onClick={() => changeRoute('/account/dashboard')}>
+              <Button onClick={() => changeRoute('/dashboard')}>
                 Dashboard
               </Button>
-              <Button onClick={() => changeRoute('/account/profile')}>
+              <Button onClick={() => changeRoute('/dashboard/profile')}>
                 Profile
               </Button>
-              <Button onClick={() => changeRoute('/account/achievements')}>
+              <Button onClick={() => changeRoute('/dashboard/achievements')}>
                 Achievements
               </Button>
-              <Button onClick={() => changeRoute('/account/scoreboard')}>
+              <Button onClick={() => changeRoute('/dashboard/scoreboard')}>
                 Scoreboard
               </Button>
             </nav>

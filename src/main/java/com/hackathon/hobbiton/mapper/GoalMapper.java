@@ -13,7 +13,7 @@ public class GoalMapper {
     public Goal extractFromResultSet(ResultSet rs) throws SQLException {
 
         Goal goal = new Goal();
-        goal.setId(rs.getLong("id"));
+        goal.setId(rs.getInt("id"));
         goal.setTitle(rs.getString("title"));
         goal.setProgress(rs.getInt("progress"));
         goal.setTerm(rs.getInt("term"));

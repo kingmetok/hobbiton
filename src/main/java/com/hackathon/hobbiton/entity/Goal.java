@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public @Data class Goal {
-    private Long id;
+    private int id;
     private String title;
     private Integer progress;
     private Integer term;

@@ -27,7 +27,7 @@ public class UserDAO {
 
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
                 resultSet.next();
-                user.setId(resultSet.getLong(1));
+                user.setId(resultSet.getInt(1));
             }
 
             connection.commit();
@@ -71,7 +71,7 @@ public class UserDAO {
 
     public boolean existTwo(User user) {
 
-        final String SQL = "select password from user where login = ?";
+        final String SQL = "select id, password, email, sex from user where login = ?";
 
         boolean result = false;
 
@@ -83,11 +83,14 @@ public class UserDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
-                    String password = resultSet.getString(1);
+                    String password = resultSet.getString(2);
 
                     try {
                         if (HashAndSalt.checkPassword(user.getPassword(), password)) {
                             result = true;
+                            user.setId(resultSet.getInt("id"));
+                            user.setEmail(resultSet.getString("email"));
+                            user.setGender(resultSet.getString("gender"));
                         }
                     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                         e.printStackTrace();
@@ -102,11 +105,11 @@ public class UserDAO {
         return result;
     }
 
-    public User findUserById(Long id) {
+    public User findUserById(int id) {
         User user = new User();
         try (Connection connection = DAO.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)) {
-            statement.setLong(1, id);
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                  user = UserMapper.extractFromResultSet(resultSet);

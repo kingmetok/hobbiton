@@ -50,3 +50,25 @@ userID.addEventListener("submit", (e) => {
 
     xhr.send(s);
 });
+
+const c = document.getElementById("r");
+
+c.addEventListener('submit', event => {
+  event.preventDefault();
+
+
+    const xhr = new XMLHttpRequest();
+    const url = "./api/goals";
+
+    xhr.open("post", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const json = JSON.parse(xhr.responseText);
+            console.log(json);
+        }
+    };
+
+    xhr.send();
+
+});

@@ -23,20 +23,25 @@ public class Authorization extends HttpServlet {
             PrintWriter writer = response.getWriter();
             BufferedReader reader = request.getReader();
             User user = JsonUtil.createUser(reader);
+
             String result;
-            String json="";
+            String json = "";
+
             if (request.getRequestURI().endsWith("/login")) {
                 result = DAO.getInstance().login(user);
-                request.getSession().setAttribute("UserId",user.getId());
 
-                if (result.equalsIgnoreCase("success"))
-                    json = JsonUtil.jwtResponseGsonCreator(JWTCreator.create(user));
-                 else json = JsonUtil.messageResponseGsonCreator(result);
+                if (result.equalsIgnoreCase("success")) {
+                    json = JsonUtil.jwtResponseGsonCreator(JWTCreator.encryptUser(user));
+                } else {
+                    json = JsonUtil.messageResponseGsonCreator(result);
+                }
 
             } else {
                 result = DAO.getInstance().registration(user);
-                if (result.equalsIgnoreCase("success"))
-                json = new Gson().toJson(user);
+
+                if (result.equalsIgnoreCase("success")) {
+                    json = new Gson().toJson(user);
+                }
             }
 
             writer.write(json);

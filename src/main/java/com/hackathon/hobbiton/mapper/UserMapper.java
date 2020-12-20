@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class UserMapper {
     public static User extractFromResultSet(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getLong("id"));
+        user.setId(rs.getInt("id"));
         user.setLogin(rs.getString("login"));
         user.setEmail(rs.getString("email"));
         user.setGender(rs.getString("gender"));

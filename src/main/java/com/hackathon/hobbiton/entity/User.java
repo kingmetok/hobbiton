@@ -4,49 +4,55 @@ import java.util.Objects;
 
 public class User {
 
-    private Long id;
+    private int id;
     private String login;
     private String password;
     private String email;
     private String gender;
 
+
     public static class Builder {
         private User user;
 
-        public Builder(){
-            user=new User();
+        public Builder() {
+            user = new User();
         }
 
-        public Builder withNickname(String nickname){
-            user.login =nickname;
+        public Builder withId(int id) {
+            user.id = id;
             return this;
         }
 
-        public Builder withPassword(String password){
-            user.password=password;
+        public Builder withLogin(String login) {
+            user.login = login;
             return this;
         }
 
-        public Builder withEmail(String email){
-            user.email=email;
+        public Builder withPassword(String password) {
+            user.password = password;
             return this;
         }
 
-        public Builder withGender(String gender){
-            user.gender=gender;
+        public Builder withEmail(String email) {
+            user.email = email;
             return this;
         }
 
-        public User build(){
+        public Builder withGender(String gender) {
+            user.gender = gender;
+            return this;
+        }
+
+        public User build() {
             return user;
         }
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

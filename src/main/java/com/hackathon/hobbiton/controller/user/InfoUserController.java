@@ -15,13 +15,13 @@ public class InfoUserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)  {
         String result="error";
         if (req.getRequestURI().endsWith("/me")) {
-            Long userId = (Long) req.getSession().getAttribute("UserId");
+            int userId = (int) req.getSession().getAttribute("UserId");
              result = DAO.getInstance().findUserById(userId);
         }
         else {
             String pathInfo = req.getPathInfo();
             String idString= pathInfo.replaceAll("/", "");
-            Long id = Long.valueOf(idString);
+            int id = Integer.parseInt(idString);
             result = DAO.getInstance().findUserById(id);
         }
         try {
@@ -34,7 +34,7 @@ public class InfoUserController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        Long userId = (Long) req.getSession().getAttribute("UserId");
+        int userId = (int) req.getSession().getAttribute("UserId");
         String result = DAO.getInstance().deleteGoalsByUserId(userId);
         String json = JsonUtil.messageResponseGsonCreator(result);
         try {

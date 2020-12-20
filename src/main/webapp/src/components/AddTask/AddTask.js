@@ -54,8 +54,7 @@ export default function AddTask() {
           ))}
         </List>
       </Box>
-
-      <CreateTask values={inputValues} isDisabled={{ disabled: disabled }} />
+      <CreateTask values={inputValues} isDisabled={disabled} />
     </Box>
   );
 }

@@ -15,7 +15,7 @@ import {
 	SUBSCRIBE_FOR_USER_FAILURE
 } from '../actionsTypes';
 import dataService from '../../services/dataService';
-import { setMessage } from './message';
+import { setMessageAction } from './message';
 
 export const getUsersInfoAction = () => {
 	return dispatch => {
@@ -25,7 +25,7 @@ export const getUsersInfoAction = () => {
       })
       .catch(err => {
 				dispatch(getUsersInfoFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -35,11 +35,11 @@ export const editUsersInfoAction = (data) => {
     dataService.editUser(data)
 			.then(res => {
 				dispatch(editUsersInfoSuccess(res.data));
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(editUsersInfoFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -49,11 +49,11 @@ export const deleteUsersInfoAction = () => {
     dataService.deleteUser()
 			.then(res => {
 				dispatch(deleteUsersInfoSuccess());
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(deleteUsersInfoFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -66,7 +66,7 @@ export const getUserByIdAction = (id) => {
       })
       .catch(err => {
 				dispatch(getUserInfoByIdFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -79,7 +79,7 @@ export const getUserAchievementsAction = () => {
       })
       .catch(err => {
 				dispatch(getUserAchievementsFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -92,7 +92,7 @@ export const searchUsersAction = (param) => {
       })
       .catch(err => {
 				dispatch(searchUsersFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -102,11 +102,11 @@ export const subscribeForUserAction = (params) => {
     dataService.subscribeUser(params)
 			.then(res => {
 				dispatch(subscribeForUserSuccess(res.data));
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(subscribeForUserFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };

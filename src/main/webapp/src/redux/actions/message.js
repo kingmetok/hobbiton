@@ -1,10 +1,10 @@
 import { SET_MESSAGE, CLEAR_MESSAGE } from '../actionsTypes';
 
-export const setMessage = (message) => ({
+export const setMessageAction = (message) => ({
   type: SET_MESSAGE,
   payload: message,
 });
 
-export const clearMessage = () => ({
+export const clearMessageAction = () => ({
   type: CLEAR_MESSAGE,
 });

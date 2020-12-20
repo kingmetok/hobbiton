@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/pool"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="fidff4qwkhf7diug"
+              password="dztws3ijk8gedlth"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://kcpgm0ka8vudfq76.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/jtsyy01zaavcatx5?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResult=UTF-8"
+              useUnicode="true"
+              serverTimezone="UTC"
+              validationQuery="select 1"
+              maxActive="10"
+              maxIdle="4"
+              defaultAutoCommit="false"/>
+</Context>

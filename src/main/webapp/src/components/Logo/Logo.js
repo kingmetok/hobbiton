@@ -6,8 +6,7 @@ import logo from '../../img/logoDarkGreen.svg';
 const useStyles = makeStyles({
   logo: {
 		width: '20%',
-		margin: 'auto',
-		marginBottom: '2em',
+		margin: '0',
 	},
 	image: {
 		width: '100%',
@@ -19,7 +18,7 @@ const Logo = () => {
 	const classes = useStyles();
 	return (
 		<Typography component='h1' className={classes.logo}>
-			<img className={classes.image } src={logo} />
+			<img className={classes.image } src={logo} alt='logo'/>
 		</Typography>
 	)
 }

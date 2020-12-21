@@ -14,7 +14,7 @@ public class UserDAO {
 
 
     public void add(User user) {
-        final String SQL = "insert into user(login, password, email, gender) values (?, ?, ?, ?)";
+        final String SQL = "insert into user(login, password, email, gender, points, subscription, followers) values (?, ?, ?, ?,?,?,?)";
         try (Connection connection = DAO.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -22,6 +22,9 @@ public class UserDAO {
             statement.setString(2, HashAndSalt.hashPassword(user.getPassword()));
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getGender());
+            statement.setLong(5, user.getPoints());
+            statement.setLong(6, user.getSubscription());
+            statement.setLong(7, user.getFollowers());
 
             statement.executeUpdate();
 
@@ -71,7 +74,7 @@ public class UserDAO {
 
     public boolean existTwo(User user) {
 
-        final String SQL = "select id, password, email, gender from user where login = ?";
+        final String SQL = "select * from user where login = ?";
 
         boolean result = false;
 
@@ -91,6 +94,9 @@ public class UserDAO {
                             user.setId(resultSet.getInt("id"));
                             user.setEmail(resultSet.getString("email"));
                             user.setGender(resultSet.getString("gender"));
+                            user.setPoints(resultSet.getLong("points"));
+                            user.setPoints(resultSet.getLong("subscription"));
+                            user.setPoints(resultSet.getLong("followers"));
                         }
                     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                         e.printStackTrace();

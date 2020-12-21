@@ -12,6 +12,9 @@ public class UserMapper {
         user.setLogin(rs.getString("login"));
         user.setEmail(rs.getString("email"));
         user.setGender(rs.getString("gender"));
+        user.setPoints(rs.getLong("points"));
+        user.setSubscription(rs.getLong("subscription"));
+        user.setFollowers(rs.getLong("followers"));
         return user;
     }
 }

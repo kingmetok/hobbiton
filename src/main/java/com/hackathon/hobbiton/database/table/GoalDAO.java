@@ -66,14 +66,12 @@ public class GoalDAO {
     public Boolean createGoal(Goal goal, int id) {
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(CREAT_GOAL)) {
-
             preparedStatement.setString(1, goal.getTitle());
             preparedStatement.setInt(2, goal.getTerm());
             preparedStatement.setString(3, goal.getDescription());
-            preparedStatement.setDate(4, Date.valueOf(goal.getDateStarted()));
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(goal.getDateStarted()));
             preparedStatement.setInt(5, id);
             preparedStatement.executeUpdate();
-
             connection.commit();
             return true;
         } catch (SQLException throwables) {

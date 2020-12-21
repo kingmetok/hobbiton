@@ -1,5 +1,6 @@
 package com.hackathon.hobbiton.controller.authorization;
 
+import com.google.gson.Gson;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.JWTCreator;
 import com.hackathon.hobbiton.entity.User;
@@ -20,25 +21,29 @@ public class Authorization extends HttpServlet {
 
         try {
             PrintWriter writer = response.getWriter();
-
             BufferedReader reader = request.getReader();
             User user = JsonUtil.createUser(reader);
 
             String result;
-            String json;
+            String json = "";
 
             if (request.getRequestURI().endsWith("/login")) {
                 result = DAO.getInstance().login(user);
 
-                if (result.equals("success")) {
-                    json = JsonUtil.jwtResponseGsonCreator(JWTCreator.create(user));
+                if (result.equalsIgnoreCase("success")) {
+                    json = JsonUtil.jwtResponseGsonCreator(JWTCreator.encryptUser(user));
                 } else {
+                    response.setStatus(400);
                     json = JsonUtil.messageResponseGsonCreator(result);
                 }
 
             } else {
                 result = DAO.getInstance().registration(user);
-                json = JsonUtil.messageResponseGsonCreator(result);
+
+                if (result.equalsIgnoreCase("success")) {
+                    response.setStatus(400);
+                    json = new Gson().toJson(user);
+                }
             }
 
             writer.write(json);

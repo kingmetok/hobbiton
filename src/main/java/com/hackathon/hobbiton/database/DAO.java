@@ -55,14 +55,13 @@ public class DAO {
     public Goal findGoalById(int id) {
         return goalDAO.findGoalById(id);
     }
-    public List<Goal> findGoalByUserId(int userId){
+
+    public List<Goal> findGoalByUserId(int userId) {
         return goalDAO.findGoalsByUserId(userId);
     }
 
-    public String incrementProgress(int id) {
-        String result = "error";
-        if (goalDAO.incrementProgress(id)) result = "success";
-        return result;
+    public boolean incrementProgress(int id) {
+        return goalDAO.incrementProgress(id);
     }
 
     public String createGoal(Goal goal, int id) {

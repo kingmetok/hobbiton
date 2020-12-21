@@ -30,10 +30,9 @@ public class GoalServlet extends PatchServlet {
             User user = JWTCreator.decodeUser(token);
             id = user.getId();
             List<Goal> result = DAO.getInstance().findGoalByUserId(id);
-            System.out.println(result);
+
             String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result);
             try {
-                System.out.println(json);
                 response.getWriter().write(json);
             } catch (
                     IOException e) {
@@ -53,7 +52,6 @@ public class GoalServlet extends PatchServlet {
         }
     }
 
-
     @Override
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
@@ -61,9 +59,9 @@ public class GoalServlet extends PatchServlet {
 
         int id = Integer.parseInt(idString.substring(1));
 
-        String result = DAO.getInstance().incrementProgress(id);
+        boolean result = DAO.getInstance().incrementProgress(id);
 
-        if (result.equalsIgnoreCase("success")) {
+        if (result) {
             Goal goalById = DAO.getInstance().findGoalById(id);
 
             String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(goalById);

@@ -167,6 +167,8 @@ public class UserDAO {
              PreparedStatement statement = connection.prepareStatement(SQL)) {
             statement.setInt(1, user.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

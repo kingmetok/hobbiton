@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.JWTCreator;
 import com.hackathon.hobbiton.entity.User;
-import com.hackathon.hobbiton.json.JsonUtil;
 import com.hackathon.hobbiton.json.entity.Response;
 
 import javax.servlet.annotation.WebServlet;
@@ -47,9 +46,15 @@ public class InfoUserController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         String token = req.getHeader("Authorization");
         User user = JWTCreator.decodeUser(token);
+
         String result = DAO.getInstance().deleteCurrentUser(user);
+
         Gson gson = new Gson();
         String s = gson.toJson(new Response(result));
+
+        if (!result.equals("success")) {
+            resp.setStatus(400);
+        }
 
         try {
             resp.getWriter().write(s);

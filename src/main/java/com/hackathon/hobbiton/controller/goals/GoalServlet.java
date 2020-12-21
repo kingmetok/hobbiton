@@ -102,7 +102,7 @@ public class GoalServlet extends PatchServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
         String idString = pathInfo.replaceAll("/", "");
-        int id = Integer.parseInt(idString);
+        int id = Integer.parseInt(idString.substring(1));
         String result = DAO.getInstance().deleteGoalByID(id);
         String json = new Gson().toJson(result);
         try {

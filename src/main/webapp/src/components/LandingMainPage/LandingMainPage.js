@@ -1,17 +1,11 @@
 import React from 'react';
-import ContentBox from '../ContentBox/ContentBox';
-import './LandingMainPage.css';
-import landingSettings from '../../utils/landingSettings';
-import { Button, Box, Paper, Grid } from '@material-ui/core';
+import { Button, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import Logo from '../Logo/Logo';
-
-import image1 from '../../img/1.jpg';
-import image2 from '../../img/6.jpeg';
-import image3 from '../../img/3.jpg';
-import image4 from '../../img/4.jpg';
-import image5 from '../../img/image5.jpg'
+import AboutUsContent from '../AboutUsContent/AboutUsContent';
+import HomeContent from '../HomeContent/HomeContent';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles(theme => ({
   landingContentWrapper: {
@@ -32,11 +26,6 @@ const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.fontFamily,
     borderRadius: '15px',
   },
-  navigation: {
-    marginLeft: '20px',
-    paddingLeft: '10px',
-    borderLeft: '1px solid',
-	},
 	paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -54,13 +43,25 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.palette.primary.dark,
 		color: theme.palette.getContrastText(theme.palette.primary.dark),
 		marginLeft: 'auto'
+	},
+	accent: {
+		color: theme.palette.secondary.main,
+	},
+	copyright: {
+		display: 'flex',
+		alignItems: 'center',
+		width: 'fit-content',
+		margin: 'auto'
+	},
+	signUpText: {
+		marginBottom: '15px'
 	}
 }));
 
 function LandingMainPage(props) {
-  const classes = useStyles();
+	const classes = useStyles();
 
-  function changeRoute(path) {
+	function changeRoute(path) {
     props.history.push(path);
   }
 
@@ -76,73 +77,17 @@ function LandingMainPage(props) {
 						<div className={classes.logoWrapper}>
 							<Logo/>
 						</div>
-						<Box className={classes.navigation}>
-              <Button onClick={() => changeRoute('/')}>Home</Button>
-              <Button onClick={() => changeRoute('/about')}>About Us</Button>
-						</Box>
 						<Button onClick={LogIn} className={classes.btnLogin}>
             Sign In
           </Button>
 					</Paper>
-        </Grid>
-        <Grid item xs={12}>
-					<Paper className={classes.paper}>
-						<ContentBox
-							image={image1}
-							title={landingSettings.title1}
-							textStyle={landingSettings.textStyles1}
-							wrapperStyle={landingSettings.wrapperStyles1}
-							description={landingSettings.description1}
-						/>
-					</Paper>
 				</Grid>
-        <Grid item xs={12}>
-					<Paper className={classes.paper}>
-						<ContentBox
-							image={image3}
-							title={landingSettings.title3}
-							textStyle={landingSettings.textStyles3}
-							wrapperStyle={landingSettings.wrapperStyles3}
-							description={landingSettings.description3}
-						/>
-					</Paper>
-        </Grid>
-        <Grid item xs={12}>
-					<Paper className={classes.paper}>
-						<ContentBox
-							image={image4}
-							title={landingSettings.title4}
-							textStyle={landingSettings.textStyles4}
-							wrapperStyle={landingSettings.wrapperStyles4}
-							description={landingSettings.description4}
-						/>
-					</Paper>
-        </Grid>
-        <Grid item xs={12}>
-					<Paper className={classes.paper}>
-						<ContentBox
-							image={image5}
-							title={landingSettings.title2}
-							description={landingSettings.description2}
-							wrapperStyle={landingSettings.wrapperStyles2}
-						/>
-					</Paper>
-				</Grid>
-				<Grid item xs={12}>
-					<Paper className={classes.paper}>
-						<ContentBox
-							image={image2}
-							title={landingSettings.title5}
-							textStyle={landingSettings.textStyles5}
-							wrapperStyle={landingSettings.wrapperStyles5}
-							description={landingSettings.description4}
-						/>
-					</Paper>
-        </Grid>
+				<HomeContent />
+				<AboutUsContent />
         <Grid item xs={12}>
 					<Paper className={classes.paper}>
 						<div className={classes.signupWrapper}>
-							<p className="signupText">Try it out! Its completely free</p>
+							<p className={classes.signUpText}>Try it out! Its completely free</p>
 							<Button
 								onClick={() => changeRoute('/register')}
 								color="primary"
@@ -151,6 +96,16 @@ function LandingMainPage(props) {
 								Sign Up
 							</Button>
 						</div>
+					</Paper>
+				</Grid>
+				<Grid item xs={12}>
+					<Paper className={classes.paper}>
+						<div className={classes.copyright}>
+								<p>Created with Love by
+							<span className={classes.accent}> Yellow Team</span>
+							</p>
+							<FavoriteIcon color='error'/>
+							</div>
 					</Paper>
         </Grid>
       </Grid>

@@ -9,9 +9,9 @@ public @Data class User {
     private String password;
     private String email;
     private String gender;
-    private Long points;
-    private Long subscription;
-    private Long followers;
+    private int points;
+    private int subscription;
+    private int followers;
 
 
     public static class Builder {
@@ -46,17 +46,17 @@ public @Data class User {
             return this;
         }
 
-        public Builder withPoints(Long points) {
+        public Builder withPoints(int points) {
             user.points = points;
             return this;
         }
 
-        public Builder withSubscription(Long subscription) {
+        public Builder withSubscription(int subscription) {
             user.subscription = subscription;
             return this;
         }
 
-        public Builder withFollowers(Long followers) {
+        public Builder withFollowers(int followers) {
             user.followers = followers;
             return this;
         }

@@ -1,0 +1,12 @@
+{
+  "name": "Start on Heroku: Java",
+  "description": "A barebones Java app, which can easily be deployed to Heroku.",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/java"
+    }
+  ]
+}

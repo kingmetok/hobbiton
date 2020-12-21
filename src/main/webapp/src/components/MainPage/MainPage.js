@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getUsersInfoAction, updateGoalProgressByIdAction } from '../../redux/actions/user';
+import { getUsersInfoAction, searchUsersAction } from '../../redux/actions/user';
 import { logoutAction } from '../../redux/actions/auth';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import AddTask from '../AddTask/AddTask';
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MainPage(props) {
-	const { window, logout, isLogged, userData, getUsersInfo } = props;
+	const { window, logout, isLogged, userData, getUsersInfo, usersDataBySearch, searchUsers } = props;
 	const classes = useStyles();
 	const theme = useTheme();
 	const history = useHistory();
@@ -89,7 +89,8 @@ function MainPage(props) {
 
 	useEffect(() => {
 		getUsersInfo();
-	}, []);
+		searchUsers();
+	}, [searchUsers, getUsersInfo]);
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -100,13 +101,10 @@ function MainPage(props) {
 		history.push('/');
 	};
 
-	const [candidates, setCandidates] = useState([]);
-  const onSearchUserInput = (e) => {
-    console.log('onSearchUserInput', e.target.value);
-    setCandidates(MockUserData)
-  }
-  const onSearchUserSelected = (e, newVal) => {
-    console.log('onSearchUserSelected', newVal)
+	const onSearchUserInput = (e) => {}
+	const onSearchUserSelected = (e, newVal) => {
+		if (!newVal) return;
+		history.push(`/account/profile/${newVal.id}`);
   }
 
 
@@ -126,9 +124,8 @@ function MainPage(props) {
 		</div>
 	);
 
-
 	return (
-		<div className={classes.root}>
+			<div className = {classes.root} >
 			<CssBaseline />
 			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar className={classes.header}>
@@ -145,7 +142,7 @@ function MainPage(props) {
 						<Logo/>
 					</div>
 					<Typography variant="h6" noWrap className={classes.welcome}>
-						Hello, {userData.login.toUpperCase()}
+						Hello, {userData.login.charAt(0).toUpperCase() + userData.login.slice(1)}
 					</Typography>
 					<div className={classes.searchInput}>
 						<UserSearch
@@ -154,7 +151,7 @@ function MainPage(props) {
 									label: "Search user",
 									icon: true
 								}} 
-								candidates={candidates}
+								candidates={usersDataBySearch}
 								onInput={onSearchUserInput}
 								onChange={onSearchUserSelected}
 							/>
@@ -236,7 +233,6 @@ function MainPage(props) {
 				</Fragment>
 			</main>
 		</div>
-
 	);
 }
 
@@ -248,13 +244,17 @@ const mapDispatchToProps = (dispatch) => {
 		getUsersInfo: () => {
 			dispatch(getUsersInfoAction());
 		},
+		searchUsers: () => {
+			dispatch(searchUsersAction())
+		}
   };
 };
 
 const mapStateToProps = (state) => {
   return {
 		isLogged: state.authReducer.isLoggedIn,
-		userData: state.userReducer.userData
+		userData: state.userReducer.userData,
+		usersDataBySearch: state.userReducer.usersDataBySearch,
   };
 };
 

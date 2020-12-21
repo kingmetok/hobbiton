@@ -16,7 +16,7 @@ import { Box, Button, Typography, Paper, Grid } from '@material-ui/core';
 
 let goalDataMock = createTask(
   'quit smokin!',
-  'sassssssssd asddddddddd asdddddddddd asddddd sassssssssd asddddddddd asdddddddddd asddddd sassssssssd asddddddddd asdddddddddd asddddd sassssssssd asddddddddd asdddddddddd asddddd sassssssssd asddddddddd asdddddddddd asddddd'
+  `Don't smoke every day during 90 days`
 );
 
 goalDataMock.progress = 60;
@@ -40,18 +40,27 @@ function TaskPage({ editGoalById, getGoalById, goalData, message, goalsList }) {
       <Grid container spacing={3}>
         <Grid item xs={12}>
 					<Paper className={classes.paper}>
-					<Box className={classes.taskPage}>
+						<Box className={classes.taskPage}>
 						<Typography className={classes.taskText}>
 							{goalDataMock.title}
 						</Typography>
 						<Box className={classes.progressBarWrapper}>
+							{goalDataMock.completed ?
+							<DoneIcon
+								color="primary"
+								className={classes.icon}
+							/> :
+							<AutorenewIcon
+								color="secondary"
+								className={classes.icon}
+							/>}
 							<Box className={classes.progressBar}>
 								<ProgressBar
 									color="primary"
 									variant="determinate"
 									value={calcPercentage(goalDataMock.progress, goalDataMock.term)}
 								/>
-							</Box>
+								</Box>
 							<Button
 								disabled={goalDataMock.completed}
 								onClick={(event) => {
@@ -71,16 +80,16 @@ function TaskPage({ editGoalById, getGoalById, goalData, message, goalsList }) {
 						<Box className={classes.secondaryWrapper}>
 							<Box className={classes.descriptionWrapper}>
 								<Typography className={classes.descriptionText}>
-									{goalDataMock.description}
+									<span>Description: </span>{goalDataMock.description}
 								</Typography>
 								<Typography className={classes.descriptionText}>
-									{`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
+								 {`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
 								</Typography>
 								<Typography className={classes.descriptionText}>
-									{`Started at: ${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
+								 <span>Started at: </span>{`${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
 								</Typography>
 								<Typography className={classes.descriptionText}>
-									{`Remaining time: ${
+								<span>Remaining time: </span>{`${
 										goalDataMock.term - goalDataMock.progress
 									} days`}
 								</Typography>

@@ -44,9 +44,9 @@ export const getGoalByIdAction = (id) => {
   };
 };
 
-export const editGoalByIdAction = (data,id) => {
+export const editGoalByIdAction = (id) => {
 	return dispatch => {
-    dataService.editGoal(data, id)
+    dataService.editGoal(id)
 			.then(res => {
 				dispatch(editGoalByIdSuccess(res.data));
 				dispatch(setMessageAction(res.message));
@@ -58,9 +58,9 @@ export const editGoalByIdAction = (data,id) => {
   };
 };
 
-export const updateGoalProgressByIdAction = (id) => {
+export const updateGoalProgressByIdAction = (id, data) => {
 	return dispatch => {
-    dataService.editGoal(id)
+    dataService.editGoal(id, data)
 			.then(res => {
 				dispatch(updateGoalByIdSuccess(res.data));
 				dispatch(setMessageAction(res.message));

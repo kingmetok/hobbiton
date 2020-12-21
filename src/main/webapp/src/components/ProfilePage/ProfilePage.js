@@ -19,6 +19,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ProfilePageStyle from './ProfilePageStyle';
 import manIcon from '../../img/manIcon.svg';
 import femaleIcon from '../../img/womanIcon.svg';
+import otherIcon from '../../img/otherIcon.svg';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 const ProfilePage = ({
@@ -34,24 +35,13 @@ const ProfilePage = ({
 	const classes = ProfilePageStyle();
 	const {id} = useParams();
 	const history = useHistory();
-	const [user, setUser] = useState({
-		gender: 'female',
-		login: 'Vita',
-		email: 'v@mail.com',
-		subscription: 0,
-		followers: 0,
-		points: 0,
-		id: 1234
-	});
 
-	const userIcon = user.gender === 'female' ? femaleIcon : manIcon;
+	const userIcon = userData.gender === 'female' ? femaleIcon: userData.gender === 'male' ? manIcon : otherIcon;
 	useEffect(() => {
 		if (id) {
 			getUserById(id);
-		} else {
-			getUsersInfo();
 		}
-	});
+	}, []);
 
 	const shareLink = () => {
 		const { protocol, hash, host } = window.location;
@@ -64,7 +54,7 @@ const ProfilePage = ({
 	}
 
 	const handleDeleteUser = () => {
-		deleteUsersInfo(user.id);
+		deleteUsersInfo(userData.id);
 		localStorage.removeItem('jwt');
 		history.push('/');
 	}
@@ -78,10 +68,10 @@ const ProfilePage = ({
 							<img src={userIcon} />
 						</div>
 					<div className={classes.infoWrapper}>
-						<h1>{user.login}</h1>
-						<h3>{user.email}</h3>
+						<h1>{userData.login}</h1>
+						<h3>{userData.email}</h3>
 						{!id ?
-						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+						<ButtonGroup variant="outlined" color="secondary" aria-label="contained primary button group">
 							<Button
 								className={classes.btn}>
 								Edit
@@ -114,25 +104,25 @@ const ProfilePage = ({
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My followers</h4>
-								<p className={classes.count}>{user.followers }</p>
+								<p className={classes.count}>{userData.followers }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My subscription</h4>
-								<p className={classes.count}>{user.subscription }</p>
+								<p className={classes.count}>{userData.subscription }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 							<h4>My points</h4>
-								<p className={classes.count}>{user.points }</p>
+								<p className={classes.count}>{userData.points }</p>
 								</Paper>
 							</Grid>
 						</Grid>
 					</Paper>
 				</Grid>
-				<InfoMessage info={message} />
+				{/* <InfoMessage info={message} /> */}
 			</Grid>
 	)
 }

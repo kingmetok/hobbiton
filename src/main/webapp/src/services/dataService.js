@@ -15,8 +15,11 @@ const userService = {
   getGoalById: (id) => {
     return axios.get(GOALS_URL + `/:${id}`, { headers: authHeader() });
 	},
-	editGoal: (data, id) => {
-    return axios.patch(GOALS_URL + `/:${id}`, data, { headers: authHeader() });
+	editGoal: (id) => {
+    return axios.patch(GOALS_URL + `/:${id}`, { headers: authHeader() });
+	},
+	updateGoal: (id, data) => {
+    return axios.patch(GOALS_URL + `/:${id}`,data, { headers: authHeader() });
 	},
 	postGoal: (data) => {
     return axios.post(GOALS_URL, data, { headers: authHeader() });

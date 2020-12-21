@@ -15,5 +15,5 @@ public @Data class Goal {
     private String description;
     private Boolean completed;
     private Date dateStarted;
-    private List<Proof> proofList;
+    private Date dateLastProof;
 }

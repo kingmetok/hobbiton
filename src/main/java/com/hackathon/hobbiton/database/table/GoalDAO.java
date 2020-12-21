@@ -12,20 +12,20 @@ import java.util.List;
 
 public class GoalDAO {
 
-    private static final String FIND_BY_GOAL_ID = "select * from goal left join proof on goal_id=goal.id where goal.id=?";
-    private static final String INCREMENT_PROGRESS = "update goal set progress=progress+1 where id=?";
+    private static final String FIND_BY_GOAL_ID = "select * from goal where id=?";
+    private static final String INCREMENT_PROGRESS = "select incrementProgressAndCheckComplete(?)";
     private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,data_created,user_id) values (?,?,?,?,?,?)";
     private static final String DELETE_ALL_BY_USER_ID = "delete from goal where user_id=?";
     private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
-    private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal left join proof on goal_id=goal.id where user_id = ?";
+    private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal where user_id = ?";
 
     private final GoalMapper goalMapper = new GoalMapper();
 
-    public List<Goal> findGoalsByUserId(int userId){
+    public List<Goal> findGoalsByUserId(int userId) {
         List<Goal> list = new ArrayList<>();
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_GOALS_BY_USER_ID)) {
-            preparedStatement.setInt(1,userId);
+            preparedStatement.setInt(1, userId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next())
                 list.add(goalMapper.extractFromResultSet(rs));
@@ -51,17 +51,24 @@ public class GoalDAO {
         return goal;
     }
 
-    public Boolean incrementProgress(int id) {
+    public boolean incrementProgress(int id) {
+        boolean result = false;
+
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INCREMENT_PROGRESS)) {
+
             preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                result = resultSet.getBoolean(1);
+            }
+
             connection.commit();
-            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return false;
+        return result;
     }
 
     public Boolean createGoal(Goal goal, int id) {

@@ -1,11 +1,9 @@
 package com.hackathon.hobbiton.mapper;
 
 import com.hackathon.hobbiton.entity.Goal;
-import com.hackathon.hobbiton.entity.Proof;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GoalMapper {
 
@@ -21,26 +19,8 @@ public class GoalMapper {
         goal.setDescription(rs.getString("description"));
         goal.setCompleted(rs.getBoolean("completed"));
         goal.setDateStarted(rs.getDate("data_started"));
-        List<Proof> list = new ArrayList<>();
-//        do{
-//            list.add(extractFromResultSetProof(rs));
-//        } while (proofForThisGoal(id,rs));
+        goal.setDateLastProof(rs.getDate("date_last_proof"));
 
-        goal.setProofList(list);
         return goal;
     }
-    public boolean proofForThisGoal(Integer id,ResultSet rs) throws SQLException {
-        rs.next();
-        int nextId = rs.getInt("id");
-        return nextId == id;
-    }
-
-    public Proof extractFromResultSetProof(ResultSet rs) throws SQLException {
-        Proof proof = new Proof();
-        proof.setContent(rs.getString("content"));
-        proof.setDateCreated(rs.getDate("date_created").toLocalDate());
-        return proof;
-
-    }
-
 }

@@ -30,10 +30,9 @@ public class GoalServlet extends PatchServlet {
             User user = JWTCreator.decodeUser(token);
             id = user.getId();
             List<Goal> result = DAO.getInstance().findGoalByUserId(id);
-            System.out.println(result);
+
             String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result);
             try {
-                System.out.println(json);
                 response.getWriter().write(json);
             } catch (
                     IOException e) {
@@ -41,9 +40,9 @@ public class GoalServlet extends PatchServlet {
             }
         } else {
             String idString = pathInfo.replaceAll("/", "");
-            id = Integer.parseInt(idString);
+            id = Integer.parseInt(idString.substring(1));
             Goal result = DAO.getInstance().findGoalById(id);
-            String json = new Gson().toJson(result);
+            String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result);
             try {
                 response.getWriter().write(json);
             } catch (
@@ -53,16 +52,20 @@ public class GoalServlet extends PatchServlet {
         }
     }
 
-
     @Override
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
         String idString = pathInfo.replaceAll("/", "");
-        int id = Integer.parseInt(idString);
-        String result = DAO.getInstance().incrementProgress(id);
-        if (result.equalsIgnoreCase("success")) {
+
+        int id = Integer.parseInt(idString.substring(1));
+
+        boolean result = DAO.getInstance().incrementProgress(id);
+
+        if (result) {
             Goal goalById = DAO.getInstance().findGoalById(id);
-            String json = new Gson().toJson(goalById);
+
+            String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(goalById);
+
             try {
                 resp.getWriter().write(json);
             } catch (
@@ -92,15 +95,14 @@ public class GoalServlet extends PatchServlet {
                     IOException e) {
                 e.printStackTrace();
             }
-        }
-        else resp.getWriter().write("error");
+        } else resp.getWriter().write("error");
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
         String idString = pathInfo.replaceAll("/", "");
-        int id = Integer.parseInt(idString);
+        int id = Integer.parseInt(idString.substring(1));
         String result = DAO.getInstance().deleteGoalByID(id);
         String json = new Gson().toJson(result);
         try {

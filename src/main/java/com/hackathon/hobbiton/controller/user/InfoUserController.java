@@ -47,9 +47,15 @@ public class InfoUserController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         String token = req.getHeader("Authorization");
         User user = JWTCreator.decodeUser(token);
+
         String result = DAO.getInstance().deleteCurrentUser(user);
+
         Gson gson = new Gson();
         String s = gson.toJson(new Response(result));
+
+        if (!result.equals("success")) {
+            resp.setStatus(400);
+        }
 
         try {
             resp.getWriter().write(s);

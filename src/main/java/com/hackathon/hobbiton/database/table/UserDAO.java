@@ -3,17 +3,18 @@ package com.hackathon.hobbiton.database.table;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.HashAndSalt;
 import com.hackathon.hobbiton.entity.User;
+import com.hackathon.hobbiton.mapper.UserMapper;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 
 public class UserDAO {
+    final String FIND_USER_BY_ID = "select * from user where id=?";
+
 
     public void add(User user) {
-
-        final String SQL = "insert into user(login, password, email, gender) values (?, ?, ?, ?)";
-
+        final String SQL = "insert into user(login, password, email, gender, points, subscription, followers) values (?, ?, ?, ?,?,?,?)";
         try (Connection connection = DAO.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -21,12 +22,15 @@ public class UserDAO {
             statement.setString(2, HashAndSalt.hashPassword(user.getPassword()));
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getGender());
+            statement.setLong(5, user.getPoints());
+            statement.setLong(6, user.getSubscription());
+            statement.setLong(7, user.getFollowers());
 
             statement.executeUpdate();
 
             try (ResultSet resultSet = statement.getGeneratedKeys()) {
                 resultSet.next();
-                user.setId(resultSet.getLong(1));
+                user.setId(resultSet.getInt(1));
             }
 
             connection.commit();
@@ -70,7 +74,7 @@ public class UserDAO {
 
     public boolean existTwo(User user) {
 
-        final String SQL = "select password from user where login = ?";
+        final String SQL = "select * from user where login = ?";
 
         boolean result = false;
 
@@ -82,11 +86,17 @@ public class UserDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
-                    String password = resultSet.getString(1);
+                    String password = resultSet.getString(2);
 
                     try {
                         if (HashAndSalt.checkPassword(user.getPassword(), password)) {
                             result = true;
+                            user.setId(resultSet.getInt("id"));
+                            user.setEmail(resultSet.getString("email"));
+                            user.setGender(resultSet.getString("gender"));
+                            user.setPoints(resultSet.getLong("points"));
+                            user.setPoints(resultSet.getLong("subscription"));
+                            user.setPoints(resultSet.getLong("followers"));
                         }
                     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                         e.printStackTrace();
@@ -100,4 +110,21 @@ public class UserDAO {
 
         return result;
     }
+
+    public User findUserById(int id) {
+        User user = new User();
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                 user = UserMapper.extractFromResultSet(resultSet);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return user;
+
+    }
+
 }

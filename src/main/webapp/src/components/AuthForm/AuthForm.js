@@ -103,6 +103,7 @@ const AuthForm = (props) => {
 	// }, [isLogged]);
 
 
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (action === 'Register' && validateFormData(formData)) {

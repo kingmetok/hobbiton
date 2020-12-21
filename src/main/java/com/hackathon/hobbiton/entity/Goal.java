@@ -2,6 +2,7 @@ package com.hackathon.hobbiton.entity;
 
 import lombok.Data;
 import java.util.Date;
+import java.util.List;
 
 
 public @Data class Goal {
@@ -14,4 +15,5 @@ public @Data class Goal {
     private Boolean completed;
     private Date dateStarted;
     private Date dateLastProof;
+    private List<String> achivements;
 }

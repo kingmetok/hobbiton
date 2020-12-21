@@ -22,14 +22,14 @@ public class GoalServlet extends PatchServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         String pathInfo = request.getPathInfo();
+        String token = request.getHeader("Authorization");
 
-        int id;
+        User user = JWTCreator.decodeUser(token);
+        int  userId = user.getId();
+
         if (pathInfo == null) {
-            String token = request.getHeader("Authorization");
 
-            User user = JWTCreator.decodeUser(token);
-            id = user.getId();
-            List<Goal> result = DAO.getInstance().findGoalByUserId(id);
+            List<Goal> result = DAO.getInstance().findGoalByUserId(userId);
 
             String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result);
             try {
@@ -40,11 +40,13 @@ public class GoalServlet extends PatchServlet {
             }
         } else {
             String idString = pathInfo.replaceAll("/", "");
-            id = Integer.parseInt(idString.substring(1));
-            Goal result = DAO.getInstance().findGoalById(id);
-            String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result);
+           int goalId = Integer.parseInt(idString.substring(1));
+            Goal goal = DAO.getInstance().findGoalById(goalId);
+            String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(goal);
+            List<String> achivementsForUserByGoalID = DAO.getInstance().findAchivementsForUserByGoalID(userId, goalId);
+            String achivementsJson = new Gson().toJson(achivementsForUserByGoalID);
             try {
-                response.getWriter().write(json);
+                response.getWriter().write(json + achivementsJson);
             } catch (
                     IOException e) {
                 e.printStackTrace();

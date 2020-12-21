@@ -102,4 +102,8 @@ public class DAO {
     public void updateProgressDAO(){
         goalDAO.updateProgress();
     }
+
+    public List<String> findAchivementsForUserByGoalID(int userId,int goalId){
+        return goalDAO.findAchivementsForUserByGoalID(userId, goalId);
+    }
 }

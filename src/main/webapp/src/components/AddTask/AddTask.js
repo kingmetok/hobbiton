@@ -52,8 +52,6 @@ function AddTask({ getDefaultGoals }) {
     let month = new Date().getMonth() + 1;
     let result = seasonTasks;
 
-    console.log(month, result);
-
     if (month === 12 || month === 1 || month === 2) {
       setSeasonTasks(result.filter((el) => el.season === 'Winter'));
     } else if (month === 3 || month === 4 || month === 5) {
@@ -91,7 +89,7 @@ function AddTask({ getDefaultGoals }) {
                   <Paper className={classes.paper}>
                     <Grid item xs container direction="column" spacing={2}>
                       {seasonTasks.map((el) => (
-                        <Grid item xs={12} className={classes.item}>
+                        <Grid item xs={12} className={classes.item} key={el.title}>
                           <Paper
                             onClick={() =>
                               sendInputValues(el.title, el.description)
@@ -108,7 +106,7 @@ function AddTask({ getDefaultGoals }) {
                       ))}
 
                       {mock.map((el) => (
-                        <Grid item xs={12} className={classes.item}>
+                        <Grid item xs={12} className={classes.item} key={el.title}>
                           <Paper
                             onClick={() =>
                               sendInputValues(el.title, el.description)

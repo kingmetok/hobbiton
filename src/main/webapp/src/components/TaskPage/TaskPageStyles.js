@@ -8,7 +8,6 @@ const useStyles = makeStyles({
   },
   taskPage: {
     width: '98%',
-    borderBottom: '1px solid',
     margin: '0 auto',
     paddingBottom: '20px',
     display: 'flex',

@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import {
   Button,
   Box,
-  List,
-  ListItem,
-  Divider,
   Typography,
   TextField,
   Grid,
@@ -17,6 +14,8 @@ import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
 import useStyles from './DashboardStyles';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import DoneIcon from '@material-ui/icons/Done';
 import {
   getUserGoalsAction,
   editGoalByIdAction,
@@ -50,17 +49,16 @@ mock[3].id = 4;
 mock[3].completed = true;
 
 function Dashboard(props) {
-  const classes = useStyles();
-  const history = useHistory();
-  const { getUserGoals, editGoalById } = props;
+	const classes = useStyles();
+	const history = useHistory();
+	const { getUserGoals, editGoalById, goalsList } = props;
+	console.log(goalsList);
 
-  const [mockProps, setmockProps] = React.useState(mock.concat(mockSeasons));
-
-  const [filterValue, setFilter] = React.useState('');
-
-  useEffect(() => {
-    getUserGoals();
-  });
+	const [filterValue, setFilter] = React.useState('');
+	
+	useEffect(() => {
+		getUserGoals();
+	},[]);
 
   function handleInput(value) {
     setFilter(value);
@@ -81,7 +79,6 @@ function Dashboard(props) {
     ) {
       // переходим на страницу таски по айди
       history.push(`/account/goals/${id}`);
-      console.log(event.target);
       return;
     }
     return;
@@ -97,98 +94,99 @@ function Dashboard(props) {
     props.history.push(path);
   }
 
-  return (
-    <div>
-      <h2 className={classes.title}>Your goals</h2>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.dashboardHeader}>
-            <TextField
-              onInput={(ev) => handleInput(ev.target.value)}
-              label="Search"
-              size="small"
-            />
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.addButton}
-              onClick={() => {
-                changeRoute('/account/addnew');
-              }}
-            >
-              Add Task
-            </Button>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid item xs={12}>
-            <Paper>
-              <Grid
-                item
-                xs
-                container
-                direction="column"
-                spacing={2}
-                className={classes.listWrapper}
-              >
-                {filterPipe(mockProps).map((el) => (
-                  <Grid
-                    item
-                    xs={12}
-                    key={el.id}
-                    onClick={(event) => getListItem(event, el.id)}
-                  >
-                    <Paper
-                      className={
-                        el.completed
-                          ? `${classes.listElementDisabled} ${
-                              classes.listElement
-                            } ${classes[el.season]}`
-                          : `${classes.listElement} ${classes[el.season]}`
-                      }
-                    >
-                      <Typography
-                        className={
-                          el.completed
-                            ? `${classes.taskText} ${classes.completed}`
-                            : classes.taskText
-                        }
-                      >
-                        {el.title}
-                      </Typography>
-                      <Box className={classes.progressBar}>
-                        <ProgressBar
-                          color="primary"
-                          variant="determinate"
-                          value={calcPercentage(el.progress, el.term)}
-                        />
-                      </Box>
-                      <Button
-                        disabled={el.completed}
-                        onClick={(event) => {
-                          checkTask(event.target.id);
-                        }}
-                        color="primary"
-                        variant="contained"
-                      >
-                        Done
-                      </Button>
-                    </Paper>
-                  </Grid>
-                ))}
-              </Grid>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Grid>
-    </div>
-  );
+	return (
+		<div>
+			<h2 className={classes.title}>Your goals</h2>
+			<Grid container spacing={3}>
+				<Grid item xs={12}>
+						<Paper className={classes.dashboardHeader}>
+						<TextField
+								onInput={(ev) => handleInput(ev.target.value)}
+								label="Search"
+								size="small"
+							/>
+							<Button
+								variant="contained"
+								color="secondary"
+								className={classes.addButton}
+								onClick={() => {
+									changeRoute('/account/addnew');
+								}}
+							>
+								Add Task
+							</Button>
+					</Paper>
+				</Grid>
+				<Grid item xs={12}>
+					<Grid item xs={12}>
+						<Paper>
+							<Grid item xs container direction="column" spacing={2} className={classes.listWrapper}>
+							{filterPipe(goalsList).map((el) => (
+						<Grid item xs={12}
+								key={el.id}
+									onClick={(event) =>
+										getListItem(event, el.id)
+									}
+							>
+									<Paper
+										className={
+                  el.completed
+                    ? `${classes.listElementDisabled} ${classes.listElement}`
+                    : `${classes.listElement}`
+                }
+									>
+								{el.completed ?
+									<DoneIcon
+										color="primary"
+										className={classes.icon}
+									/> :
+									<AutorenewIcon
+										color="primary"
+										className={classes.icon}
+									/>}
+                <Typography
+                  className={
+                    el.completed
+                      ? `${classes.taskText} ${classes.completed}`
+                      : classes.taskText
+                  }
+                >
+                  {el.title}
+                </Typography>
+                <Box className={classes.progressBar}>
+                  <ProgressBar
+                    color="primary"
+                    variant="determinate"
+                    value={calcPercentage(el.progress, el.term)}
+                  />
+                </Box>
+                <Button
+                  disabled={el.completed}
+											onClick={(event) => {
+                    checkTask(el.id);
+                  }}
+                  color="primary"
+                  variant="contained"
+                >
+										Done
+                </Button>
+							</Paper>
+            </Grid>
+					))}
+							</Grid>
+						</Paper>
+					</Grid>
+				</Grid>
+			</Grid>
+			</div>
+	)
 }
 
 const mapStateToProps = (state) => {
   return {
     isLogged: state.authReducer.isLoggedIn,
-    message: state.messageReducer.message,
+		message: state.messageReducer.message,
+		goalsList: state.goalsReducer.goalsList
   };
 };
 const mapDispatchToProps = (dispatch) => {

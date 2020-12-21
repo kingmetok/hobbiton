@@ -1,9 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(
-  (theme) => (
-    console.log(theme),
-    {
+const useStyles = makeStyles((theme) => ({
       listElementDisabled: {
         background: theme.palette.grey[100],
         color: theme.palette.text.disabled,

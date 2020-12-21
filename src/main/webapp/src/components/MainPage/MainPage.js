@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getUsersInfoAction } from '../../redux/actions/user';
+import { getUsersInfoAction, updateGoalProgressByIdAction } from '../../redux/actions/user';
 import { logoutAction } from '../../redux/actions/auth';
 import ProfilePage from '../ProfilePage/ProfilePage';
 import AddTask from '../AddTask/AddTask';
@@ -86,7 +86,6 @@ function MainPage(props) {
 	const theme = useTheme();
 	const history = useHistory();
 	const [mobileOpen, setMobileOpen] = React.useState(false);
-	console.log(userData);
 
 	useEffect(() => {
 		getUsersInfo();

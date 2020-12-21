@@ -5,13 +5,13 @@ function createTask(title, description, dateStarted) {
     dateStarted = date;
   }
 
-  let result = {
+	let result = {
+		dateStarted: dateStarted,
     title: title,
     description: description,
     progress: 0,
     term: 90,
     data_created: date,
-    dateStarted: dateStarted,
     data_last_checked: dateStarted,
     completed: false,
     proofs: [],

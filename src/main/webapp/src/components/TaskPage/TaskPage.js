@@ -6,11 +6,13 @@ import useStyles from './TaskPageStyles';
 import calcPercentage from '../../utils/calcPercentage';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import InfoMessage from '../InfoMessage/InfoMessage';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import DoneIcon from '@material-ui/icons/Done';
 import {
   editGoalByIdAction,
   getGoalByIdAction,
 } from '../../redux/actions/goals';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography, Paper, Grid } from '@material-ui/core';
 
 let goalDataMock = createTask(
   'quit smokin!',
@@ -19,68 +21,137 @@ let goalDataMock = createTask(
 
 goalDataMock.progress = 60;
 
-function TaskPage({ editGoalById, getGoalById, goalData, message }) {
+function TaskPage({ editGoalById, getGoalById, goalData, message, goalsList }) {
   const classes = useStyles();
   const { id } = useParams();
 
-  useEffect(() => {
+	useEffect(() => {
     getGoalById(id);
-  });
+  },[]);
 
   function checkTask(id) {
-    console.log(id);
     editGoalById(id);
     // отправляем запрос на обновление прогресса таски
     return;
   }
 
-  return (
-    <Box className={classes.taskPageWrapper}>
-      <Box className={classes.taskPage}>
-        <Typography className={classes.taskText}>
-          {goalDataMock.title}
-        </Typography>
-        <Box className={classes.progressBarWrapper}>
-          <Box className={classes.progressBar}>
-            <ProgressBar
-              color="primary"
-              variant="determinate"
-              value={calcPercentage(goalDataMock.progress, goalDataMock.term)}
-            />
-          </Box>
-          <Button
-            disabled={goalDataMock.completed}
-            onClick={(event) => {
-              checkTask(event.target.id);
-            }}
-            color="primary"
-            variant="contained"
-          >
-            Done
-          </Button>
-        </Box>
-      </Box>
-      <Box className={classes.secondaryWrapper}>
-        <Box className={classes.descriptionWrapper}>
-          <Typography className={classes.descriptionText}>
-            {goalDataMock.description}
-          </Typography>
-          <Typography className={classes.descriptionText}>
-            {`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
-          </Typography>
-          <Typography className={classes.descriptionText}>
-            {`Started at: ${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
-          </Typography>
-          <Typography className={classes.descriptionText}>
-            {`Remaining time: ${
-              goalDataMock.term - goalDataMock.progress
-            } days`}
-          </Typography>
-        </Box>
-        <Box className={classes.achievementsWrapper}></Box>
-      </Box>
-      <InfoMessage info={message} />
-    </Box>
+	return (
+		<div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+					<Paper className={classes.paper}>
+					<Box className={classes.taskPage}>
+						<Typography className={classes.taskText}>
+							{goalDataMock.title}
+						</Typography>
+						<Box className={classes.progressBarWrapper}>
+							<Box className={classes.progressBar}>
+								<ProgressBar
+									color="primary"
+									variant="determinate"
+									value={calcPercentage(goalDataMock.progress, goalDataMock.term)}
+								/>
+							</Box>
+							<Button
+								disabled={goalDataMock.completed}
+								onClick={(event) => {
+									checkTask(event.target.id);
+								}}
+								color="primary"
+								variant="contained"
+							>
+								Done
+							</Button>
+							</Box>
+						</Box>
+					</Paper>
+        </Grid>
+        <Grid item xs={12}>
+					<Paper className={classes.paper}>
+						<Box className={classes.secondaryWrapper}>
+							<Box className={classes.descriptionWrapper}>
+								<Typography className={classes.descriptionText}>
+									{goalDataMock.description}
+								</Typography>
+								<Typography className={classes.descriptionText}>
+									{`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
+								</Typography>
+								<Typography className={classes.descriptionText}>
+									{`Started at: ${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
+								</Typography>
+								<Typography className={classes.descriptionText}>
+									{`Remaining time: ${
+										goalDataMock.term - goalDataMock.progress
+									} days`}
+								</Typography>
+							</Box>
+							<Box className={classes.achievementsWrapper}></Box>
+						</Box>
+					</Paper>
+        </Grid>
+        {/* <Grid item xs={6}>
+          <Paper className={classes.paper}>xs=6</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid>
+        <Grid item xs={3}>
+          <Paper className={classes.paper}>xs=3</Paper>
+        </Grid> */}
+      </Grid>
+    </div>
+    // <Box className={classes.taskPageWrapper}>
+      // <Box className={classes.taskPage}>
+      //   <Typography className={classes.taskText}>
+      //     {goalDataMock.title}
+      //   </Typography>
+      //   <Box className={classes.progressBarWrapper}>
+      //     <Box className={classes.progressBar}>
+      //       <ProgressBar
+      //         color="primary"
+      //         variant="determinate"
+      //         value={calcPercentage(goalDataMock.progress, goalDataMock.term)}
+      //       />
+      //     </Box>
+      //     <Button
+      //       disabled={goalDataMock.completed}
+      //       onClick={(event) => {
+      //         checkTask(event.target.id);
+      //       }}
+      //       color="primary"
+      //       variant="contained"
+      //     >
+      //       Done
+      //     </Button>
+      //   </Box>
+    //   </Box>
+      // <Box className={classes.secondaryWrapper}>
+      //   <Box className={classes.descriptionWrapper}>
+      //     <Typography className={classes.descriptionText}>
+      //       {goalDataMock.description}
+      //     </Typography>
+      //     <Typography className={classes.descriptionText}>
+      //       {`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
+      //     </Typography>
+      //     <Typography className={classes.descriptionText}>
+      //       {`Started at: ${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
+      //     </Typography>
+      //     <Typography className={classes.descriptionText}>
+      //       {`Remaining time: ${
+      //         goalDataMock.term - goalDataMock.progress
+      //       } days`}
+      //     </Typography>
+      //   </Box>
+      //   <Box className={classes.achievementsWrapper}></Box>
+      // </Box>
+    //   {/* <InfoMessage info={message} /> */}
+    // </Box>
   );
 }
 

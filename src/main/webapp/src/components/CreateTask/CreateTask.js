@@ -77,11 +77,12 @@ const CreateTask = (props) => {
   function submitValues() {
     let result = inputValues;
     if (result.title && result.description) {
-      if (compareDates(result.dateStarted)) {
-				let date = new Date(inputValues.dateStarted);
+			if (compareDates(result.dateStarted)) {
+				console.log(inputValues.dateStarted);
+				// let date = new Date(inputValues.dateStarted);
+				// result.dateStarted = date;
 				console.log(result);
-        result.dateStarted = date;
-        addGoal({description: result.description, title: result.title, term: result.term});
+        addGoal(result);
       }
     }
   }

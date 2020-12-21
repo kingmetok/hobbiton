@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import {
   Button,
   Box,
-  List,
-  ListItem,
-  Divider,
   Typography,
   TextField,
   Grid,
@@ -17,6 +14,8 @@ import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
 import useStyles from './DashboardStyles';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import DoneIcon from '@material-ui/icons/Done';
 import {
   getUserGoalsAction,
   editGoalByIdAction,
@@ -53,6 +52,7 @@ function Dashboard(props) {
 	const classes = useStyles();
 	const history = useHistory();
 	const { getUserGoals, editGoalById, goalsList } = props;
+	console.log(goalsList);
 
 	const [filterValue, setFilter] = React.useState('');
 	
@@ -79,7 +79,6 @@ function Dashboard(props) {
     ) {
       // переходим на страницу таски по айди
       history.push(`/account/goals/${id}`);
-      console.log(event.target);
       return;
     }
     return;
@@ -136,6 +135,15 @@ function Dashboard(props) {
                     : `${classes.listElement}`
                 }
 									>
+								{el.completed ?
+									<DoneIcon
+										color="primary"
+										className={classes.icon}
+									/> :
+									<AutorenewIcon
+										color="primary"
+										className={classes.icon}
+									/>}
                 <Typography
                   className={
                     el.completed
@@ -154,8 +162,8 @@ function Dashboard(props) {
                 </Box>
                 <Button
                   disabled={el.completed}
-                  onClick={(event) => {
-                    checkTask(event.target.id);
+											onClick={(event) => {
+                    checkTask(el.id);
                   }}
                   color="primary"
                   variant="contained"

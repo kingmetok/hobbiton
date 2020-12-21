@@ -8,12 +8,12 @@ import { withRouter } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 
 import image1 from '../../img/1.jpg';
-import image2 from '../../img/2.jpg';
+import image2 from '../../img/6.jpeg';
 import image3 from '../../img/3.jpg';
 import image4 from '../../img/4.jpg';
+import image5 from '../../img/image5.jpg'
 
-const useStyles = makeStyles(theme => (
-	console.log(theme),{
+const useStyles = makeStyles(theme => ({
   landingContentWrapper: {
     margin: '0 auto',
     width: '80%',
@@ -89,19 +89,21 @@ function LandingMainPage(props) {
 					<Paper className={classes.paper}>
 						<ContentBox
 							image={image1}
-							text={landingSettings.text1}
+							title={landingSettings.title1}
 							textStyle={landingSettings.textStyles1}
 							wrapperStyle={landingSettings.wrapperStyles1}
+							description={landingSettings.description1}
 						/>
 					</Paper>
-        </Grid>
+				</Grid>
         <Grid item xs={12}>
 					<Paper className={classes.paper}>
 						<ContentBox
 							image={image3}
-							text={landingSettings.text3}
+							title={landingSettings.title3}
 							textStyle={landingSettings.textStyles3}
 							wrapperStyle={landingSettings.wrapperStyles3}
+							description={landingSettings.description3}
 						/>
 					</Paper>
         </Grid>
@@ -109,18 +111,31 @@ function LandingMainPage(props) {
 					<Paper className={classes.paper}>
 						<ContentBox
 							image={image4}
-							text={landingSettings.text4}
+							title={landingSettings.title4}
 							textStyle={landingSettings.textStyles4}
 							wrapperStyle={landingSettings.wrapperStyles4}
+							description={landingSettings.description4}
 						/>
 					</Paper>
         </Grid>
         <Grid item xs={12}>
 					<Paper className={classes.paper}>
 						<ContentBox
-							image={image2}
-							text={landingSettings.text2}
+							image={image5}
+							title={landingSettings.title2}
+							description={landingSettings.description2}
 							wrapperStyle={landingSettings.wrapperStyles2}
+						/>
+					</Paper>
+				</Grid>
+				<Grid item xs={12}>
+					<Paper className={classes.paper}>
+						<ContentBox
+							image={image2}
+							title={landingSettings.title5}
+							textStyle={landingSettings.textStyles5}
+							wrapperStyle={landingSettings.wrapperStyles5}
+							description={landingSettings.description4}
 						/>
 					</Paper>
         </Grid>

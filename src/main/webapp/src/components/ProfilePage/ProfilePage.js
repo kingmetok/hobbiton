@@ -19,6 +19,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ProfilePageStyle from './ProfilePageStyle';
 import manIcon from '../../img/manIcon.svg';
 import femaleIcon from '../../img/womanIcon.svg';
+import otherIcon from '../../img/otherIcon.svg';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 const ProfilePage = ({
@@ -34,22 +35,11 @@ const ProfilePage = ({
 	const classes = ProfilePageStyle();
 	const {id} = useParams();
 	const history = useHistory();
-	const [user, setUser] = useState({
-		gender: 'female',
-		login: 'Vita',
-		email: 'v@mail.com',
-		subscription: 0,
-		followers: 0,
-		points: 0,
-		id: 1234
-	});
 
-	const userIcon = userData.gender === 'female' ? femaleIcon : manIcon;
+	const userIcon = userData.gender === 'female' ? femaleIcon: userData.gender === 'male' ? manIcon : otherIcon;
 	useEffect(() => {
 		if (id) {
 			getUserById(id);
-		} else {
-			getUsersInfo();
 		}
 	}, []);
 
@@ -132,7 +122,7 @@ const ProfilePage = ({
 						</Grid>
 					</Paper>
 				</Grid>
-				<InfoMessage info={message} />
+				{/* <InfoMessage info={message} /> */}
 			</Grid>
 	)
 }

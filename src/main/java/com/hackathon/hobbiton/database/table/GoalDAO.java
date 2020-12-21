@@ -54,6 +54,7 @@ public class GoalDAO {
     public Boolean incrementProgress(int id) {
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INCREMENT_PROGRESS)) {
+
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             connection.commit();

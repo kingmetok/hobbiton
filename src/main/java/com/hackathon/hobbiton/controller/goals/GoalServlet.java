@@ -58,11 +58,16 @@ public class GoalServlet extends PatchServlet {
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) {
         String pathInfo = req.getPathInfo();
         String idString = pathInfo.replaceAll("/", "");
-        int id = Integer.parseInt(idString);
+
+        int id = Integer.parseInt(idString.substring(1));
+
         String result = DAO.getInstance().incrementProgress(id);
+
         if (result.equalsIgnoreCase("success")) {
             Goal goalById = DAO.getInstance().findGoalById(id);
-            String json = new Gson().toJson(goalById);
+
+            String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(goalById);
+
             try {
                 resp.getWriter().write(json);
             } catch (
@@ -92,8 +97,7 @@ public class GoalServlet extends PatchServlet {
                     IOException e) {
                 e.printStackTrace();
             }
-        }
-        else resp.getWriter().write("error");
+        } else resp.getWriter().write("error");
     }
 
     @Override

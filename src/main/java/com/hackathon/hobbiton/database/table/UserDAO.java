@@ -86,7 +86,7 @@ public class UserDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
 
                 if (resultSet.next()) {
-                    String password = resultSet.getString(2);
+                    String password = resultSet.getString("password");
 
                     try {
                         if (HashAndSalt.checkPassword(user.getPassword(), password)) {

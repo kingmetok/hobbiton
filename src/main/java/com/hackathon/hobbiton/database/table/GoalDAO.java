@@ -5,6 +5,7 @@ import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.mapper.GoalMapper;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class GoalDAO {
             preparedStatement.setString(1, goal.getTitle());
             preparedStatement.setInt(2, goal.getTerm());
             preparedStatement.setString(3, goal.getDescription());
-            preparedStatement.setTimestamp(4, Timestamp.valueOf(goal.getDateStarted()));
+            preparedStatement.setDate(4, Date.valueOf(goal.getDateStarted()));
             preparedStatement.setInt(5, id);
             preparedStatement.executeUpdate();
             connection.commit();

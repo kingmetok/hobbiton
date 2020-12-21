@@ -2,7 +2,7 @@ package com.hackathon.hobbiton.entity;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public @Data class Goal {
@@ -10,9 +10,9 @@ public @Data class Goal {
     private String title;
     private Integer progress;
     private Integer term;
-    private LocalDateTime dateCreated;
+    private LocalDate dateCreated;
     private String description;
     private Boolean completed;
-    private LocalDateTime dateStarted;
+    private LocalDate dateStarted;
     private List<Proof> proofList;
 }

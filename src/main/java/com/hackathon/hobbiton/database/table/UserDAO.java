@@ -159,4 +159,16 @@ public class UserDAO {
 
         return users;
     }
+
+    public void deleteUser(User user) {
+        final String SQL = "delete from user where id = ?";
+
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
+            statement.setInt(1, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

@@ -90,4 +90,12 @@ public class DAO {
     public List<User> getAllUsers() {
         return userDAO.getUsers();
     }
+
+    public String deleteCurrentUser(User user) {
+        userDAO.deleteUser(user);
+        if (userDAO.exist(user).equals("no")) {
+            return "success";
+        }
+        return "error";
+    }
 }

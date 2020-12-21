@@ -1,10 +1,12 @@
 package com.hackathon.hobbiton.controller.user;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.JWTCreator;
 import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.JsonUtil;
+import com.hackathon.hobbiton.json.entity.Response;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,14 +45,25 @@ public class InfoUserController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        int userId = (int) req.getSession().getAttribute("UserId");
-        String result = DAO.getInstance().deleteGoalsByUserId(userId);
-        String json = JsonUtil.messageResponseGsonCreator(result);
+        String token = req.getHeader("Authorization");
+        User user = JWTCreator.decodeUser(token);
+        String result = DAO.getInstance().deleteCurrentUser(user);
+        Gson gson = new Gson();
+        String s = gson.toJson(new Response(result));
+
         try {
-            resp.getWriter().write(json);
-        } catch (
-                IOException e) {
+            resp.getWriter().write(s);
+        } catch (IOException e) {
             e.printStackTrace();
         }
+//        int userId = (int) req.getSession().getAttribute("UserId");
+//        String result = DAO.getInstance().deleteGoalsByUserId(userId);
+//        String json = JsonUtil.messageResponseGsonCreator(result);
+//        try {
+//            resp.getWriter().write(json);
+//        } catch (
+//                IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

@@ -8,6 +8,8 @@ import com.hackathon.hobbiton.mapper.UserMapper;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     final String FIND_USER_BY_ID = "select * from user where id=?";
@@ -118,7 +120,7 @@ public class UserDAO {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                 user = UserMapper.extractFromResultSet(resultSet);
+                user = UserMapper.extractFromResultSet(resultSet);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -127,4 +129,34 @@ public class UserDAO {
 
     }
 
+    public List<User> getUsers() {
+        List<User> users = new ArrayList<>();
+
+        final String sql = "select id, login, email, gender, points, subscription, followers from user";
+
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                User user = new User();
+
+                user.setId(resultSet.getInt("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setEmail(resultSet.getString("email"));
+                user.setGender(resultSet.getString("gender"));
+                user.setPoints(resultSet.getLong("points"));
+                user.setSubscription(resultSet.getLong("subscription"));
+                user.setFollowers(resultSet.getLong("followers"));
+
+                users.add(user);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return users;
+    }
 }

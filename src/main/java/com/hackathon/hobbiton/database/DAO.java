@@ -87,4 +87,7 @@ public class DAO {
         return result;
     }
 
+    public List<User> getAllUsers() {
+        return userDAO.getUsers();
+    }
 }

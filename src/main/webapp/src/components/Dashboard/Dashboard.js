@@ -43,13 +43,13 @@ mock[3].completed = true;
 function Dashboard(props) {
 	const classes = useStyles();
 	const history = useHistory();
-	const { getUserGoals, editGoalById } = props;
+	const { getUserGoals, editGoalById, goalsList } = props;
 
 	const [filterValue, setFilter] = React.useState('');
 	
 	useEffect(() => {
 		getUserGoals();
-	});
+	},[]);
 
   function handleInput(value) {
     setFilter(value);
@@ -113,7 +113,7 @@ function Dashboard(props) {
 					<Grid item xs={12}>
 						<Paper>
 							<Grid item xs container direction="column" spacing={2} className={classes.listWrapper}>
-							{filterPipe(mock).map((el) => (
+							{filterPipe(goalsList).map((el) => (
 						<Grid item xs={12}
 								key={el.id}
 									onClick={(event) =>
@@ -168,7 +168,8 @@ function Dashboard(props) {
 const mapStateToProps = (state) => {
   return {
     isLogged: state.authReducer.isLoggedIn,
-    message: state.messageReducer.message,
+		message: state.messageReducer.message,
+		goalsList: state.goalsReducer.goalsList
   };
 };
 const mapDispatchToProps = (dispatch) => {

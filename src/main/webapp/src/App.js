@@ -4,7 +4,7 @@ import './App.css';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import ProfilePage from './components/ProfilePage/ProfilePage';
-import ResponsiveDrawer from './components/Header2/Header2';
+import MainPage from './components/MainPage/MainPage';
 import { Route, Switch, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -32,7 +32,7 @@ const App = ({ isLogged }) => {
 				:
 				<Switch>
 					<Route path="/account">
-						<ResponsiveDrawer />
+						<MainPage />
 					</Route>
 					<Route path="*">
 						<Redirect to="/account" />

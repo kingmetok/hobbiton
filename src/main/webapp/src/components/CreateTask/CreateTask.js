@@ -16,7 +16,6 @@ const CreateTask = (props) => {
 	const classes = useStyles();
 	const { addGoal } = props;
 	const history = useHistory();
-	console.log(addGoal);
 
   const [inputValues, setInputValues] = useState({
     title: '',
@@ -80,11 +79,9 @@ const CreateTask = (props) => {
     if (result.title && result.description) {
       if (compareDates(result.dateStarted)) {
 				let date = new Date(inputValues.dateStarted);
-				console.log(date);
+				console.log(result);
         result.dateStarted = date;
-        addGoal(result);
-        console.log(result);
-        console.log('submitted');
+        addGoal({description: result.description, title: result.title, term: result.term});
       }
     }
   }

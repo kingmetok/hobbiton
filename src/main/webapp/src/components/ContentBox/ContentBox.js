@@ -6,7 +6,7 @@ export default function ContentBox(props) {
     <div style={props.wrapperStyle} className="contentBoxWrapper">
       <img className="contentImage" src={props.image} alt="" />
       <div className="contentTextWrapper">
-        <p style={props.textStyle} className="contentText">
+        <p className="contentText">
           {props.text}
         </p>
       </div>

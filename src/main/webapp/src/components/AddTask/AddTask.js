@@ -46,7 +46,7 @@ function AddTask({getDefaultGoals}) {
 										<Paper className={classes.paper}>
 											<Grid item xs container direction="column" spacing={2}>
 												{mock.map((el) => (
-													<Grid item xs={12} className={classes.item}>
+													<Grid item xs={12} className={classes.item} key={el.title}>
 														<Paper onClick={() => sendInputValues(el.title, el.description)}
 															className={classes.paper}>
 															<h4>{el.title}</h4>

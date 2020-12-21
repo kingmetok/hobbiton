@@ -24,9 +24,9 @@ public class UserDAO {
             statement.setString(2, HashAndSalt.hashPassword(user.getPassword()));
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getGender());
-            statement.setLong(5, user.getPoints());
-            statement.setLong(6, user.getSubscription());
-            statement.setLong(7, user.getFollowers());
+            statement.setInt(5, user.getPoints());
+            statement.setInt(6, user.getSubscription());
+            statement.setInt(7, user.getFollowers());
 
             statement.executeUpdate();
 
@@ -96,9 +96,9 @@ public class UserDAO {
                             user.setId(resultSet.getInt("id"));
                             user.setEmail(resultSet.getString("email"));
                             user.setGender(resultSet.getString("gender"));
-                            user.setPoints(resultSet.getLong("points"));
-                            user.setPoints(resultSet.getLong("subscription"));
-                            user.setPoints(resultSet.getLong("followers"));
+                            user.setPoints(resultSet.getInt("points"));
+                            user.setPoints(resultSet.getInt("subscription"));
+                            user.setPoints(resultSet.getInt("followers"));
                         }
                     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                         e.printStackTrace();
@@ -146,9 +146,9 @@ public class UserDAO {
                 user.setLogin(resultSet.getString("login"));
                 user.setEmail(resultSet.getString("email"));
                 user.setGender(resultSet.getString("gender"));
-                user.setPoints(resultSet.getLong("points"));
-                user.setSubscription(resultSet.getLong("subscription"));
-                user.setFollowers(resultSet.getLong("followers"));
+                user.setPoints(resultSet.getInt("points"));
+                user.setSubscription(resultSet.getInt("subscription"));
+                user.setFollowers(resultSet.getInt("followers"));
 
                 users.add(user);
             }

@@ -1,10 +1,8 @@
 package com.hackathon.hobbiton.entity;
 
 import lombok.Data;
-
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
+
 
 public @Data class Goal {
     private int id;

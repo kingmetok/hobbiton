@@ -1,4 +1,4 @@
-package com.hackathon.hobbiton.mapper;
+package com.hackathon.hobbiton.database.mapper;
 
 import com.hackathon.hobbiton.entity.Goal;
 
@@ -10,8 +10,7 @@ public class GoalMapper {
     public Goal extractFromResultSet(ResultSet rs) throws SQLException {
 
         Goal goal = new Goal();
-        int id = rs.getInt("id");
-        goal.setId(id);
+        goal.setId(rs.getInt("id"));
         goal.setTitle(rs.getString("title"));
         goal.setProgress(rs.getInt("progress"));
         goal.setTerm(rs.getInt("term"));

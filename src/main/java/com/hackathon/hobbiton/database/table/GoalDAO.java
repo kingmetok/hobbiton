@@ -2,11 +2,14 @@ package com.hackathon.hobbiton.database.table;
 
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.entity.Goal;
-import com.hackathon.hobbiton.mapper.GoalMapper;
+import com.hackathon.hobbiton.database.mapper.GoalMapper;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -18,6 +21,7 @@ public class GoalDAO {
     private static final String DELETE_ALL_BY_USER_ID = "delete from goal where user_id=?";
     private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
     private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal where user_id = ?";
+    private static final String UPDATE_BY_CONDITION = "update goal set progress=0 where date_last_proof <> ? ";
 
     private final GoalMapper goalMapper = new GoalMapper();
 
@@ -121,4 +125,28 @@ public class GoalDAO {
         }
         return false;
     }
+
+    public void updateProgress() {
+        String yesterday = getYesterdayDateString();
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_CONDITION)) {
+            preparedStatement.setString(1,yesterday);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private  String getYesterdayDateString() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(yesterday());
+    }
+
+    private java.util.Date yesterday() {
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
+    }
+
 }
+

@@ -5,6 +5,7 @@ import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.JWTCreator;
 import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.JsonUtil;
+import com.hackathon.hobbiton.scheduller.Scheduller;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,6 +44,7 @@ public class Authorization extends HttpServlet {
                 if (result.equalsIgnoreCase("success")) {
                     response.setStatus(400);
                     json = new Gson().toJson(user);
+                    Scheduller.start();
                 }
             }
 

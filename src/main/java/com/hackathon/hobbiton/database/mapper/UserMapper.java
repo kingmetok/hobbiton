@@ -1,4 +1,4 @@
-package com.hackathon.hobbiton.mapper;
+package com.hackathon.hobbiton.database.mapper;
 
 import com.hackathon.hobbiton.entity.User;
 

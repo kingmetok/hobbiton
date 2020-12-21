@@ -3,7 +3,7 @@ package com.hackathon.hobbiton.database.table;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.HashAndSalt;
 import com.hackathon.hobbiton.entity.User;
-import com.hackathon.hobbiton.mapper.UserMapper;
+import com.hackathon.hobbiton.database.mapper.UserMapper;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;

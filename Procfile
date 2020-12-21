@@ -1,2 +1,2 @@
-web: cd client && PORT=3000 npm start
-api: PORT=3001 && java -jar target/hobbiton-1.0-SNAPSHOT.war
+web: cd client && PORT=3006 npm start
+api: PORT=8080 && java -jar target/hobbiton-1.0-SNAPSHOT.war

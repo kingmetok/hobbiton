@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 	taskText: {
 		width: '20%',
 		textAlign: 'left',
-		borderRight: 'solid 1px black',
 		fontFamily: theme.typography.fontFamily,
 		fontSize: '20px',
   },

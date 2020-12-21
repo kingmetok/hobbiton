@@ -71,7 +71,7 @@ const ProfilePage = ({
 						<h1>{userData.login}</h1>
 						<h3>{userData.email}</h3>
 						{!id ?
-						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+						<ButtonGroup variant="outlined" color="secondary" aria-label="contained primary button group">
 							<Button
 								className={classes.btn}>
 								Edit

@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '90%',
+    width: '100%',
   },
   secondaryWrapper: {
     display: 'flex',
@@ -48,7 +48,10 @@ const useStyles = makeStyles({
   achievementsWrapper: {
     width: '50%',
     margin: '10px',
-  },
+	},
+	icon: {
+		marginRight: '1em'
+	}
 });
 
 export default useStyles;

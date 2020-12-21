@@ -84,7 +84,8 @@ const CreateTask = (props) => {
 				console.log(result);
         addGoal(result);
       }
-    }
+		}
+		history.push('/account/dashboard');
   }
 
   function setValid(name, value) {
@@ -104,7 +105,7 @@ const CreateTask = (props) => {
     } else if (!value && name !== 'dateStarted') {
       setValidation({ ...validation, [name]: true });
       return;
-    }
+		}
   }
 
   const handleCancel = () => {

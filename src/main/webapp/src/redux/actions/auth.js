@@ -1,5 +1,5 @@
 import authService from '../../services/authService';
-import { setMessage } from './message';
+import { setMessageAction } from './message';
 import {
 	AUTH_LOGIN_SUCCESS,
 	AUTH_LOGIN_FAILURE,
@@ -17,11 +17,11 @@ export const authLoginAction = (data) => {
 					localStorage.setItem("jwt", JSON.stringify(jwt));
 				}
 				dispatch(authLoginSuccess());
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(authLoginFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
@@ -31,17 +31,18 @@ export const authRegisterAction = (data) => {
 		authService.register(data)
       .then(res => {
 				dispatch(authRegisterSuccess());
-				dispatch(setMessage(res.message));
+				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(authRegisterFailure());
-				dispatch(setMessage(err.message));
+				dispatch(setMessageAction(err.message));
       });
   };
 };
 
-export const logout = () => (dispatch) => {
-  authService.logout();
+export const logoutAction = () => (dispatch) => {
+	authService.logout()
+	console.log('hi');
   dispatch(authLogout());
 };
 

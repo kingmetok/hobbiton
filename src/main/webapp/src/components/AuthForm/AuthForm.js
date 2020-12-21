@@ -21,13 +21,12 @@ import {
   FormLabel,
 } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => (
-	{
+const useStyles =  makeStyles((theme) => ({
   authCard: {
     width: 400,
-    marginTop: 100,
+    marginTop: 50,
     margin: 'auto',
-		background: theme.palette.primary,
+		// background: theme.palette.primary,
 		overflow: 'hidden'
   },
   root: {
@@ -36,7 +35,11 @@ const useStyles = makeStyles(theme => (
     height: '100vh',
 	},
 	wrapper: {
-		paddingTop: '8%'
+		paddingTop: '8%',
+		display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
 	},
   title: {
     fontSize: 26,
@@ -68,30 +71,44 @@ const useStyles = makeStyles(theme => (
   },
   radio: {
     padding: '20px 0',
-  },
+	},
+	logoWrapper: {
+		maxWidth: '300px'
+	}
 }));
 
-const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin, isLogged}) => {
+const AuthForm = (props) => {
+	const { link, linkMessage, btnText, action, authRegister, authLogin, isLogged } = props;
 	const classes = useStyles();
-	// const [isLogin] = useState(isLogged);
 	const [formData, setFormData] = useState({
 		email: '',
 		login: '',
 		password: '',
 		gender: 'female'
 	});
+	const [helperText, setHelperText] = useState({
+		emailError: '',
+		loginError: '',
+		passwordError: ''
+	});
 	const history = useHistory();
 
-	useEffect(() => {
-		if (isLogged) {
-		history.push('/account/dashboard');
-		} else {
-			history.push('/login');
-		}
-	}, []);
+
+	// useEffect(() => {
+	// if (isLogged) {
+	// 	history.push('/account/dashboard');
+	// } else {
+	// 	history.push('/login');
+	// }
+	// }, [isLogged]);
+
+
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		if (action === 'Register' && validateFormData(formData)) {
+			return;
+		};
 		action === 'Register' ? handleRegister() : handleLogin();
 	}
 
@@ -105,13 +122,36 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
 			login: formData.login,
 			password: formData.password
 		});
-		history.push('/account/dashboard');
+		if (isLogged) {
+			history.push('/account/dashboard');
+		}
+	}
+
+	const validateFormData = (formData) => {
+		const errors = { emailError: '', passwordError: '', loginError: '' };
+		let isError = false;
+		if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/).test(formData.email)) {
+			errors.emailError = 'Incorrect format for email';
+			isError = true;
+		}
+		if (formData.password.length < 6) {
+			errors.passwordError = 'Password should be longer';
+			isError = true;
+		}
+		if (formData.login.length < 3) {
+			errors.loginError = 'Login should be longer';
+			isError = true;
+		}
+		setHelperText(errors);
+		return isError;
 	}
 
 	return (
 	<Box className={classes.root}>
     <Box className={classes.wrapper}>
-      <Logo />
+				<div className={classes.logoWrapper}>
+				<Logo />
+			</div>
       <Card className={classes.authCard}>
         <CardContent>
           <Typography
@@ -128,7 +168,10 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
 							label="Email"
 							variant="outlined"
 							name="email"
+							// type='email'
 							className={classes.field}
+							error={!!helperText.emailError}
+							helperText={helperText.emailError}
 							defaultValue={formData.login}
 							onChange={e => setFormData({...formData, email: e.target.value.trim()})}
 						/>
@@ -139,6 +182,8 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
 							variant="outlined"
 							name="login"
 							className={classes.field}
+							error={action === 'Register' && !!helperText.loginError}
+							helperText={action === 'Register' ? helperText.loginError : ''}
 							defaultValue={formData.login}
 							onChange={e => setFormData({...formData, login: e.target.value.trim()})}
 						/>
@@ -149,6 +194,8 @@ const AuthForm = ({ link, linkMessage, btnText, action, authRegister, authLogin,
               placeholder="******"
               name="password"
 							className={classes.field}
+							error={action === 'Register' && !!helperText.passwordError}
+							helperText={action === 'Register' ? helperText.passwordError : ''}
 							defaultValue={formData.login}
 							onChange={e => setFormData({...formData, password: e.target.value.trim()})}
             />

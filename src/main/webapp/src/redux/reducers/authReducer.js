@@ -9,12 +9,13 @@ import {
 const jwt = JSON.parse(localStorage.getItem("jwt"));
 
 const initialState = jwt ? { isLoggedIn: true } : { isLoggedIn: false };
-console.log('initialState', initialState);
 
 const authReducer = (state = initialState, action) => {
 	const { type } = action;
-  switch (type) {
-    case AUTH_LOGIN_SUCCESS:
+	console.log(type)
+
+	switch (type) {
+		case AUTH_LOGIN_SUCCESS:
       return {
         ...state,
 				isLoggedIn: true,

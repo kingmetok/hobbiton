@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react';
-import Header from '../Header/Header';
+import React from 'react';
+import ResponsiveDrawer from '../Header2/Header2';
 import Footer from '../Footer/Footer';
+import ScoreBoard from '../ScoreBoard/ScoreBoard';
 import Dashboard from '../Dashboard/Dashboard';
 import ProfilePage from '../ProfilePage/ProfilePage';
-import LoginPage from '../LoginPage/LoginPage';
+import TaskPage from '../TaskPage/TaskPage';
 import './MainPage.css';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import AddTask from '../AddTask/AddTask';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,40 +18,39 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-	},
-	image: {
-		width: '100%',
-		height: 'auto'
-	}
+  },
+  image: {
+    width: '100%',
+    height: 'auto',
+  },
 }));
 
-const MainPage = ({isLogged}) => {
-	const classes = useStyles();
-	console.log(isLogged);
-	return (
-		isLogged ?
-		<Fragment>
-			<Header />
-			<div className={classes.root}>
-				<Route exact path="/account/dashboard">
-					<Dashboard />
-				</Route>
-				<Route exact path="/account/profile">
-					<ProfilePage />
-				</Route>
-				<Route exact path="/account/addnew">
-					<AddTask />
-				</Route>
-			</div>
-			<Footer /> 
-		</Fragment>
-	: null
-	)
-}
-const mapStateToProps = state => {
-	return {
-		isLogged: state.authReducer.isLoggedIn,
-	}
+export default function MainPage() {
+  const classes = useStyles();
+  return (
+    <>
+			{/* <Header /> */}
+			<ResponsiveDrawer/>
+      <div className={classes.root}>
+        <Route exact path="/dashboard">
+          <Dashboard />
+        </Route>
+        <Route exact path="/dashboard/profile">
+          <ProfilePage />
+        </Route>
+        <Route exact path="/dashboard/scoreboard">
+          <ScoreBoard />
+        </Route>
+        <Route exact path="/dashboard/addnew">
+          <AddTask />
+        </Route>
+        <Route exact path="/dashboard/goals/:id">
+          <TaskPage />
+        </Route>
+      </div>
+      <Footer />
+    </>
+  );
 }
 
-export default connect(mapStateToProps)(MainPage)
+export default MainPage;

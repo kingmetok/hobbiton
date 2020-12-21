@@ -1,28 +1,52 @@
-import React, { Fragment } from 'react';
+import React, {Fragment} from 'react';
 import LandingMainPage from './components/LandingMainPage/LandingMainPage';
 import './App.css';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import Dashboard from './components/Dashboard/Dashboard';
-import { Route, Redirect } from 'react-router-dom';
-import MainPage from './components/MainPage/MainPage';
+import ProfilePage from './components/ProfilePage/ProfilePage';
+import ResponsiveDrawer from './components/Header2/Header2';
+import { Route, Switch, Redirect} from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default function App() {
-  return (
-    <Fragment>
-      <Route exact path="/">
-        <LandingMainPage />
-      </Route>
-      <Route path="/account">
-        <MainPage />
-      </Route>
-      <Route exact path="/login">
-        <LoginPage />
-      </Route>
-      <Route exact path="/register">
-        <RegisterPage />
-			</Route>
-			<Redirect to='/'/>
-    </Fragment>
+const App = ({ isLogged }) => {
+	return (
+		<Fragment>
+			{!isLogged ?
+				<Switch>
+					<Route exact path="/login">
+						<LoginPage />
+					</Route>
+					<Route exact path="/account/profile/:id">
+						<ProfilePage />
+					</Route> 
+					<Route exact path="/register">
+						<RegisterPage />
+					</Route>
+					<Route exact path="/">
+						<LandingMainPage />
+					</Route>
+					<Route path="*">
+						<Redirect to="/" />
+					</Route>
+				</Switch>
+				:
+				<Switch>
+					<Route path="/account">
+						<ResponsiveDrawer />
+					</Route>
+					<Route path="*">
+						<Redirect to="/account" />
+					</Route>
+				</Switch>
+			}
+		</Fragment>
   );
 }
+
+const mapStateToProps = state => {
+	return {
+		isLogged: state.authReducer.isLoggedIn,
+	}
+}
+
+export default connect(mapStateToProps)(App)

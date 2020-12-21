@@ -7,6 +7,7 @@ import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.JsonUtil;
 import com.hackathon.hobbiton.scheduller.Scheduller;
 import com.hackathon.hobbiton.json.entity.Response;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class Authorization extends HttpServlet {
             User user = JsonUtil.createUser(reader);
 
             String result;
-            String json = "";
+            String json;
 
             if (request.getRequestURI().endsWith("/login")) {
                 result = DAO.getInstance().login(user);
@@ -43,13 +44,11 @@ public class Authorization extends HttpServlet {
 
                 if (!result.equalsIgnoreCase("success")) {
                     response.setStatus(400);
-                    json = new Gson().toJson(user);
-
                 }
-            }
 
                 Gson gson = new Gson();
                 writer.write(gson.toJson(new Response(result)));
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

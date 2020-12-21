@@ -15,6 +15,15 @@ public class UserMapper {
         user.setPoints(rs.getInt("points"));
         user.setSubscription(rs.getInt("subscription"));
         user.setFollowers(rs.getInt("followers"));
+
+        user.getAchievements().add(rs.getString("link"));
+
+        while (rs.next()) {
+            user.getAchievements().add(rs.getString("link"));
+        }
+
+        System.out.println(user);
+
         return user;
     }
 }

@@ -71,18 +71,18 @@ export const getUserByIdAction = (id) => {
   };
 };
 
-export const getUserAchievementsAction = () => {
-	return dispatch => {
-    dataService.getUserAchievements()
-			.then(res => {
-				dispatch(getUserAchievementsSuccess(res.data));
-      })
-      .catch(err => {
-				dispatch(getUserAchievementsFailure());
-				dispatch(setMessageAction(err.message));
-      });
-  };
-};
+// export const getUserAchievementsAction = () => {
+// 	return dispatch => {
+//     dataService.getUserAchievements()
+// 			.then(res => {
+// 				dispatch(getUserAchievementsSuccess(res.data));
+//       })
+//       .catch(err => {
+// 				dispatch(getUserAchievementsFailure());
+// 				dispatch(setMessageAction(err.message));
+//       });
+//   };
+// };
 
 export const searchUsersAction = (param) => {
 	return dispatch => {
@@ -142,26 +142,27 @@ const deleteUsersInfoFailure = () => ({
   type: DELETE_USER_INFO_SUCCESS,
 });
 
-const getUserInfoByIdSuccess = () => ({
-  type: GET_USER_ACHIEVEMENTS_SUCCESS,
+const getUserInfoByIdSuccess = (data) => ({
+	type: GET_USER_INFO_BY_ID_SUCCESS,
+	payload: {
+		data
+	}
 });
 
-const getUserInfoByIdFailure = (data) => ({
+const getUserInfoByIdFailure = () => ({
 	type: GET_USER_INFO_BY_ID_FAILURE,
+});
+
+const getUserAchievementsSuccess = (data) => ({
+	type: GET_USER_ACHIEVEMENTS_SUCCESS,
 	payload: {
 		data
 	}
 });
 
-const getUserAchievementsSuccess = () => ({
-  type: GET_USER_INFO_BY_ID_SUCCESS,
-});
-
-const getUserAchievementsFailure = (data) => ({
+const getUserAchievementsFailure = () => ({
 	type: GET_USER_ACHIEVEMENTS_FAILURE,
-	payload: {
-		data
-	}
+
 });
 
 const searchUsersSuccess = (data) => ({

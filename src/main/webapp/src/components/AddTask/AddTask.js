@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import CreateTask from '../CreateTask/CreateTask';
 import {
-  Box,
   Typography,
-  List,
-  ListItem,
   Grid,
   Paper,
 } from '@material-ui/core';
@@ -44,7 +41,7 @@ function AddTask({ getDefaultGoals }) {
   const classes = useStyles();
   useEffect(() => {
     getDefaultGoals();
-  });
+  },[]);
 
   const [seasonTasks, setSeasonTasks] = React.useState(mockSeasons);
 

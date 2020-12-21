@@ -1,4 +1,4 @@
-function calcPersentage(progress, term) {
+function calcPersentage(progress=0, term) {
   if (progress >= term) {
     return 100;
   }

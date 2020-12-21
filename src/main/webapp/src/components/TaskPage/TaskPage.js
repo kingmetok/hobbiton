@@ -60,7 +60,7 @@ function TaskPage({ editGoalById, getGoalById, goalData, message, goalsList }) {
 									variant="determinate"
 									value={calcPercentage(goalDataMock.progress, goalDataMock.term)}
 								/>
-							</Box>
+								</Box>
 							<Button
 								disabled={goalDataMock.completed}
 								onClick={(event) => {
@@ -80,16 +80,16 @@ function TaskPage({ editGoalById, getGoalById, goalData, message, goalsList }) {
 						<Box className={classes.secondaryWrapper}>
 							<Box className={classes.descriptionWrapper}>
 								<Typography className={classes.descriptionText}>
-									{goalDataMock.description}
+									<span>Description: </span>{goalDataMock.description}
 								</Typography>
 								<Typography className={classes.descriptionText}>
-									{`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
+								 {`Last checked at: ${goalDataMock.data_last_checked.getDate()}/${goalDataMock.data_last_checked.getMonth()}/${goalDataMock.data_last_checked.getFullYear()}`}
 								</Typography>
 								<Typography className={classes.descriptionText}>
-									{`Started at: ${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
+								 <span>Started at: </span>{`${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
 								</Typography>
 								<Typography className={classes.descriptionText}>
-									{`Remaining time: ${
+								<span>Remaining time: </span>{`${
 										goalDataMock.term - goalDataMock.progress
 									} days`}
 								</Typography>

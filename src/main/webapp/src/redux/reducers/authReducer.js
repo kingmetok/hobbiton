@@ -8,7 +8,7 @@ import {
 
 const jwt = JSON.parse(localStorage.getItem("jwt"));
 
-const initialState = jwt ? { isLoggedIn: true } : { isLoggedIn: false };
+const initialState = jwt ? { isLoggedIn: true, isRegister: true } : { isLoggedIn: false, isRegister: true };
 // const initialState = { isLoggedIn: true }
 
 const authReducer = (state = initialState, action) => {
@@ -28,7 +28,8 @@ const authReducer = (state = initialState, action) => {
 		case AUTH_REGISTER_SUCCESS:
 			return {
 				...state,
-				isLoggedIn: true
+				isLoggedIn: false,
+				isRegister: true
 			};
 		case AUTH_REGISTER_FAILURE:
 			return {

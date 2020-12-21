@@ -44,7 +44,7 @@ public class Authorization extends HttpServlet {
                 if (!result.equalsIgnoreCase("success")) {
                     response.setStatus(400);
                     json = new Gson().toJson(user);
-                    Scheduller.start();
+
                 }
             }
 

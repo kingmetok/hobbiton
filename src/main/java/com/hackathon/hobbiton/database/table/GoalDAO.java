@@ -6,7 +6,6 @@ import com.hackathon.hobbiton.database.mapper.GoalMapper;
 
 import java.sql.*;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -130,8 +129,9 @@ public class GoalDAO {
         String yesterday = getYesterdayDateString();
         try (Connection connection = DAO.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_CONDITION)) {
-            preparedStatement.setString(1,yesterday);
+            preparedStatement.setDate(1, java.sql.Date.valueOf(yesterday));
             preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

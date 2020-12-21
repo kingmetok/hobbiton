@@ -98,4 +98,8 @@ public class DAO {
         }
         return "error";
     }
+
+    public void updateProgressDAO(){
+        goalDAO.updateProgress();
+    }
 }

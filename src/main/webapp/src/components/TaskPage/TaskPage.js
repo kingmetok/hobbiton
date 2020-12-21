@@ -1,5 +1,5 @@
-import React, { useEffect} from 'react';
-import { useParams} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import createTask from '../../utils/createTask';
 import useStyles from './TaskPageStyles';
@@ -7,11 +7,10 @@ import calcPercentage from '../../utils/calcPercentage';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import InfoMessage from '../InfoMessage/InfoMessage';
 import {
-	editGoalByIdAction,
-	getGoalByIdAction
+  editGoalByIdAction,
+  getGoalByIdAction,
 } from '../../redux/actions/goals';
-import { Box, Button, Typography } from '@material-ui/core'
-
+import { Box, Button, Typography } from '@material-ui/core';
 
 let goalDataMock = createTask(
   'quit smokin!',
@@ -20,18 +19,17 @@ let goalDataMock = createTask(
 
 goalDataMock.progress = 60;
 
-function TaskPage({editGoalById, getGoalById, goalData, message}) {
-	const classes = useStyles();
-	const { id } = useParams();
-	
-	useEffect(() => {
-		getGoalById(id);
-		}
-	);
+function TaskPage({ editGoalById, getGoalById, goalData, message }) {
+  const classes = useStyles();
+  const { id } = useParams();
+
+  useEffect(() => {
+    getGoalById(id);
+  });
 
   function checkTask(id) {
-		console.log(id);
-		editGoalById(id);
+    console.log(id);
+    editGoalById(id);
     // отправляем запрос на обновление прогресса таски
     return;
   }
@@ -39,7 +37,9 @@ function TaskPage({editGoalById, getGoalById, goalData, message}) {
   return (
     <Box className={classes.taskPageWrapper}>
       <Box className={classes.taskPage}>
-        <Typography className={classes.taskText}>{goalDataMock.title}</Typography>
+        <Typography className={classes.taskText}>
+          {goalDataMock.title}
+        </Typography>
         <Box className={classes.progressBarWrapper}>
           <Box className={classes.progressBar}>
             <ProgressBar
@@ -49,6 +49,7 @@ function TaskPage({editGoalById, getGoalById, goalData, message}) {
             />
           </Box>
           <Button
+            disabled={goalDataMock.completed}
             onClick={(event) => {
               checkTask(event.target.id);
             }}
@@ -71,32 +72,34 @@ function TaskPage({editGoalById, getGoalById, goalData, message}) {
             {`Started at: ${goalDataMock.dateStarted.getDate()}/${goalDataMock.dateStarted.getMonth()}/${goalDataMock.dateStarted.getFullYear()}`}
           </Typography>
           <Typography className={classes.descriptionText}>
-            {`Remaining time: ${goalDataMock.term - goalDataMock.progress} days`}
+            {`Remaining time: ${
+              goalDataMock.term - goalDataMock.progress
+            } days`}
           </Typography>
         </Box>
         <Box className={classes.achievementsWrapper}></Box>
-			</Box>
-			<InfoMessage info={message} />
+      </Box>
+      <InfoMessage info={message} />
     </Box>
   );
 }
 
-const mapStateToProps = state => {
-	return {
-		goalsList: state.goalsReducer.goalsList,
-		goalData: state.goalsReducer.goalByIdData,
-		message: state.messageReducer.message
-	}
-}
+const mapStateToProps = (state) => {
+  return {
+    goalsList: state.goalsReducer.goalsList,
+    goalData: state.goalsReducer.goalByIdData,
+    message: state.messageReducer.message,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
-	return {
-		editGoalById: (id) => {
-			dispatch(editGoalByIdAction(id))
-		},
-		getGoalById: (id) => {
-			dispatch(getGoalByIdAction(id))
-		},
-	}
-}
+  return {
+    editGoalById: (id) => {
+      dispatch(editGoalByIdAction(id));
+    },
+    getGoalById: (id) => {
+      dispatch(getGoalByIdAction(id));
+    },
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskPage);;
+export default connect(mapStateToProps, mapDispatchToProps)(TaskPage);

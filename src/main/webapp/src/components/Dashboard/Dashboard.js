@@ -8,10 +8,11 @@ import {
   ListItem,
   Divider,
   Typography,
-	TextField,
-	Grid,
-	Paper
+  TextField,
+  Grid,
+  Paper,
 } from '@material-ui/core';
+import createSeasonTask from '../../utils/createSeasonTask';
 import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
@@ -26,6 +27,14 @@ let mock = [
   createTask('Start jogging', `Jogging every day smoke during 90 days.`),
   createTask('Drink water', `Drink water every day smoke during 90 days.`),
   createTask('Read book', `Read book every day smoke during 90 days.`),
+];
+
+let mockSeasons = [
+  createSeasonTask(
+    'Winter task',
+    'Run 10 km on a cold winter morning',
+    'Winter'
+  ),
 ];
 
 mock[0].progress = 89;
@@ -76,8 +85,8 @@ function Dashboard(props) {
     return;
   }
 
-	function checkTask(id) {
-		editGoalById(id);
+  function checkTask(id) {
+    editGoalById(id);
     // отправляем запрос на обновление прогресса таски
     return;
   }

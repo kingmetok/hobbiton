@@ -1,6 +1,7 @@
 package com.hackathon.hobbiton.controller.goals;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.JWTCreator;
 import com.hackathon.hobbiton.entity.Goal;
@@ -21,16 +22,18 @@ public class GoalServlet extends PatchServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         String pathInfo = request.getPathInfo();
-        System.out.println(pathInfo);
+
         int id;
         if (pathInfo == null) {
             String token = request.getHeader("Authorization");
-            System.out.println(token);
+
             User user = JWTCreator.decodeUser(token);
             id = user.getId();
             List<Goal> result = DAO.getInstance().findGoalByUserId(id);
-            String json = new Gson().toJson(result);
+            System.out.println(result);
+            String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(result);
             try {
+                System.out.println(json);
                 response.getWriter().write(json);
             } catch (
                     IOException e) {
@@ -73,13 +76,14 @@ public class GoalServlet extends PatchServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String token = req.getHeader("Authorization");
-        System.out.println(token);
+
         User user = JWTCreator.decodeUser(token);
 
         BufferedReader reader = req.getReader();
         Goal goal = JsonUtil.createGoal(reader);
 
         String result = DAO.getInstance().createGoal(goal, user.getId());
+
         if (result.equalsIgnoreCase("success")) {
             String json = new Gson().toJson(goal);
             try {

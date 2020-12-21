@@ -14,7 +14,7 @@ public class GoalDAO {
 
     private static final String FIND_BY_GOAL_ID = "select * from goal left join proof on goal_id=goal.id where goal.id=?";
     private static final String INCREMENT_PROGRESS = "update goal set progress=progress+1 where id=?";
-    private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,user_id) values (?,?,?,?,?)";
+    private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,data_created,user_id) values (?,?,?,?,?,?)";
     private static final String DELETE_ALL_BY_USER_ID = "delete from goal where user_id=?";
     private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
     private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal left join proof on goal_id=goal.id where user_id = ?";
@@ -66,13 +66,21 @@ public class GoalDAO {
 
     public Boolean createGoal(Goal goal, int id) {
         try (Connection connection = DAO.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(CREAT_GOAL)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(CREAT_GOAL, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, goal.getTitle());
             preparedStatement.setInt(2, goal.getTerm());
             preparedStatement.setString(3, goal.getDescription());
-            preparedStatement.setDate(4, Date.valueOf(goal.getDateStarted()));
-            preparedStatement.setInt(5, id);
+            preparedStatement.setDate(4, new Date(goal.getDateStarted().getTime()));
+            preparedStatement.setDate(5, new Date(goal.getDateCreated().getTime()));
+            preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+
+            if (generatedKeys.next()) {
+                goal.setId(generatedKeys.getInt(1));
+            }
+
             connection.commit();
             return true;
         } catch (SQLException throwables) {

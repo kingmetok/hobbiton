@@ -1,6 +1,7 @@
 package com.hackathon.hobbiton.json;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import com.google.gson.*;
 import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.entity.JWTResponse;
@@ -8,6 +9,8 @@ import com.hackathon.hobbiton.json.entity.Response;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class JsonUtil {
 
@@ -24,6 +27,7 @@ public class JsonUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(sb);
         return sb.toString();
     }
 
@@ -39,7 +43,7 @@ public class JsonUtil {
     }
 
     public static Goal createGoal(BufferedReader reader){
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         return gson.fromJson(jsonMapper(reader), Goal.class);
     }
 

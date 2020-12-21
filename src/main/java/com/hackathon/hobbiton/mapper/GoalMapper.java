@@ -17,14 +17,14 @@ public class GoalMapper {
         goal.setTitle(rs.getString("title"));
         goal.setProgress(rs.getInt("progress"));
         goal.setTerm(rs.getInt("term"));
-        goal.setDateCreated(rs.getDate("data_created").toLocalDate());
+        goal.setDateCreated(rs.getDate("data_created"));
         goal.setDescription(rs.getString("description"));
         goal.setCompleted(rs.getBoolean("completed"));
-        goal.setDateStarted(rs.getDate("data_started").toLocalDate());
+        goal.setDateStarted(rs.getDate("data_started"));
         List<Proof> list = new ArrayList<>();
-        do{
-            list.add(extractFromResultSetProof(rs));
-        } while (proofForThisGoal(id,rs));
+//        do{
+//            list.add(extractFromResultSetProof(rs));
+//        } while (proofForThisGoal(id,rs));
 
         goal.setProofList(list);
         return goal;

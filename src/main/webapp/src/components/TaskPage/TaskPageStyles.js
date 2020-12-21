@@ -42,7 +42,6 @@ const useStyles = makeStyles({
   descriptionText: {
     fontFamily: 'Roboto',
     fontSize: '18px',
-    borderBottom: '1px solid',
     marginBottom: '20px'
   },
   achievementsWrapper: {

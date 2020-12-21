@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -10,7 +10,6 @@ import {
   Paper,
 } from '@material-ui/core';
 import createSeasonTask from '../../utils/createSeasonTask';
-import createTask from '../../utils/createTask';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
 import useStyles from './DashboardStyles';
@@ -28,13 +27,13 @@ import {
 //   createTask('Read book', `Read book every day smoke during 90 days.`),
 // ];
 
-let mockSeasons = [
-  createSeasonTask(
-    'Winter task',
-    'Run 10 km on a cold winter morning',
-    'Winter'
-  ),
-];
+// let mockSeasons = [
+//   createSeasonTask(
+//     'Winter task',
+//     'Run 10 km on a cold winter morning',
+//     'Winter'
+//   ),
+// ];
 
 // mock[0].progress = 89;
 // mock[1].progress = 70;
@@ -121,6 +120,7 @@ function Dashboard(props) {
 									filterPipe(goalsList).map((el) => (
 										<Grid item xs={12}
 											key={el.id}
+											className={classes.taskItem}
 											onClick={(event) =>
 												getListItem(event, el.id)
 											}

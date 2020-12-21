@@ -18,8 +18,8 @@ import { userData } from '../../utils/userData';
 
 const initialState = {
   userData: userData,
-  userInfoByLink: userData,
-  usersDataBySearch: []
+  profileData: null,
+	usersDataBySearch: []
 }
 
 const userReducer = (state = initialState, action) => {
@@ -46,14 +46,14 @@ const userReducer = (state = initialState, action) => {
       };
     case DELETE_USER_INFO_FAILURE:
       return state;
-    case GET_USER_INFO_BY_ID_SUCCESS:
+		case GET_USER_INFO_BY_ID_SUCCESS:
       return {
         ...state,
-        userInfoByLink: payload.data
+        profileData: payload.data
       };
     case GET_USER_INFO_BY_ID_FAILURE:
       return state;
-    case SEARCH_USERS_SUCCESS:
+		case SEARCH_USERS_SUCCESS:
       return {
         ...state,
         usersDataBySearch: payload.data

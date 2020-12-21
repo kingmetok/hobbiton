@@ -62,7 +62,12 @@ const goalsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				goalByIdData: payload.data,
-				goalsList: [...state.goalsList.filter(({id}) => payload.data.id != id), payload.data ]
+				goalsList: state.goalsList.map((item) => {
+					if (payload.data.id === item.id) {
+						return Object.assign({}, item, payload.data);
+					}
+					return item;
+				}),
       };
     case EDIT_GOAL_FAILURE:
       return state;

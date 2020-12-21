@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { connect } from 'react-redux';
+import useStyles from './AuthFormStyle';
 import {
 	authLoginAction,
 	authRegisterAction
@@ -21,64 +21,9 @@ import {
   FormLabel,
 } from '@material-ui/core';
 
-const useStyles =  makeStyles((theme) => ({
-  authCard: {
-    width: 400,
-    marginTop: 50,
-    margin: 'auto',
-		// background: theme.palette.primary,
-		overflow: 'hidden'
-  },
-  root: {
-    background: '#57bc90',
-    width: '100%',
-    height: '100vh',
-	},
-	wrapper: {
-		paddingTop: '8%',
-		display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-	},
-  title: {
-    fontSize: 26,
-    textAlign: 'center',
-		marginBottom: 50,
-  },
-  formAuth: {
-    width: '100%',
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  field: {
-    width: '100%',
-    marginBottom: '20px',
-  },
-  button: {
-    width: '100%',
-    marginBottom: '20px',
-		fontWeight: 700,
-		backgroundColor: theme.palette.primary.dark,
-		color: '#ffffff'
-  },
-  link: {
-    marginBottom: '20px',
-    display: 'block',
-    width: '100%',
-		textAlign: 'center',
-		color: theme.palette.text.dark
-  },
-  radio: {
-    padding: '20px 0',
-	},
-	logoWrapper: {
-		maxWidth: '300px'
-	}
-}));
 
 const AuthForm = (props) => {
-	const { link, linkMessage, btnText, action, authRegister, authLogin, isLogged } = props;
+	const { link, linkMessage, btnText, action, authRegister, authLogin, isLogged, isRegister } = props;
 	const classes = useStyles();
 	const [formData, setFormData] = useState({
 		email: '',
@@ -94,15 +39,6 @@ const AuthForm = (props) => {
 	const history = useHistory();
 
 
-	// useEffect(() => {
-	// if (isLogged) {
-	// 	history.push('/account/dashboard');
-	// } else {
-	// 	history.push('/login');
-	// }
-	// }, [isLogged]);
-
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (action === 'Register' && validateFormData(formData)) {
@@ -113,7 +49,9 @@ const AuthForm = (props) => {
 
 	const handleRegister = () => {
 		authRegister(formData);
-		history.push('/login');
+		if (isRegister) {
+			history.push('/login');
+		}
 	}
 
 	const handleLogin = () => {
@@ -250,7 +188,8 @@ const AuthForm = (props) => {
 const mapStateToProps = state => {
 	return {
 		isLogged: state.authReducer.isLoggedIn,
-		message: state.messageReducer.message
+		message: state.messageReducer.message,
+		isRegister: state.authReducer.isRegister,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

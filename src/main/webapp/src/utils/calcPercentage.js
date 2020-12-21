@@ -4,5 +4,4 @@ function calcPersentage(progress, term) {
   }
   return Math.floor((progress * 100) / term);
 }
-
 export default calcPersentage;

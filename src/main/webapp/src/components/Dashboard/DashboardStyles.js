@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 	},
   listElementDisabled: {
 		background: theme.palette.grey[100],
-		color: theme.palette.text.disabled,
+		color: theme.palette.grey[400],
 		pointerEvents: 'none',
   },
   addButton: {
@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 	taskText: {
 		width: '20%',
 		textAlign: 'left',
-		borderRight: 'solid 1px black',
 		fontFamily: theme.typography.fontFamily,
 		fontSize: '20px',
   },
@@ -49,9 +48,6 @@ const useStyles = makeStyles((theme) => ({
   searchWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
-  },
-  completed: {
-    color: 'white',
   },
   link: {
     width: '100%',
@@ -101,9 +97,12 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		justifyContent: 'space-between'
 		},
-		title: {
-			textAlign: 'center'
-		}
+	title: {
+		textAlign: 'center'
+	},
+	icon: {
+		marginRight: '1em'
+	}
 }));
 
 export default useStyles;

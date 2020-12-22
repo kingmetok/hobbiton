@@ -59,7 +59,6 @@ const AuthForm = (props) => {
 			login: formData.login,
 			password: formData.password
 		});
-		console.log(isLogged);
 		if (isLogged) {
 			history.push('/account/dashboard');
 		}

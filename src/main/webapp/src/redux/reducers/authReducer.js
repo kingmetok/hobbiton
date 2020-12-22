@@ -7,7 +7,6 @@ import {
 } from "../actionsTypes";
 
 const jwt = JSON.parse(localStorage.getItem("jwt"));
-console.log(jwt);
 
 const initialState = jwt ? {isLoggedIn: true,isRegister: true,} : {isLoggedIn: false,isRegister: true};
 

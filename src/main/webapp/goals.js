@@ -18,7 +18,6 @@ byId.addEventListener("submit", (e) => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const json = JSON.parse(xhr.responseText);
-            console.log(json);
         }
     };
 
@@ -44,7 +43,6 @@ userID.addEventListener("submit", (e) => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const json = JSON.parse(xhr.responseText);
-            console.log(json);
         }
     };
 
@@ -65,7 +63,6 @@ c.addEventListener('submit', event => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const json = JSON.parse(xhr.responseText);
-            console.log(json);
         }
     };
 

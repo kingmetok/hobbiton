@@ -12,7 +12,6 @@ export const authLoginAction = (data) => {
 	return dispatch => {
     authService.login(data)
 			.then(res => {
-				console.log(res);
 				const jwt = res.data.jwt;
 				if (jwt) {
 					localStorage.setItem("jwt", JSON.stringify(jwt));

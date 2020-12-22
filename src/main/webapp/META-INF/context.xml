@@ -10,7 +10,7 @@
               useUnicode="true"
               serverTimezone="UTC"
               validationQuery="select 1"
-              maxActive="10"
-              maxIdle="4"
+              maxActive="15"
+              maxIdle="10"
               defaultAutoCommit="false"/>
 </Context>

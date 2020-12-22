@@ -12,7 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    final String FIND_USER_BY_ID = "select * from user where id=?";
+    final String FIND_USER_BY_ID = "select user.*, a.link from user\n" +
+            "join user_achivements as ac on user.id = ac.id_user\n" +
+            "join achivements a on ac.id_achivements = a.id\n" +
+            "where user.id=?";
 
 
     public void add(User user) {

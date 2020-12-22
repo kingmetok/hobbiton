@@ -2,6 +2,9 @@ package com.hackathon.hobbiton.entity;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public @Data class User {
 
     private int id;
@@ -12,7 +15,7 @@ public @Data class User {
     private int points;
     private int subscription;
     private int followers;
-
+    private List<String> achievements = new ArrayList<>();
 
     public static class Builder {
         private User user;

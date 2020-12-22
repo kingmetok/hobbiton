@@ -1,7 +1,7 @@
 package com.hackathon.hobbiton.json.entity;
 
 public class JWTResponse {
-    private String jwt;
+    private final String jwt;
 
     public String getJwt() {
         return jwt;

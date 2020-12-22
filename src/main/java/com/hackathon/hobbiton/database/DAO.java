@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public class DAO {
-    private static DAO dao = new DAO();
+    private static final DAO dao = new DAO();
     private static final Pool pool = MySQLPoolConnection.getInstance();
 
     private static final UserDAO userDAO = new UserDAO();

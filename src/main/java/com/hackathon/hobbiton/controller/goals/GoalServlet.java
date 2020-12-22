@@ -15,7 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/goals/*", "/api/goals"})//попробовать оставить только /api/goals/*
+@WebServlet(urlPatterns = {"/api/goals/*", "/api/goals"})
 public class GoalServlet extends PatchServlet {
 
     @Override

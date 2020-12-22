@@ -18,7 +18,7 @@ public @Data class User {
     private List<String> achievements = new ArrayList<>();
 
     public static class Builder {
-        private User user;
+        private final User user;
 
         public Builder() {
             user = new User();

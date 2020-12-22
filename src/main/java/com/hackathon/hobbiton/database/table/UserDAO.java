@@ -12,17 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    final String FIND_USER_BY_ID = "select user.*, a.link from user\n" +
+    private static final String FIND_USER_BY_ID = "select user.*, a.link from user\n" +
             "left join user_achivements as ac on user.id = ac.id_user\n" +
             "left join achivements a on ac.id_achivements = a.id\n" +
             "where user.id=?";
-
+    private static final String ADD_USER = "insert into user(login, password, email, gender, points, subscription, followers) values (?, ?, ?, ?,?,?,?)";
+    private static final String EXIST_TWO = "select * from user where login = ?";
+    private static final String DELETE_USER_BY_ID = "delete from user where id = ?";
+    private static final String GET_USERS = "select id, login, email, gender, points, subscription, followers from user";
 
     public void add(User user) {
-        final String SQL = "insert into user(login, password, email, gender, points, subscription, followers) values (?, ?, ?, ?,?,?,?)";
         try (Connection connection = DAO.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
-
+             PreparedStatement statement = connection.prepareStatement(ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getLogin());
             statement.setString(2, HashAndSalt.hashPassword(user.getPassword()));
             statement.setString(3, user.getEmail());
@@ -78,13 +79,9 @@ public class UserDAO {
     }
 
     public boolean existTwo(User user) {
-
-        final String SQL = "select * from user where login = ?";
-
         boolean result = false;
-
         try (Connection connection = DAO.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL)) {
+             PreparedStatement statement = connection.prepareStatement(EXIST_TWO)) {
 
             statement.setString(1, user.getLogin());
 
@@ -134,17 +131,13 @@ public class UserDAO {
 
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
-
-        final String sql = "select id, login, email, gender, points, subscription, followers from user";
-
         try (Connection connection = DAO.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(GET_USERS)) {
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 User user = new User();
-
                 user.setId(resultSet.getInt("id"));
                 user.setLogin(resultSet.getString("login"));
                 user.setEmail(resultSet.getString("email"));
@@ -164,10 +157,8 @@ public class UserDAO {
     }
 
     public void deleteUser(User user) {
-        final String SQL = "delete from user where id = ?";
-
         try (Connection connection = DAO.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL)) {
+             PreparedStatement statement = connection.prepareStatement(DELETE_USER_BY_ID)) {
             statement.setInt(1, user.getId());
             statement.executeUpdate();
 

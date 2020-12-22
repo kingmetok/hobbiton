@@ -1,52 +1,14 @@
 import React from 'react';
-import './ContentBox.css';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-	dashboardWrapper: {
-		width: '90%',
-		margin: '0 auto',
-	},
-	contentImage: {
-		width: '50%',
-  	opacity:' 0.5',
-  	height: '100%',
-  	transition: '0.5s',
-	},
-	contentBoxWrapper: {
-		display: 'flex',
-  	alignItems: 'center',
-		marginBottom: '20px',
-		'&:hover': {
-			contentImage: {
-				opacity: '0.9',
-				transition: '0.5s',
-			}
-		}
-	},
-	contentTextWrapper: {
-		width: '40%',
-		margin: '0 40px',
-	},
-	contentText: {
-		fontSize: '1.2em',
-	},
-	title: {
-		fontSize: '2em',
-	}
-}
-));
+import useStyles from './ContentBoxStyles';
 
 export default function ContentBox(props) {
-	const classes = useStyles();
+  const classes = useStyles();
   return (
     <div style={props.wrapperStyle} className={classes.contentBoxWrapper}>
       <img className={classes.contentImage} src={props.image} alt="" />
       <div className={classes.contentTextWrapper}>
-        <p className={classes.title}>
-          {props.title}
-				</p>
-				<p className={classes.contentText}>{props.description}</p>
+        <p className={classes.title}>{props.title}</p>
+        <p className={classes.contentText}>{props.description}</p>
       </div>
     </div>
   );

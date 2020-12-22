@@ -12,7 +12,6 @@ export const authLoginAction = (data) => {
 	return dispatch => {
     authService.login(data)
 			.then(res => {
-				console.log(res);
 				const jwt = res.data.jwt;
 				if (jwt) {
 					localStorage.setItem("jwt", JSON.stringify(jwt));
@@ -22,7 +21,7 @@ export const authLoginAction = (data) => {
       })
       .catch(err => {
 				dispatch(authLoginFailure());
-				dispatch(setMessageAction(err.message));
+				dispatch(setMessageAction(err.response.data.message));
       });
   };
 };
@@ -30,13 +29,15 @@ export const authLoginAction = (data) => {
 export const authRegisterAction = (data) => {
   return dispatch => {
 		authService.register(data)
-      .then(res => {
+			.then(res => {
+				console.log(res);
 				dispatch(authRegisterSuccess());
 				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(authRegisterFailure());
-				dispatch(setMessageAction(err.message));
+				console.log(err.response.data);
+				dispatch(setMessageAction(err.response.data.message));
       });
   };
 };

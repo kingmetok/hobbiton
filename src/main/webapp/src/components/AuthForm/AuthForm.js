@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { connect } from 'react-redux';
 import useStyles from './AuthFormStyle';
+import InfoMessage from '../InfoMessage/InfoMessage';
 import {
 	authLoginAction,
 	authRegisterAction
@@ -23,7 +24,7 @@ import {
 
 
 const AuthForm = (props) => {
-	const { link, linkMessage, btnText, action, authRegister, authLogin, isLogged, isRegister } = props;
+	const { link, linkMessage, btnText, action, authRegister, authLogin, isLogged, isRegister, message } = props;
 	const classes = useStyles();
 	const [formData, setFormData] = useState({
 		email: '',
@@ -38,6 +39,12 @@ const AuthForm = (props) => {
 	});
 	const history = useHistory();
 
+	useEffect(() => {
+		if (isRegister === null) return;
+		if (isRegister) {
+			history.push('/login');
+		}
+	}, [isRegister]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -59,7 +66,6 @@ const AuthForm = (props) => {
 			login: formData.login,
 			password: formData.password
 		});
-		console.log(isLogged);
 		if (isLogged) {
 			history.push('/account/dashboard');
 		}
@@ -183,6 +189,10 @@ const AuthForm = (props) => {
         </CardContent>
       </Card>
 			</Box>
+			{message ?
+				<InfoMessage info={message} /> :
+				null
+			}
 		</Box>
   );
 };

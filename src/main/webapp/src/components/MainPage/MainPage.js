@@ -7,6 +7,7 @@ import ProfilePage from '../ProfilePage/ProfilePage';
 import AddTask from '../AddTask/AddTask';
 import Dashboard from '../Dashboard/Dashboard';
 import ScoreBoard from '../ScoreBoard/ScoreBoard';
+import Achievements from '../Achievements/Achievements';
 import TaskPage from '../TaskPage/TaskPage';
 import NavLink from '../NavLink/NavLink';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -15,7 +16,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import Logo from '../Logo/Logo';
 import UserSearch from '../UserSearch/UserSearch';
-import MockUserData from '../UserSearch/SearchMockData'; 
 import {
   Button,
   AppBar,
@@ -98,7 +98,9 @@ function MainPage(props) {
 
 	const handleLogout = () => {
 		logout();
-		history.push('/');
+		if (!isLogged) {
+			history.push('/');
+		}
 	};
 
 	const onSearchUserInput = (e) => {}
@@ -224,6 +226,9 @@ function MainPage(props) {
 							</Route>
 							<Route exact path="/account/scoreboard">
 								<ScoreBoard />
+							</Route>
+							<Route exact path="/account/achievements">
+								<Achievements achievementsList={userData.achievements} />
 							</Route>
 							<Route path="*">
 								<Redirect to="/account/dashboard" />

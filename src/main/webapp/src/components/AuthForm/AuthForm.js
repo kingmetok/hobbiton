@@ -59,6 +59,7 @@ const AuthForm = (props) => {
 			login: formData.login,
 			password: formData.password
 		});
+		console.log(isLogged);
 		if (isLogged) {
 			history.push('/account/dashboard');
 		}
@@ -129,7 +130,8 @@ const AuthForm = (props) => {
               label="Password"
               variant="outlined"
               placeholder="******"
-              name="password"
+							name="password"
+							type='password'
 							className={classes.field}
 							error={action === 'Register' && !!helperText.passwordError}
 							helperText={action === 'Register' ? helperText.passwordError : ''}

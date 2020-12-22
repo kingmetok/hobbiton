@@ -9,7 +9,7 @@ import {
   Grid,
   Paper,
 } from '@material-ui/core';
-import createSeasonTask from '../../utils/createSeasonTask';
+import { getDayToday } from '../../utils/getDateToday';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
 import useStyles from './DashboardStyles';
@@ -20,33 +20,6 @@ import {
   editGoalByIdAction,
 } from '../../redux/actions/goals';
 
-// let mock = [
-//   createTask('Quit smoking', `Don't smoke every day during 90 days.`),
-//   createTask('Start jogging', `Jogging every day smoke during 90 days.`),
-//   createTask('Drink water', `Drink water every day smoke during 90 days.`),
-//   createTask('Read book', `Read book every day smoke during 90 days.`),
-// ];
-
-// let mockSeasons = [
-//   createSeasonTask(
-//     'Winter task',
-//     'Run 10 km on a cold winter morning',
-//     'Winter'
-//   ),
-// ];
-
-// mock[0].progress = 89;
-// mock[1].progress = 70;
-// mock[2].progress = 5;
-// mock[3].progress = 90;
-
-// mock[0].id = 1;
-// mock[1].id = 2;
-// mock[2].id = 3;
-// mock[3].id = 4;
-
-// mock[3].completed = true;
-
 function Dashboard(props) {
 	const classes = useStyles();
 	const history = useHistory();
@@ -56,7 +29,7 @@ function Dashboard(props) {
 	
 	useEffect(() => {
 		getUserGoals();
-	},[]);
+	}, []);
 
   function handleInput(value) {
     setFilter(value);
@@ -159,6 +132,8 @@ function Dashboard(props) {
 												</Box>
 												<Button
 													disabled={el.completed}
+													disabled={(getDayToday() === el.dateLastProof )|| el.completed}
+													className={classes.btnDone}
 													onClick={(event) => {
 														checkTask(el.id);
 													}}

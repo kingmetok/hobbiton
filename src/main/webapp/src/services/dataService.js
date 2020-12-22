@@ -1,6 +1,19 @@
 import axios from 'axios';
 import authHeader from './authHeader';
 import { GOALS_URL, USERS_URL } from '../utils/urls';
+/**
+ * @api {get} /users/me Request User information
+ * @apiName GetUser
+ * @apiGroup Users
+ *
+ * @apiParam  No parameters
+ *
+ * @apiHeader [{type}]
+ * 
+ * 
+ * @apiSuccess {String} login email gender of the User.
+ * @apiError {String} 
+ */
 
 const userService = {
   getUsersGoals: () => {
@@ -40,7 +53,7 @@ const userService = {
     return axios.patch(USERS_URL + `/subscribe/`,param, { headers: authHeader() });
 	},
 	searchUsers: (params) => {
-    return axios.get(USERS_URL + `/users`, params, { headers: authHeader() });
+    return axios.get(USERS_URL , params, { headers: authHeader() });
 	},
 	getUserAchievements: () => {
     return axios.get(USERS_URL + `/me`, { headers: authHeader() });

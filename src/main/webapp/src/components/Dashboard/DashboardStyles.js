@@ -105,6 +105,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	taskItem: {
 		width: '100%'
+	},
+	btnDone: {
+		marginLeft: '1em'
 	}
 }));
 

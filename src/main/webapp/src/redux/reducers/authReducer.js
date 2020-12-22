@@ -7,9 +7,9 @@ import {
 } from "../actionsTypes";
 
 const jwt = JSON.parse(localStorage.getItem("jwt"));
+console.log(jwt);
 
-const initialState = jwt ? { isLoggedIn: true, isRegister: true } : { isLoggedIn: false, isRegister: true };
-// const initialState = { isLoggedIn: true }
+const initialState = jwt ? {isLoggedIn: true,isRegister: true,} : {isLoggedIn: false,isRegister: true};
 
 const authReducer = (state = initialState, action) => {
 	const { type } = action;

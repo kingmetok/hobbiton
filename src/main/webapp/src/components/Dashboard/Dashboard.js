@@ -105,6 +105,7 @@ function Dashboard(props) {
                       xs={12}
                       key={el.id}
                       onClick={(event) => getListItem(event, el.id)}
+                      className={classes.taskItem}
                     >
                       <Paper
                         className={

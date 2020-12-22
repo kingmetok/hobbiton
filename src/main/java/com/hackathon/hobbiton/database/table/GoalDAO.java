@@ -21,7 +21,11 @@ public class GoalDAO {
     private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
     private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal where user_id = ?";
     private static final String UPDATE_BY_CONDITION = "update goal set progress=0 where date_last_proof <> ? ";
-    private static final String FIND_ACHIVEMENTS_FOR_USER_BY_GOALID = "select link from achivements left join user_achivements on id_achivements=achivements.id where id_goal=? and id_user=?";
+    private static final String FIND_ACHIVEMENTS_FOR_USER_BY_GOALID = "select g.*, a.link from user\n" +
+            "join user_achivements as ac on user.id = ac.id_user\n" +
+            "join achivements a on ac.id_achivements = a.id\n" +
+            "join goal g on g.id = ac.id_goal\n" +
+            "where user.id=?";
 
     private final GoalMapper goalMapper = new GoalMapper();
 
@@ -152,7 +156,7 @@ public class GoalDAO {
     public List<String> findAchivementsForUserByGoalID(int userId, int goalId){
         List<String> list = new ArrayList<>();
         try (Connection connection = DAO.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_CONDITION)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ACHIVEMENTS_FOR_USER_BY_GOALID)) {
             preparedStatement.setInt(1, goalId);
             preparedStatement.setInt(2, userId);
             ResultSet resultSet = preparedStatement.executeQuery();

@@ -43,10 +43,10 @@ public class Authorization extends HttpServlet {
 
                 if (!result.equalsIgnoreCase("success")) {
                     response.setStatus(400);
+                    writer.write(new Gson().toJson(new Response("Something went wrong!")));
+                }else {
+                    writer.write(new Gson().toJson(new Response("Thank you for registration")));
                 }
-
-                Gson gson = new Gson();
-                writer.write(gson.toJson(new Response(result)));
             }
 
         } catch (IOException e) {

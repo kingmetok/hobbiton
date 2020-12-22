@@ -77,11 +77,6 @@ public class DAO {
         return new Gson().toJson(user);
     }
 
-    public String deleteGoalsByUserId(int id) {
-        String result = "error";
-        if (goalDAO.deleteAllGoalsByUserId(id)) result = "Goal was successfully deleted";
-        return result;
-    }
 
     public String deleteGoalByID(int id) {
         String result = "error";

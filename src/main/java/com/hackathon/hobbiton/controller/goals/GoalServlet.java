@@ -89,7 +89,7 @@ public class GoalServlet extends PatchServlet {
         String result = DAO.getInstance().createGoal(goal, user.getId());
 
         if (result.equalsIgnoreCase("success")) {
-            String json = new Gson().toJson(goal);
+            String json = new Gson().toJson(DAO.getInstance().findGoalById(goal.getId()));
             try {
                 resp.getWriter().write(json);
             } catch (

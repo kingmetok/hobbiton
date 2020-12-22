@@ -4,8 +4,6 @@ import com.hackathon.hobbiton.entity.Goal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GoalMapper {
 
@@ -45,15 +43,5 @@ public class GoalMapper {
             goal.getAchievements().add(rs.getString("link"));
         }
         return goal;
-    }
-
-    private boolean achivementForThisGoal(Integer id,ResultSet rs) throws SQLException {
-        rs.next();
-        int nextId = rs.getInt("id");
-        return nextId == id;
-    }
-
-    private String extractFromResultSetAchivement(ResultSet rs) throws SQLException {
-        return rs.getString("link");
     }
 }

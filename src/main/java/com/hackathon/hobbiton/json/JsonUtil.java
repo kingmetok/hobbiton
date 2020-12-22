@@ -1,6 +1,5 @@
 package com.hackathon.hobbiton.json;
 
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.google.gson.*;
 import com.hackathon.hobbiton.entity.Goal;
 import com.hackathon.hobbiton.entity.User;
@@ -9,8 +8,6 @@ import com.hackathon.hobbiton.json.entity.Response;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
 
 public class JsonUtil {
 

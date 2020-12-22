@@ -6,8 +6,10 @@ import org.quartz.impl.StdSchedulerFactory;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 public class Scheduller {
+    private Scheduller() {
+    }
 
-public static void start() {
+    public static void start() {
     SchedulerFactory shedFact = new StdSchedulerFactory();
     try {
         Scheduler scheduler = shedFact.getScheduler();

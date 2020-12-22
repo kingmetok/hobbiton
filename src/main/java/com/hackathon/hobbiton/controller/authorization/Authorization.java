@@ -5,7 +5,6 @@ import com.hackathon.hobbiton.database.DAO;
 import com.hackathon.hobbiton.encrypt.JWTCreator;
 import com.hackathon.hobbiton.entity.User;
 import com.hackathon.hobbiton.json.JsonUtil;
-import com.hackathon.hobbiton.scheduller.Scheduller;
 import com.hackathon.hobbiton.json.entity.Response;
 
 import javax.servlet.annotation.WebServlet;

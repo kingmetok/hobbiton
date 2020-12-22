@@ -61,14 +61,5 @@ public class InfoUserController extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        int userId = (int) req.getSession().getAttribute("UserId");
-//        String result = DAO.getInstance().deleteGoalsByUserId(userId);
-//        String json = JsonUtil.messageResponseGsonCreator(result);
-//        try {
-//            resp.getWriter().write(json);
-//        } catch (
-//                IOException e) {
-//            e.printStackTrace();
-//        }
     }
 }

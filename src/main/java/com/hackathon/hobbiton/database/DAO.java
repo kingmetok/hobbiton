@@ -70,7 +70,9 @@ public class DAO {
 
     public String createGoal(Goal goal, int id) {
         String result = "error";
-        if (goalDAO.createGoal(goal, id)) result = "success";
+        if (goalDAO.createGoal(goal, id)) {
+            result = "success";
+        }
         return result;
     }
 

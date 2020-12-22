@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 public @Data class Goal {
     private int id;
     private String title;
@@ -17,4 +16,5 @@ public @Data class Goal {
     private Boolean completed;
     private Date dateStarted;
     private Date dateLastProof;
+    private List<String> achievements = new ArrayList<>();
 }

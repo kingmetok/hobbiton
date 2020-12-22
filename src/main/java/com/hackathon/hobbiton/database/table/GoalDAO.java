@@ -14,18 +14,13 @@ import java.util.List;
 
 public class GoalDAO {
 
-    private static final String FIND_BY_GOAL_ID = "select * from goal where id=?";
+    private static final String FIND_BY_GOAL_ID = "select * from goal where id = ?";
     private static final String INCREMENT_PROGRESS = "select incrementProgressAndCheckComplete(?)";
     private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,data_created,user_id) values (?,?,?,?,?,?)";
     private static final String DELETE_ALL_BY_USER_ID = "delete from goal where user_id=?";
     private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
     private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal where user_id = ?";
     private static final String UPDATE_BY_CONDITION = "update goal set progress=0 where date_last_proof <> ? ";
-    private static final String FIND_ACHIVEMENTS_FOR_USER_BY_GOALID = "select g.*, a.link from user\n" +
-            "join user_achivements as ac on user.id = ac.id_user\n" +
-            "join achivements a on ac.id_achivements = a.id\n" +
-            "join goal g on g.id = ac.id_goal\n" +
-            "where user.id=?";
 
     private final GoalMapper goalMapper = new GoalMapper();
 
@@ -153,23 +148,31 @@ public class GoalDAO {
         return cal.getTime();
     }
 
-    public List<String> findAchivementsForUserByGoalID(int userId, int goalId){
-        List<String> list = new ArrayList<>();
-        try (Connection connection = DAO.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ACHIVEMENTS_FOR_USER_BY_GOALID)) {
-            preparedStatement.setInt(1, goalId);
-            preparedStatement.setInt(2, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                list.add(resultSet.getString("link"));
-            }
-            connection.commit();
-        }
-            catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        return list;
-    }
+    public Goal findGoalById(int goalId, int userId) {
+        final String SQL = "select g.*, a.link from user " +
+                "join user_achivements as ac on user.id = ac.id_user " +
+                "join achivements a on ac.id_achivements = a.id " +
+                "join goal g on g.id = ac.id_goal " +
+                "where user.id=? and id_goal = ?;";
 
+        Goal goal = new Goal();
+        try (Connection connection = DAO.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, goalId);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                goal = goalMapper.extractFromResultSetWithAchievements(rs);
+            }
+
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return goal;
+    }
 }
 

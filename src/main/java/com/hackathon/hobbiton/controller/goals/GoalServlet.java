@@ -25,7 +25,7 @@ public class GoalServlet extends PatchServlet {
         String token = request.getHeader("Authorization");
 
         User user = JWTCreator.decodeUser(token);
-        int  userId = user.getId();
+        int userId = user.getId();
 
         if (pathInfo == null) {
 
@@ -40,13 +40,12 @@ public class GoalServlet extends PatchServlet {
             }
         } else {
             String idString = pathInfo.replaceAll("/", "");
-           int goalId = Integer.parseInt(idString.substring(1));
-            Goal goal = DAO.getInstance().findGoalById(goalId);
+            int goalId = Integer.parseInt(idString.substring(1));
+            Goal goal = DAO.getInstance().findGoalById(goalId, userId);
             String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(goal);
-            List<String> achivementsForUserByGoalID = DAO.getInstance().findAchivementsForUserByGoalID(userId, goalId);
-            String achivementsJson = new Gson().toJson(achivementsForUserByGoalID);
+
             try {
-                response.getWriter().write(json + achivementsJson);
+                response.getWriter().write(json);
             } catch (
                     IOException e) {
                 e.printStackTrace();

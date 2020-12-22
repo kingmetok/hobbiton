@@ -22,8 +22,6 @@ public class UserMapper {
             user.getAchievements().add(rs.getString("link"));
         }
 
-        System.out.println(user);
-
         return user;
     }
 }

@@ -27,7 +27,7 @@ public class JsonUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(sb);
+
         return sb.toString();
     }
 

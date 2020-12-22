@@ -56,6 +56,10 @@ public class DAO {
         return goalDAO.findGoalById(id);
     }
 
+    public Goal findGoalById(int goalId, int userId) {
+        return goalDAO.findGoalById(goalId, userId);
+    }
+
     public List<Goal> findGoalByUserId(int userId) {
         return goalDAO.findGoalsByUserId(userId);
     }
@@ -103,7 +107,4 @@ public class DAO {
         goalDAO.updateProgress();
     }
 
-    public List<String> findAchivementsForUserByGoalID(int userId,int goalId){
-        return goalDAO.findAchivementsForUserByGoalID(userId, goalId);
-    }
 }

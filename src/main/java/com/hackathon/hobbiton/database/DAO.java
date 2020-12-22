@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public class DAO {
-    private static DAO dao = new DAO();
+    private static final DAO dao = new DAO();
     private static final Pool pool = MySQLPoolConnection.getInstance();
 
     private static final UserDAO userDAO = new UserDAO();
@@ -77,11 +77,6 @@ public class DAO {
         return new Gson().toJson(user);
     }
 
-    public String deleteGoalsByUserId(int id) {
-        String result = "error";
-        if (goalDAO.deleteAllGoalsByUserId(id)) result = "Goal was successfully deleted";
-        return result;
-    }
 
     public String deleteGoalByID(int id) {
         String result = "error";

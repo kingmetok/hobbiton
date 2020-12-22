@@ -3,13 +3,14 @@ import {
 	AUTH_LOGIN_FAILURE,
 	AUTH_REGISTER_SUCCESS,
 	AUTH_REGISTER_FAILURE,
-	LOGOUT
+	LOGOUT,
+	SET_IS_REGISTER
 } from "../actionsTypes";
 
 const jwt = JSON.parse(localStorage.getItem("jwt"));
 
-const initialState = jwt ? { isLoggedIn: true, isRegister: true } : { isLoggedIn: false, isRegister: true };
-// const initialState = { isLoggedIn: true }
+const initialState = jwt ? { isLoggedIn: true, isRegister: true, } : { isLoggedIn: false, isRegister: null };
+console.log(initialState.isRegister);
 
 const authReducer = (state = initialState, action) => {
 	const { type } = action;
@@ -34,13 +35,19 @@ const authReducer = (state = initialState, action) => {
 		case AUTH_REGISTER_FAILURE:
 			return {
 				...state,
-				isLoggedIn: false
+				isLoggedIn: false,
+				isRegister: false
 			};
 		case LOGOUT:
 			return {
 				...state,
 				isLoggedIn: false,
 			};
+		case SET_IS_REGISTER:
+			return {
+				...state,
+				isRegister: null
+			}
     default:
       return state;
   }

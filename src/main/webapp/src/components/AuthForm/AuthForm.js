@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { connect } from 'react-redux';
 import useStyles from './AuthFormStyle';
+import InfoMessage from '../InfoMessage/InfoMessage';
 import {
 	authLoginAction,
-	authRegisterAction
+	authRegisterAction,
 } from '../../redux/actions/auth';
+import {clearMessageAction} from '../../redux/actions/message';
 import {
   CardContent,
   Card,
@@ -23,7 +25,18 @@ import {
 
 
 const AuthForm = (props) => {
-	const { link, linkMessage, btnText, action, authRegister, authLogin, isLogged, isRegister } = props;
+	const {
+		link,
+		linkMessage,
+		btnText,
+		action,
+		authRegister,
+		authLogin,
+		isLogged,
+		isRegister,
+		message,
+		clearMessage
+	} = props;
 	const classes = useStyles();
 	const [formData, setFormData] = useState({
 		email: '',
@@ -38,6 +51,13 @@ const AuthForm = (props) => {
 	});
 	const history = useHistory();
 
+	useEffect(() => {
+		clearMessage();
+		if (isRegister === null) return;
+		if (isRegister) {
+			history.push('/login');
+		}
+	}, [isRegister]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -129,7 +149,8 @@ const AuthForm = (props) => {
               label="Password"
               variant="outlined"
               placeholder="******"
-              name="password"
+							name="password"
+							type='password'
 							className={classes.field}
 							error={action === 'Register' && !!helperText.passwordError}
 							helperText={action === 'Register' ? helperText.passwordError : ''}
@@ -181,6 +202,10 @@ const AuthForm = (props) => {
         </CardContent>
       </Card>
 			</Box>
+			{message ?
+				<InfoMessage info={message} /> :
+				null
+			}
 		</Box>
   );
 };
@@ -199,6 +224,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		authRegister: (userData) => {
 			dispatch(authRegisterAction(userData))
+		},
+		clearMessage: () => {
+			dispatch(clearMessageAction())
 		}
 	}
 }

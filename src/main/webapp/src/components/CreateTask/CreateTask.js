@@ -1,10 +1,16 @@
-import React,{ useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import getFormattedDate from '../../utils/formatDate';
 import compareDates from '../../utils/compareDates';
 import { addGoalAction } from '../../redux/actions/goals';
-import { Button, Box, TextField, Typography, ButtonGroup } from '@material-ui/core';
+import {
+  Button,
+  Box,
+  TextField,
+  Typography,
+  ButtonGroup,
+} from '@material-ui/core';
 import useStyles from './CreateTaskStyle';
 
 const helperText = {
@@ -13,9 +19,9 @@ const helperText = {
 };
 
 const CreateTask = (props) => {
-	const classes = useStyles();
-	const { addGoal } = props;
-	const history = useHistory();
+  const classes = useStyles();
+  const { addGoal } = props;
+  const history = useHistory();
 
   const [inputValues, setInputValues] = useState({
     title: '',
@@ -77,15 +83,11 @@ const CreateTask = (props) => {
   function submitValues() {
     let result = inputValues;
     if (result.title && result.description) {
-			if (compareDates(result.dateStarted)) {
-				console.log(inputValues.dateStarted);
-				// let date = new Date(inputValues.dateStarted);
-				// result.dateStarted = date;
-				console.log(result);
+      if (compareDates(result.dateStarted)) {
         addGoal(result);
       }
-		}
-		history.push('/account/dashboard');
+    }
+    history.push('/account/dashboard');
   }
 
   function setValid(name, value) {
@@ -105,7 +107,7 @@ const CreateTask = (props) => {
     } else if (!value && name !== 'dateStarted') {
       setValidation({ ...validation, [name]: true });
       return;
-		}
+    }
   }
 
   const handleCancel = () => {
@@ -115,9 +117,7 @@ const CreateTask = (props) => {
 
   return (
     <Box>
-      <h3 className={classes.header}>
-        ...or Create an Own Goal
-      </h3>
+      <h3 className={classes.header}>...or Create an Own Goal</h3>
       <Box className={classes.inputWrapper}>
         <TextField
           disabled={disabled}
@@ -188,21 +188,11 @@ const CreateTask = (props) => {
       <Typography>Term: 90 days</Typography>
 
       <ButtonGroup variant="outlined" color="primary">
-				<Button
-					onClick={() => resetForm()}
-					>
-					Reset
-        </Button>
-        <Button
-          className={classes.button}
-          onClick={() => submitValues()}
-        >
+        <Button onClick={() => resetForm()}>Reset</Button>
+        <Button className={classes.button} onClick={() => submitValues()}>
           Submit
         </Button>
-				<Button
-					onClick={handleCancel}>
-          Cancel
-        </Button>
+        <Button onClick={handleCancel}>Cancel</Button>
       </ButtonGroup>
     </Box>
   );

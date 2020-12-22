@@ -1,8 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AuthForm from '../AuthForm/AuthForm';
+import { connect } from 'react-redux';
+import {
+	setIsRegisterAction
+} from '../../redux/actions/auth';
 
 
-const LoginPage = () => {
+const LoginPage = ({setIsRegister}) => {
+	useEffect(() => {
+		setIsRegister()
+	},[]);
+
 	return (
 		<AuthForm
 			link='/register'
@@ -13,4 +21,11 @@ const LoginPage = () => {
 	)
 }
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setIsRegister: () => {
+			dispatch(setIsRegisterAction())
+		},
+	}
+}
+export default connect(null, mapDispatchToProps)(LoginPage);

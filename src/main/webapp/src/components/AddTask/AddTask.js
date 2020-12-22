@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import CreateTask from '../CreateTask/CreateTask';
-import {
-  Typography,
-  Grid,
-  Paper,
-} from '@material-ui/core';
+import { Typography, Grid, Paper } from '@material-ui/core';
 import createTask from '../../utils/createTask';
 import createSeasonTask from '../../utils/createSeasonTask';
 import useStyles from './AddTaskStyles';
@@ -19,29 +15,18 @@ let mock = [
 ];
 
 let mockSeasons = [
-  createSeasonTask('Summer task', 'Get prepared to the beach season', 'Summer'),
-  createSeasonTask(
-    'Winter task',
-    'Run 10 km on a cold winter morning',
-    'Winter'
-  ),
-  createSeasonTask(
-    'Autumn task',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    'Autumn'
-  ),
-  createSeasonTask(
-    'Spring task',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    'Spring'
-  ),
+  createSeasonTask('Summer task', `Run every day 2 kilometer's`, 'Summer'),
+  createSeasonTask('Winter task', 'Read book every day', 'Winter'),
+  createSeasonTask('Autumn task', 'Stretching  every morning', 'Autumn'),
+  createSeasonTask('Spring task', 'Abs workout every day', 'Spring'),
 ];
 
 function AddTask({ getDefaultGoals }) {
   const classes = useStyles();
   useEffect(() => {
     getDefaultGoals();
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [seasonTasks, setSeasonTasks] = React.useState(mockSeasons);
 
@@ -58,8 +43,8 @@ function AddTask({ getDefaultGoals }) {
     } else if (month === 9 || month === 10 || month === 11) {
       setSeasonTasks(result.filter((el) => el.season === 'Autumn'));
     }
-
     return;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [inputValues, setInputValues] = React.useState({
@@ -86,7 +71,12 @@ function AddTask({ getDefaultGoals }) {
                   <Paper className={classes.paper}>
                     <Grid item xs container direction="column" spacing={2}>
                       {seasonTasks.map((el) => (
-                        <Grid item xs={12} className={classes.item} key={el.title}>
+                        <Grid
+                          item
+                          xs={12}
+                          className={classes.item}
+                          key={el.title}
+                        >
                           <Paper
                             onClick={() =>
                               sendInputValues(el.title, el.description)
@@ -103,7 +93,12 @@ function AddTask({ getDefaultGoals }) {
                       ))}
 
                       {mock.map((el) => (
-                        <Grid item xs={12} className={classes.item} key={el.title}>
+                        <Grid
+                          item
+                          xs={12}
+                          className={classes.item}
+                          key={el.title}
+                        >
                           <Paper
                             onClick={() =>
                               sendInputValues(el.title, el.description)
@@ -132,26 +127,6 @@ function AddTask({ getDefaultGoals }) {
         </Paper>
       </Grid>
     </Grid>
-    // <Box className={classes.wrapper}>
-    //   <Box className={classes.listWrapper}>
-    //     <Typography className={classes.header}>Choose a Goal...</Typography>
-    //     <List className={classes.list}>
-    //       {mock.map((el) => (
-    //         <ListItem
-    //           onClick={() => sendInputValues(el.title, el.description)}
-    //           className={classes.listItem}
-    //         >
-    //           <Typography className={classes.title}>{el.title}</Typography>
-    //           <Typography className={classes.description}>
-    //             {el.description}
-    //           </Typography>
-    //           <Typography className={classes.term}>90 days</Typography>
-    //         </ListItem>
-    //       ))}
-    //     </List>
-    //   </Box>
-    //   <CreateTask values={inputValues} isDisabled={disabled} />
-    // </Box>
   );
 }
 

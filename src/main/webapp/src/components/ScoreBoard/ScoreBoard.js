@@ -20,20 +20,9 @@ const useStyles = makeStyles(theme =>({
 	}
 }));
 
-// function createData(name, calories, fat, carbs, protein) {
-//   return { name, calories, fat, carbs, protein };
-// }
-
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
 
 const sort = (array) => {
-	return array.sort((a, b) => a.points - b.points);
+	return array.sort((a, b) => b.points - a.points );
 }
 
 function Scoreboard({searchUsers, usersData}) {
@@ -41,7 +30,6 @@ function Scoreboard({searchUsers, usersData}) {
 		useEffect(() => {
 			searchUsers()
 		}, [searchUsers]);
-	console.log(usersData);
 
   return (
     <TableContainer component={Paper}>
@@ -51,20 +39,17 @@ function Scoreboard({searchUsers, usersData}) {
             <TableCell>Login</TableCell>
             <TableCell align="right">Points</TableCell>
             <TableCell align="right">Achievements</TableCell>
-            {/* <TableCell align="right">Joined in</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
 					{sort(usersData).map((row) => {
-						console.log(row.id);
 						return (
 							<TableRow key={row.id}>
               <TableCell component="th" scope="row">
                 {row.login}
               </TableCell>
               <TableCell align="right">{row.points}</TableCell>
-              <TableCell align="right">{row.achievements}</TableCell>
-              {/* <TableCell align="right">{row.carbs}</TableCell> */}
+              <TableCell align="right">{row.achievements.length}</TableCell>
             </TableRow>
 						)
 					})}

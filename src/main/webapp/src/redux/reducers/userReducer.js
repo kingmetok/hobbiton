@@ -64,7 +64,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: payload.data
-      };
+			};
     case SUBSCRIBE_FOR_USER_FAILURE:
       return state;
     default:

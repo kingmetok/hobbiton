@@ -1,122 +1,112 @@
 import {
-	GET_USER_INFO_SUCCESS,
-	GET_USER_INFO_FAILURE,
-	EDIT_USER_INFO_FAILURE,
-	EDIT_USER_INFO_SUCCESS,
-	DELETE_USER_INFO_FAILURE,
-	DELETE_USER_INFO_SUCCESS,
-	GET_USER_INFO_BY_ID_SUCCESS,
-	GET_USER_INFO_BY_ID_FAILURE,
-	GET_USER_ACHIEVEMENTS_SUCCESS,
-	GET_USER_ACHIEVEMENTS_FAILURE,
-	SEARCH_USERS_SUCCESS,
-	SEARCH_USERS__FAILURE,
-	SUBSCRIBE_FOR_USER_SUCCESS,
-	SUBSCRIBE_FOR_USER_FAILURE
+  GET_USER_INFO_SUCCESS,
+  GET_USER_INFO_FAILURE,
+  EDIT_USER_INFO_FAILURE,
+  EDIT_USER_INFO_SUCCESS,
+  DELETE_USER_INFO_FAILURE,
+  DELETE_USER_INFO_SUCCESS,
+  GET_USER_INFO_BY_ID_SUCCESS,
+  GET_USER_INFO_BY_ID_FAILURE,
+  SEARCH_USERS_SUCCESS,
+  SEARCH_USERS__FAILURE,
+  SUBSCRIBE_FOR_USER_SUCCESS,
+  SUBSCRIBE_FOR_USER_FAILURE,
 } from '../actionsTypes';
 import dataService from '../../services/dataService';
 import { setMessageAction } from './message';
 
 export const getUsersInfoAction = () => {
-	return dispatch => {
-    dataService.getUser()
-			.then(res => {
-				dispatch(getUsersInfoSuccess(res.data));
+  return (dispatch) => {
+    dataService
+      .getUser()
+      .then((res) => {
+        dispatch(getUsersInfoSuccess(res.data));
       })
-      .catch(err => {
-				dispatch(getUsersInfoFailure());
-				dispatch(setMessageAction(err.message));
+      .catch((err) => {
+        dispatch(getUsersInfoFailure());
+        dispatch(setMessageAction(err.message));
       });
   };
 };
 
 export const editUsersInfoAction = (data) => {
-	return dispatch => {
-    dataService.editUser(data)
-			.then(res => {
-				dispatch(editUsersInfoSuccess(res.data));
-				dispatch(setMessageAction(res.message));
+  return (dispatch) => {
+    dataService
+      .editUser(data)
+      .then((res) => {
+        dispatch(editUsersInfoSuccess(res.data));
+        dispatch(setMessageAction(res.message));
       })
-      .catch(err => {
-				dispatch(editUsersInfoFailure());
-				dispatch(setMessageAction(err.message));
+      .catch((err) => {
+        dispatch(editUsersInfoFailure());
+        dispatch(setMessageAction(err.message));
       });
   };
 };
 
 export const deleteUsersInfoAction = () => {
-	return dispatch => {
-    dataService.deleteUser()
-			.then(res => {
-				dispatch(deleteUsersInfoSuccess());
-				dispatch(setMessageAction(res.message));
+  return (dispatch) => {
+    dataService
+      .deleteUser()
+      .then((res) => {
+        dispatch(deleteUsersInfoSuccess());
+        dispatch(setMessageAction(res.message));
       })
-      .catch(err => {
-				dispatch(deleteUsersInfoFailure());
-				dispatch(setMessageAction(err.message));
+      .catch((err) => {
+        dispatch(deleteUsersInfoFailure());
+        dispatch(setMessageAction(err.message));
       });
   };
 };
 
 export const getUserByIdAction = (id) => {
-	return dispatch => {
-    dataService.getUserInfoById(id)
-			.then(res => {
-				dispatch(getUserInfoByIdSuccess(res.data));
+  return (dispatch) => {
+    dataService
+      .getUserInfoById(id)
+      .then((res) => {
+        dispatch(getUserInfoByIdSuccess(res.data));
       })
-      .catch(err => {
-				dispatch(getUserInfoByIdFailure());
-				dispatch(setMessageAction(err.message));
+      .catch((err) => {
+        dispatch(getUserInfoByIdFailure());
+        dispatch(setMessageAction(err.message));
       });
   };
 };
 
-// export const getUserAchievementsAction = () => {
-// 	return dispatch => {
-//     dataService.getUserAchievements()
-// 			.then(res => {
-// 				dispatch(getUserAchievementsSuccess(res.data));
-//       })
-//       .catch(err => {
-// 				dispatch(getUserAchievementsFailure());
-// 				dispatch(setMessageAction(err.message));
-//       });
-//   };
-// };
-
 export const searchUsersAction = (param) => {
-	return dispatch => {
-    dataService.searchUsers(param)
-			.then(res => {
-				dispatch(searchUsersSuccess(res.data));
+  return (dispatch) => {
+    dataService
+      .searchUsers(param)
+      .then((res) => {
+        dispatch(searchUsersSuccess(res.data));
       })
-      .catch(err => {
-				dispatch(searchUsersFailure());
-				dispatch(setMessageAction(err.message));
+      .catch((err) => {
+        dispatch(searchUsersFailure());
+        dispatch(setMessageAction(err.message));
       });
   };
 };
 
 export const subscribeForUserAction = (params) => {
-	return dispatch => {
-    dataService.subscribeUser(params)
-			.then(res => {
-				dispatch(subscribeForUserSuccess(res.data));
-				dispatch(setMessageAction(res.message));
+  return (dispatch) => {
+    dataService
+      .subscribeUser(params)
+      .then((res) => {
+        dispatch(subscribeForUserSuccess(res.data));
+        dispatch(setMessageAction(res.message));
       })
-      .catch(err => {
-				dispatch(subscribeForUserFailure());
-				dispatch(setMessageAction(err.message));
+      .catch((err) => {
+        dispatch(subscribeForUserFailure());
+        dispatch(setMessageAction(err.message));
       });
   };
 };
 
-
 const getUsersInfoSuccess = (data) => ({
-	type: GET_USER_INFO_SUCCESS,
-	payload: {
-		data
-	}
+  type: GET_USER_INFO_SUCCESS,
+  payload: {
+    data,
+  },
 });
 
 const getUsersInfoFailure = () => ({
@@ -124,10 +114,10 @@ const getUsersInfoFailure = () => ({
 });
 
 const editUsersInfoSuccess = (data) => ({
-	type: EDIT_USER_INFO_FAILURE,
-	payload: {
-		data
-	}
+  type: EDIT_USER_INFO_FAILURE,
+  payload: {
+    data,
+  },
 });
 
 const editUsersInfoFailure = () => ({
@@ -143,46 +133,34 @@ const deleteUsersInfoFailure = () => ({
 });
 
 const getUserInfoByIdSuccess = (data) => ({
-	type: GET_USER_INFO_BY_ID_SUCCESS,
-	payload: {
-		data
-	}
+  type: GET_USER_INFO_BY_ID_SUCCESS,
+  payload: {
+    data,
+  },
 });
 
 const getUserInfoByIdFailure = () => ({
-	type: GET_USER_INFO_BY_ID_FAILURE,
-});
-
-const getUserAchievementsSuccess = (data) => ({
-	type: GET_USER_ACHIEVEMENTS_SUCCESS,
-	payload: {
-		data
-	}
-});
-
-const getUserAchievementsFailure = () => ({
-	type: GET_USER_ACHIEVEMENTS_FAILURE,
-
+  type: GET_USER_INFO_BY_ID_FAILURE,
 });
 
 const searchUsersSuccess = (data) => ({
-	type: SEARCH_USERS_SUCCESS,
-	payload: {
-		data
-	}
+  type: SEARCH_USERS_SUCCESS,
+  payload: {
+    data,
+  },
 });
 
 const searchUsersFailure = () => ({
-	type: SEARCH_USERS__FAILURE,
+  type: SEARCH_USERS__FAILURE,
 });
 
 const subscribeForUserSuccess = (data) => ({
-	type: SUBSCRIBE_FOR_USER_SUCCESS,
-	payload: {
-		data
-	}
+  type: SUBSCRIBE_FOR_USER_SUCCESS,
+  payload: {
+    data,
+  },
 });
 
 const subscribeForUserFailure = () => ({
-	type: SUBSCRIBE_FOR_USER_FAILURE,
+  type: SUBSCRIBE_FOR_USER_FAILURE,
 });

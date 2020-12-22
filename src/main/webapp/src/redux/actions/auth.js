@@ -1,15 +1,17 @@
 import authService from '../../services/authService';
-import { setMessageAction } from './message';
+import { setMessageAction, clearMessageAction } from './message';
 import {
 	AUTH_LOGIN_SUCCESS,
 	AUTH_LOGIN_FAILURE,
 	AUTH_REGISTER_SUCCESS,
 	AUTH_REGISTER_FAILURE,
-	LOGOUT
+	LOGOUT,
+	SET_IS_REGISTER
 } from "../actionsTypes";
 
 export const authLoginAction = (data) => {
 	return dispatch => {
+
     authService.login(data)
 			.then(res => {
 				const jwt = res.data.jwt;
@@ -21,21 +23,23 @@ export const authLoginAction = (data) => {
       })
       .catch(err => {
 				dispatch(authLoginFailure());
-				dispatch(setMessageAction(err.message));
+				dispatch(setMessageAction(err.response.data.message));
       });
   };
 };
 
 export const authRegisterAction = (data) => {
-  return dispatch => {
+	return dispatch => {
 		authService.register(data)
-      .then(res => {
+			.then(res => {
+				console.log(res);
 				dispatch(authRegisterSuccess());
 				dispatch(setMessageAction(res.message));
       })
       .catch(err => {
 				dispatch(authRegisterFailure());
-				dispatch(setMessageAction(err.message));
+				console.log(err.response.data);
+				dispatch(setMessageAction(err.response.data.message));
       });
   };
 };
@@ -65,3 +69,7 @@ const authRegisterFailure = () => ({
 const authLogout = () => ({
   type: LOGOUT,
 });
+
+export const setIsRegisterAction = () => ({
+	type: SET_IS_REGISTER
+})

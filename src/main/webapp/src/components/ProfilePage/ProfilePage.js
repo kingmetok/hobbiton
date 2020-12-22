@@ -1,9 +1,6 @@
-import React, {
-	useState,
-	useEffect
-} from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams} from 'react-router-dom';
 import {
 	getUsersInfoAction,
 	editUsersInfoAction,
@@ -23,73 +20,92 @@ import otherIcon from '../../img/otherIcon.svg';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 const ProfilePage = ({
-	getUsersInfo,
 	editUsersInfo,
 	deleteUsersInfo,
 	userData,
 	message,
 	setMessage,
 	getUserById,
-	isLogged
+	isLogged,
+	profileData,
+	getUsersInfoAction
 }) => {
 	const classes = ProfilePageStyle();
 	const {id} = useParams();
 	const history = useHistory();
 
-	const userIcon = userData.gender === 'female' ? femaleIcon: userData.gender === 'male' ? manIcon : otherIcon;
-	useEffect(() => {
-		if (id) {
-			getUserById(id);
-		}
-	}, []);
+	const isOwner = () => {
+		return isLogged && (!id || id == userData.id)
+	} 
 
-	const shareLink = () => {
+	useEffect(() => {
+		if (!userData.id) { return }
+		if (!isOwner() && id) {
+			getUserById(id);
+		} else {
+			getUserById(userData.id)
+		}
+	}, [userData, id]);
+
+	const shareLink = (id) => {
 		const { protocol, hash, host } = window.location;
 		return `${protocol}//${hash}${host}/account/profile/${id}`;
 	}
 
 	const handleCopyLink = () => {
-		navigator.clipboard.writeText(shareLink());
+		navigator.clipboard.writeText(shareLink(profileData.id));
 		setMessage('Copied link');
 	}
 
 	const handleDeleteUser = () => {
-		deleteUsersInfo(userData.id);
+		deleteUsersInfo(profileData.id);
 		localStorage.removeItem('jwt');
 		history.push('/');
 	}
 
-	return (
+	const userIcon = () => {
+		return profileData.gender === 'female' ? femaleIcon : profileData.gender === 'male' ? manIcon : otherIcon
+	}
+
+	if (!profileData) {
+		return (
+			<div>
+
+			</div>
+		)
+
+	} else {
+		return (
 			<Grid container spacing={3}>
 				<Grid item xs={12}>
 				<Paper className={`${classes.paper} ${classes.backgroundBlock}`}>
 						<div className={classes.wall}></div>
 						<div className={classes.userIcon}>
-							<img src={userIcon} />
+							<img src={userIcon()} />
 						</div>
 					<div className={classes.infoWrapper}>
-						<h1>{userData.login}</h1>
-						<h3>{userData.email}</h3>
-						{!id ?
+						<h1>{profileData.login.charAt(0).toUpperCase() + profileData.login.slice(1)}</h1>
+						<h3>{isLogged && (!id || id == userData.id) ? profileData.email : null}</h3>
+						{isLogged && (!id || id == userData.id)?
 						<ButtonGroup variant="outlined" color="secondary" aria-label="contained primary button group">
-							<Button
+							{/* <Button
 								className={classes.btn}>
 								Edit
 								<EditIcon/>
-							</Button>
+							</Button> */}
 							<Button
 								onClick={handleDeleteUser}
 								className={classes.btn}>
-								Delete
+								Delete account
 							<DeleteIcon/>
 							</Button>
 							<Button 
 								className={classes.btn}
 								onClick={handleCopyLink}>
-								Copy link
+								Copy link to account
 								<ShareIcon/> 
 							</Button>
-							</ButtonGroup> : (isLogged && id ) ?
+							</ButtonGroup> : !(isLogged && (!id || id == userData.id)) ?
 								<Button variant="contained" color="primary">
 									Subscribe
 									<BookmarkBorderIcon/>
@@ -103,20 +119,20 @@ const ProfilePage = ({
 						<Grid item xs container direction="row" spacing={3}>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
-								<h4>My followers</h4>
-								<p className={classes.count}>{userData.followers }</p>
+									<h4>My followers</h4>
+								<p className={classes.count}>{profileData.followers }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 								<h4>My subscription</h4>
-								<p className={classes.count}>{userData.subscription }</p>
+								<p className={classes.count}>{profileData.subscription }</p>
 								</Paper>
 							</Grid>
 							<Grid item xs={4}>
 							<Paper className={classes.paper}>
 							<h4>My points</h4>
-								<p className={classes.count}>{userData.points }</p>
+								<p className={classes.count}>{profileData.points }</p>
 								</Paper>
 							</Grid>
 						</Grid>
@@ -125,13 +141,17 @@ const ProfilePage = ({
 				{/* <InfoMessage info={message} /> */}
 			</Grid>
 	)
+	}
+
+	
 }
 
 const mapStateToProps = state => {
 	return {
-		userData: state.userReducer.userData,
+		profileData: state.userReducer.profileData,
 		message: state.messageReducer.message,
-		isLogged: state.authReducer.isLoggedIn
+		isLogged: state.authReducer.isLoggedIn,
+		userData: state.userReducer.userData,
 	}
 }
 const mapDispatchToProps = (dispatch) => {

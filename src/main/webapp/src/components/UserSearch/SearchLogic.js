@@ -4,11 +4,11 @@ const usersMatching = (key, str) => user => {
 
 const searchUserBy = (data, key, str) => data.filter(usersMatching(key, str));
 
-const usersByName = (data, str) => searchUserBy(data, 'username', str);
-const usersById = (data, str) => searchUserBy(data, 'id', str);
+const usersByLogin = (data, str) => searchUserBy(data, 'login', str);
+// const usersById = (data, str) => searchUserBy(data, 'id', str);
 
 const noResult = () => [];
-const result = (data, str) => [...usersByName(data, str), ...usersById(data, str)];
+const result = (data, str) => [...usersByLogin(data, str)];
 
 const search = (data, str) => !str ? noResult : result(data, str);
 export default search;

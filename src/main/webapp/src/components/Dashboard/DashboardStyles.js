@@ -102,6 +102,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	icon: {
 		marginRight: '1em'
+	},
+	taskItem: {
+		width: '100%'
+	},
+	btnDone: {
+		marginLeft: '1em'
 	}
 }));
 

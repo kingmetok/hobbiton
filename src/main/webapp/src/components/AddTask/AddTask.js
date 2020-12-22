@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import CreateTask from '../CreateTask/CreateTask';
 import {
-  Box,
   Typography,
-  List,
-  ListItem,
   Grid,
   Paper,
 } from '@material-ui/core';
@@ -22,20 +19,20 @@ let mock = [
 ];
 
 let mockSeasons = [
-  createSeasonTask('Summer task', 'Get prepared to the beach season', 'Summer'),
+  createSeasonTask('Summer task', `Run every day 2 kilometer's`, 'Summer'),
   createSeasonTask(
     'Winter task',
-    'Run 10 km on a cold winter morning',
+    'Read book every day',
     'Winter'
   ),
   createSeasonTask(
     'Autumn task',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    'Stretching  every morning',
     'Autumn'
   ),
   createSeasonTask(
     'Spring task',
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    'Abs workout every day',
     'Spring'
   ),
 ];
@@ -44,7 +41,7 @@ function AddTask({ getDefaultGoals }) {
   const classes = useStyles();
   useEffect(() => {
     getDefaultGoals();
-  });
+  },[]);
 
   const [seasonTasks, setSeasonTasks] = React.useState(mockSeasons);
 
@@ -135,26 +132,6 @@ function AddTask({ getDefaultGoals }) {
         </Paper>
       </Grid>
     </Grid>
-    // <Box className={classes.wrapper}>
-    //   <Box className={classes.listWrapper}>
-    //     <Typography className={classes.header}>Choose a Goal...</Typography>
-    //     <List className={classes.list}>
-    //       {mock.map((el) => (
-    //         <ListItem
-    //           onClick={() => sendInputValues(el.title, el.description)}
-    //           className={classes.listItem}
-    //         >
-    //           <Typography className={classes.title}>{el.title}</Typography>
-    //           <Typography className={classes.description}>
-    //             {el.description}
-    //           </Typography>
-    //           <Typography className={classes.term}>90 days</Typography>
-    //         </ListItem>
-    //       ))}
-    //     </List>
-    //   </Box>
-    //   <CreateTask values={inputValues} isDisabled={disabled} />
-    // </Box>
   );
 }
 
@@ -173,3 +150,11 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTask);
+
+
+let mockUsers = [
+	{
+		login: 'Ilon Mask',
+		
+	}
+]

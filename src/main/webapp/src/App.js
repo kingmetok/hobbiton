@@ -16,9 +16,6 @@ const App = ({ isLogged }) => {
 					<Route exact path="/login">
 						<LoginPage />
 					</Route>
-					<Route exact path="/account/profile/:id">
-						<ProfilePage />
-					</Route> 
 					<Route exact path="/register">
 						<RegisterPage />
 					</Route>

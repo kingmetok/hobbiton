@@ -1,7 +1,5 @@
 import React from 'react';
-import ContentBox from '../ContentBox/ContentBox';
 import { Paper, Grid } from '@material-ui/core';
-import landingSettings from '../../utils/landingSettings';
 import { makeStyles } from '@material-ui/core/styles';
 
 

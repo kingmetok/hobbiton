@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme =>({
   taskPageWrapper: {
     width: '90%',
     margin: '0 auto',
@@ -37,12 +37,12 @@ const useStyles = makeStyles({
   },
   descriptionWrapper: {
     width: '50%',
-    margin: '10px',
+		margin: '10px',
+		textAlign: 'left'
   },
   descriptionText: {
     fontFamily: 'Roboto',
     fontSize: '18px',
-    borderBottom: '1px solid',
     marginBottom: '20px'
   },
   achievementsWrapper: {
@@ -51,7 +51,15 @@ const useStyles = makeStyles({
 	},
 	icon: {
 		marginRight: '1em'
-	}
-});
+	},
+	btnDone: {
+		marginLeft: '1em'
+	},
+	paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary
+	},
+}));
 
 export default useStyles;

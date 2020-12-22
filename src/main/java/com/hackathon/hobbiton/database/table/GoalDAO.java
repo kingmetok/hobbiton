@@ -19,7 +19,7 @@ public class GoalDAO {
             "left join achivements a on a.id = ua.id_achivements\n" +
             "where g.id = ?";
     private static final String INCREMENT_PROGRESS = "select incrementProgressAndCheckComplete(?)";
-    private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,data_created,user_id,completed,progress,date_last_proof) values (?,?,?,?,?,?,?,?,?)";
+    private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,data_created,completed,progress,date_last_proof,user_id,) values (?,?,?,?,?,?,?,?,?)";
     private static final String DELETE_GOAL_BY_ID = "delete from goal where id=?";
     private static final String FIND_ALL_GOALS_BY_USER_ID = "select * from goal where user_id = ?";
     private static final String UPDATE_BY_CONDITION = "update goal set progress=0 where date_last_proof <> ? ";

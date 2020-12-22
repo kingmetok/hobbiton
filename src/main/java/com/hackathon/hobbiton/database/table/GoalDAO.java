@@ -14,7 +14,10 @@ import java.util.List;
 
 public class GoalDAO {
 
-    private static final String FIND_BY_GOAL_ID = "select * from goal where id = ?";
+    private static final String FIND_BY_GOAL_ID = "select g.*, a.link from goal as g\n" +
+            "left join user_achivements ua on g.id = ua.id_goal\n" +
+            "left join achivements a on a.id = ua.id_achivements\n" +
+            "where g.id = ?";
     private static final String INCREMENT_PROGRESS = "select incrementProgressAndCheckComplete(?)";
     private static final String CREAT_GOAL = "insert into goal (title,term,description,data_started,data_created,user_id) values (?,?,?,?,?,?)";
     private static final String DELETE_ALL_BY_USER_ID = "delete from goal where user_id=?";
@@ -46,7 +49,7 @@ public class GoalDAO {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next())
-                goal = goalMapper.extractFromResultSet(rs);
+                goal = goalMapper.extractFromResultSetWithAchievements(rs);
             connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -146,33 +149,6 @@ public class GoalDAO {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         return cal.getTime();
-    }
-
-    public Goal findGoalById(int goalId, int userId) {
-        final String SQL = "select g.*, a.link from user " +
-                "join user_achivements as ac on user.id = ac.id_user " +
-                "join achivements a on ac.id_achivements = a.id " +
-                "join goal g on g.id = ac.id_goal " +
-                "where user.id=? and id_goal = ?;";
-
-        Goal goal = new Goal();
-        try (Connection connection = DAO.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
-
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, goalId);
-
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                goal = goalMapper.extractFromResultSetWithAchievements(rs);
-            }
-
-            connection.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return goal;
     }
 }
 

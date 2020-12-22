@@ -41,7 +41,7 @@ public class GoalServlet extends PatchServlet {
         } else {
             String idString = pathInfo.replaceAll("/", "");
             int goalId = Integer.parseInt(idString.substring(1));
-            Goal goal = DAO.getInstance().findGoalById(goalId, userId);
+            Goal goal = DAO.getInstance().findGoalById(goalId);
             String json = new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJson(goal);
 
             try {

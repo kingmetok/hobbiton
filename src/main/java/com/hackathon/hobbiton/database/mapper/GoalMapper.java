@@ -27,8 +27,8 @@ public class GoalMapper {
     public Goal extractFromResultSetWithAchievements(ResultSet rs) throws SQLException {
 
         Goal goal = new Goal();
-        int id=rs.getInt("id");
-        goal.setId(id);
+
+        goal.setId(rs.getInt("id"));
         goal.setTitle(rs.getString("title"));
         goal.setProgress(rs.getInt("progress"));
         goal.setTerm(rs.getInt("term"));

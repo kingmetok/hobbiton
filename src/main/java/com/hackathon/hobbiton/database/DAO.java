@@ -56,10 +56,6 @@ public class DAO {
         return goalDAO.findGoalById(id);
     }
 
-    public Goal findGoalById(int goalId, int userId) {
-        return goalDAO.findGoalById(goalId, userId);
-    }
-
     public List<Goal> findGoalByUserId(int userId) {
         return goalDAO.findGoalsByUserId(userId);
     }

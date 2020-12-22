@@ -39,7 +39,6 @@ function Scoreboard({searchUsers, usersData}) {
             <TableCell>Login</TableCell>
             <TableCell align="right">Points</TableCell>
             <TableCell align="right">Achievements</TableCell>
-            {/* <TableCell align="right">Joined in</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -50,8 +49,7 @@ function Scoreboard({searchUsers, usersData}) {
                 {row.login}
               </TableCell>
               <TableCell align="right">{row.points}</TableCell>
-              <TableCell align="right">{row.achievements}</TableCell>
-              {/* <TableCell align="right">{row.carbs}</TableCell> */}
+              <TableCell align="right">{row.achievements.length}</TableCell>
             </TableRow>
 						)
 					})}

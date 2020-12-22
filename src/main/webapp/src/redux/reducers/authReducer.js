@@ -3,7 +3,8 @@ import {
 	AUTH_LOGIN_FAILURE,
 	AUTH_REGISTER_SUCCESS,
 	AUTH_REGISTER_FAILURE,
-	LOGOUT
+	LOGOUT,
+	SET_IS_REGISTER
 } from "../actionsTypes";
 
 const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -42,6 +43,11 @@ const authReducer = (state = initialState, action) => {
 				...state,
 				isLoggedIn: false,
 			};
+		case SET_IS_REGISTER:
+			return {
+				...state,
+				isRegister: null
+			}
     default:
       return state;
   }

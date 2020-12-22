@@ -19,7 +19,7 @@ function TaskPage({ editGoalById, getGoalById, goalData }) {
 
   useEffect(() => {
     getGoalById(id);
-  });
+  },[]);
 
   function checkTask() {
     editGoalById(goalData.id);

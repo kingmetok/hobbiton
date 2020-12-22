@@ -6,8 +6,9 @@ import useStyles from './AuthFormStyle';
 import InfoMessage from '../InfoMessage/InfoMessage';
 import {
 	authLoginAction,
-	authRegisterAction
+	authRegisterAction,
 } from '../../redux/actions/auth';
+import {clearMessageAction} from '../../redux/actions/message';
 import {
   CardContent,
   Card,
@@ -24,7 +25,18 @@ import {
 
 
 const AuthForm = (props) => {
-	const { link, linkMessage, btnText, action, authRegister, authLogin, isLogged, isRegister, message } = props;
+	const {
+		link,
+		linkMessage,
+		btnText,
+		action,
+		authRegister,
+		authLogin,
+		isLogged,
+		isRegister,
+		message,
+		clearMessage
+	} = props;
 	const classes = useStyles();
 	const [formData, setFormData] = useState({
 		email: '',
@@ -40,6 +52,7 @@ const AuthForm = (props) => {
 	const history = useHistory();
 
 	useEffect(() => {
+		clearMessage();
 		if (isRegister === null) return;
 		if (isRegister) {
 			history.push('/login');
@@ -211,6 +224,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		authRegister: (userData) => {
 			dispatch(authRegisterAction(userData))
+		},
+		clearMessage: () => {
+			dispatch(clearMessageAction())
 		}
 	}
 }

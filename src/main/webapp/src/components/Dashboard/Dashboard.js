@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import calcPercentage from '../../utils/calcPercentage';
+import {getDayToday} from '../../utils/getDateToday';
 import useStyles from './DashboardStyles';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import DoneIcon from '@material-ui/icons/Done';
@@ -78,7 +79,6 @@ function Dashboard(props) {
             <Button
               variant="contained"
               color="secondary"
-              // className={classes.addButton}
               onClick={() => {
                 changeRoute('/account/addnew');
               }}
@@ -139,7 +139,7 @@ function Dashboard(props) {
                           />
                         </Box>
                         <Button
-                          disabled={el.completed}
+                          disabled={getDayToday() === el.dateLastProof || el.completed}
                           onClick={(event) => {
                             checkTask(el.id);
                           }}
